@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Closure for dummies(translated)",
+      "category" : "Javascript",
+      "tags"     : "Closure",
+      "url"      : "/Closure/",
+      "date"     : "16 Oct 2016"
+    } ,
+  
+    {
       "title"    : "人生はマラソンです",
       "category" : "鸡汤",
       "tags"     : "心灵鸡汤",
