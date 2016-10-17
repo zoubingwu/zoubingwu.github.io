@@ -37,7 +37,9 @@ links:
     url: /about
 # projects in header index
 projects:
-  - name: Front-End demos
+  - name: Front-end related demos
     url: https://github.com/shadeofgod/demos
+  - name: Basic algorithm scripting
+    url: https://github.com/shadeofgod/basic-algorithm
 # exclude my node related stuff
 exclude: ['package.json', 'src', 'node_modules']
