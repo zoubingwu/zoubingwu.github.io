@@ -3,9 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Random Quote</title>
+	<script src="https://cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+	<script src="https://cdn.bootcss.com/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<link href="https://cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet">
 	<style>
-		/*@import url(https://fonts.googleapis.com/css?family=Raleway:400,500);*/
 		* {
 		  margin: 0;
 		  padding: 0;
@@ -44,7 +45,7 @@
 		  padding:40px 50px;
 		  display:table;
 		  background-color:#fff;
-		  }
+		}
 		.quote-box .quote-text {
 			text-align:center;
 			width:450px;
@@ -88,7 +89,7 @@
 		}
 		#new-quote {
 			float:right;
-		}s
+		}
 	</style>
 </head>
 <body>
@@ -158,18 +159,8 @@
 	  });
 	}
 	$(document).ready(function() {
-	  getQuote();
-	  $('#new-quote').on('click', getQuote);
-	  $('#tweet-quote').on('click', function() {
-	    if(!inIframe()) {
-	      openURL('https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=' + encodeURIComponent('"' + currentQuote + '" ' + currentAuthor));
-	    }
-	  });
-	  $('#tumblr-quote').on('click', function() {
-	    if(!inIframe()) {
-	      openURL('https://www.tumblr.com/widgets/share/tool?posttype=quote&tags=quotes,freecodecamp&caption='+encodeURIComponent(currentAuthor)+'&content=' + encodeURIComponent(currentQuote));
-	    }
-	  });
+		getQuote();
+		$('#new-quote').on('click', getQuote);
 	});
 </script>
 </html>
