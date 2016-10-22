@@ -1,6 +1,14 @@
 [
   
     {
+      "title"    : "Javascript中操作数组的一些常用方法总结",
+      "category" : "Javascript",
+      "tags"     : "Array",
+      "url"      : "/Array-methods/",
+      "date"     : "19 Oct 2016"
+    } ,
+  
+    {
       "title"    : "Closure for dummies(translated)",
       "category" : "Javascript",
       "tags"     : "Closure",

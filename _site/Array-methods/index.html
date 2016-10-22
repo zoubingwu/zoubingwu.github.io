@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Javascript中操作数组的一些常用方法总结</title>
+    <meta name="description" content="">
+
+    <!-- Google Authorship Markup -->
+    <link rel="author" href="https://plus.google.com/?rel=author">
+
+    <!-- Social: Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:title" content="Javascript中操作数组的一些常用方法总结">
+    <meta name="twitter:description" content="">
+    
+    <meta property="twitter:image:src" content="http://localhost:4000">
+    
+
+    <!-- Social: Facebook / Open Graph -->
+    <meta property="og:url" content="http://localhost:4000/Array-methods/">
+    <meta property="og:title" content="Javascript中操作数组的一些常用方法总结">
+    
+    <meta property="og:image" content="http://localhost:4000">
+    
+    <meta property="og:description" content="">
+    <meta property="og:site_name" content="ShadeofGod">
+
+    <!-- Social: Google+ / Schema.org  -->
+    <meta itemprop="name" content="Javascript中操作数组的一些常用方法总结"/>
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://localhost:4000/assets/img/blog-image.png"/>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon" />
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="/assets/img/favicons/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-touch-icon-152x152.png" />
+    <!-- Windows 8 Tile Icons -->
+    <meta name="application-name" content="ShadeofGod Blog">
+    <meta name="msapplication-TileColor" content="#5d4d7a">
+    <meta name="msapplication-square70x70logo" content="smalltile.png" />
+    <meta name="msapplication-square150x150logo" content="mediumtile.png" />
+    <meta name="msapplication-wide310x150logo" content="widetile.png" />
+    <meta name="msapplication-square310x310logo" content="largetile.png" />
+    <!-- Android Lolipop Theme Color -->
+    <meta name="theme-color" content="#5d4d7a">
+
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="canonical" href="http://localhost:4000/Array-methods/">
+    <link rel="alternate" type="application/rss+xml" title="ShadeofGod" href="http://localhost:4000/feed.xml" />
+</head>
+
+    <body>
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" display="none" version="1.1"><defs><symbol id="icon-menu" viewBox="0 0 1024 1024"><path class="path1" d="M128 213.333h768q17.667 0 30.167 12.5t12.5 30.167-12.5 30.167-30.167 12.5h-768q-17.667 0-30.167-12.5t-12.5-30.167 12.5-30.167 30.167-12.5zM128 725.333h768q17.667 0 30.167 12.5t12.5 30.167-12.5 30.167-30.167 12.5h-768q-17.667 0-30.167-12.5t-12.5-30.167 12.5-30.167 30.167-12.5zM128 469.333h768q17.667 0 30.167 12.5t12.5 30.167-12.5 30.167-30.167 12.5h-768q-17.667 0-30.167-12.5t-12.5-30.167 12.5-30.167 30.167-12.5z"/></symbol><symbol id="icon-search" viewBox="0 0 951 1024"><path class="path1" d="M658.286 475.429q0-105.714-75.143-180.857t-180.857-75.143-180.857 75.143-75.143 180.857 75.143 180.857 180.857 75.143 180.857-75.143 75.143-180.857zM950.857 950.857q0 29.714-21.714 51.429t-51.429 21.714q-30.857 0-51.429-21.714l-196-195.429q-102.286 70.857-228 70.857-81.714 0-156.286-31.714t-128.571-85.714-85.714-128.571-31.714-156.286 31.714-156.286 85.714-128.571 128.571-85.714 156.286-31.714 156.286 31.714 128.571 85.714 85.714 128.571 31.714 156.286q0 125.714-70.857 228l196 196q21.143 21.143 21.143 51.429z"/></symbol><symbol id="icon-email" viewBox="0 0 1024 1024"><path class="path1" d="M950.857 859.429v-438.857q-18.286 20.571-39.429 37.714-153.143 117.714-243.429 193.143-29.143 24.571-47.429 38.286t-49.429 27.714-58.571 14h-1.143q-27.429 0-58.571-14t-49.429-27.714-47.429-38.286q-90.286-75.429-243.429-193.143-21.143-17.143-39.429-37.714v438.857q0 7.429 5.429 12.857t12.857 5.429h841.143q7.429 0 12.857-5.429t5.429-12.857zM950.857 258.857v-14t-0.286-7.429-1.714-7.143-3.143-5.143-5.143-4.286-8-1.429h-841.143q-7.429 0-12.857 5.429t-5.429 12.857q0 96 84 162.286 110.286 86.857 229.143 181.143 3.429 2.857 20 16.857t26.286 21.429 25.429 18 28.857 15.714 24.571 5.143h1.143q11.429 0 24.571-5.143t28.857-15.714 25.429-18 26.286-21.429 20-16.857q118.857-94.286 229.143-181.143 30.857-24.571 57.429-66t26.571-75.143zM1024 237.714v621.714q0 37.714-26.857 64.571t-64.571 26.857h-841.143q-37.714 0-64.571-26.857t-26.857-64.571v-621.714q0-37.714 26.857-64.571t64.571-26.857h841.143q37.714 0 64.571 26.857t26.857 64.571z"/></symbol><symbol id="icon-close" viewBox="0 0 805 1024"><path class="path1" d="M741.714 755.429q0 22.857-16 38.857l-77.714 77.714q-16 16-38.857 16t-38.857-16l-168-168-168 168q-16 16-38.857 16t-38.857-16l-77.714-77.714q-16-16-16-38.857t16-38.857l168-168-168-168q-16-16-16-38.857t16-38.857l77.714-77.714q16-16 38.857-16t38.857 16l168 168 168-168q16-16 38.857-16t38.857 16l77.714 77.714q16 16 16 38.857t-16 38.857l-168 168 168 168q16 16 16 38.857z"/></symbol><symbol id="icon-twitter" viewBox="0 0 951 1024"><path class="path1" d="M925.714 233.143q-38.286 56-92.571 95.429 0.571 8 0.571 24 0 74.286-21.714 148.286t-66 142-105.429 120.286-147.429 83.429-184.571 31.143q-154.857 0-283.429-82.857 20 2.286 44.571 2.286 128.571 0 229.143-78.857-60-1.143-107.429-36.857t-65.143-91.143q18.857 2.857 34.857 2.857 24.571 0 48.571-6.286-64-13.143-106-63.714t-42-117.429v-2.286q38.857 21.714 83.429 23.429-37.714-25.143-60-65.714t-22.286-88q0-50.286 25.143-93.143 69.143 85.143 168.286 136.286t212.286 56.857q-4.571-21.714-4.571-42.286 0-76.571 54-130.571t130.571-54q80 0 134.857 58.286 62.286-12 117.143-44.571-21.143 65.714-81.143 101.714 53.143-5.714 106.286-28.571z"/></symbol><symbol id="icon-facebook" viewBox="0 0 585 1024"><path class="path1" d="M548 6.857v150.857h-89.714q-49.143 0-66.286 20.571t-17.143 61.714v108h167.429l-22.286 169.143h-145.143v433.714h-174.857v-433.714h-145.714v-169.143h145.714v-124.571q0-106.286 59.429-164.857t158.286-58.571q84 0 130.286 6.857z"/></symbol><symbol id="icon-rss" viewBox="0 0 805 1024"><path class="path1" d="M219.429 768q0 45.714-32 77.714t-77.714 32-77.714-32-32-77.714 32-77.714 77.714-32 77.714 32 32 77.714zM512 838.286q1.143 16-9.714 27.429-10.286 12-26.857 12h-77.143q-14.286 0-24.571-9.429t-11.429-23.714q-12.571-130.857-105.429-223.714t-223.714-105.429q-14.286-1.143-23.714-11.429t-9.429-24.571v-77.143q0-16.571 12-26.857 9.714-9.714 24.571-9.714h2.857q91.429 7.429 174.857 46t148 103.714q65.143 64.571 103.714 148t46 174.857zM804.571 839.429q1.143 15.429-10.286 26.857-10.286 11.429-26.286 11.429h-81.714q-14.857 0-25.429-10t-11.143-24.286q-6.857-122.857-57.714-233.429t-132.286-192-192-132.286-233.429-58.286q-14.286-0.571-24.286-11.143t-10-24.857v-81.714q0-16 11.429-26.286 10.286-10.286 25.143-10.286h1.714q149.714 7.429 286.571 68.571t243.143 168q106.857 106.286 168 243.143t68.571 286.571z"/></symbol><symbol id="icon-google-plus" viewBox="0 0 951 1024"><path class="path1" d="M420 454.857q0 20.571 18.286 40.286t44.286 38.857 51.714 42 44 59.429 18.286 81.143q0 51.429-27.429 98.857-41.143 69.714-120.571 102.571t-170.286 32.857q-75.429 0-140.857-23.714t-98-78.571q-21.143-34.286-21.143-74.857 0-46.286 25.429-85.714t67.714-65.714q74.857-46.857 230.857-57.143-18.286-24-27.143-42.286t-8.857-41.714q0-20.571 12-48.571-26.286 2.286-38.857 2.286-84.571 0-142.571-55.143t-58-139.714q0-46.857 20.571-90.857t56.571-74.857q44-37.714 104.286-56t124.286-18.286h238.857l-78.857 50.286h-74.857q42.286 36 64 76t21.714 91.429q0 41.143-14 74t-33.714 53.143-39.714 37.143-34 35.143-14 37.714zM336.571 400q21.714 0 44.571-9.429t37.714-24.857q30.286-32.571 30.286-90.857 0-33.143-9.714-71.429t-27.714-74-48.286-59.143-66.857-23.429q-24 0-47.143 11.143t-37.429 30q-26.857 33.714-26.857 91.429 0 26.286 5.714 55.714t18 58.857 29.714 52.857 42.857 38.286 55.143 14.857zM337.714 898.857q33.143 0 63.714-7.429t56.571-22.286 41.714-41.714 15.714-62.286q0-14.286-4-28t-8.286-24-15.429-23.714-16.857-20-22-19.714-20.857-16.571-23.714-17.143-20.857-14.857q-9.143-1.143-27.429-1.143-30.286 0-60 4t-61.429 14.286-55.429 26.286-39.143 42.571-15.429 60.286q0 40 20 70.571t52.286 47.429 68 25.143 72.857 8.286zM800.571 398.286h121.714v61.714h-121.714v125.143h-60v-125.143h-121.143v-61.714h121.143v-124h60v124z"/></symbol><symbol id="icon-github-alt" viewBox="0 0 951 1024"><path class="path1" d="M365.714 694.857q0 22.857-7.143 46.857t-24.571 43.429-41.429 19.429-41.429-19.429-24.571-43.429-7.143-46.857 7.143-46.857 24.571-43.429 41.429-19.429 41.429 19.429 24.571 43.429 7.143 46.857zM731.429 694.857q0 22.857-7.143 46.857t-24.571 43.429-41.429 19.429-41.429-19.429-24.571-43.429-7.143-46.857 7.143-46.857 24.571-43.429 41.429-19.429 41.429 19.429 24.571 43.429 7.143 46.857zM822.857 694.857q0-68.571-39.429-116.571t-106.857-48q-23.429 0-111.429 12-40.571 6.286-89.714 6.286t-89.714-6.286q-86.857-12-111.429-12-67.429 0-106.857 48t-39.429 116.571q0 50.286 18.286 87.714t46.286 58.857 69.714 34.286 80 16.857 85.143 4h96q46.857 0 85.143-4t80-16.857 69.714-34.286 46.286-58.857 18.286-87.714zM950.857 594.286q0 118.286-34.857 189.143-21.714 44-60.286 76t-80.571 49.143-97.143 27.143-98 12.571-95.429 2.571q-44.571 0-81.143-1.714t-84.286-7.143-87.143-17.143-78.286-29.429-69.143-46.286-49.143-65.714q-35.429-70.286-35.429-189.143 0-135.429 77.714-226.286-15.429-46.857-15.429-97.143 0-66.286 29.143-124.571 61.714 0 108.571 22.571t108 70.571q84-20 176.571-20 84.571 0 160 18.286 60-46.857 106.857-69.143t108-22.286q29.143 58.286 29.143 124.571 0 49.714-15.429 96 77.714 91.429 77.714 227.429z"/></symbol><symbol id="icon-right-arrow"><path d="M21.205,5.007c-0.429-0.444-1.143-0.444-1.587,0c-0.429,0.429-0.429,1.143,0,1.571l8.047,8.047H1.111  C0.492,14.626,0,15.118,0,15.737c0,0.619,0.492,1.127,1.111,1.127h26.554l-8.047,8.032c-0.429,0.444-0.429,1.159,0,1.587  c0.444,0.444,1.159,0.444,1.587,0l9.952-9.952c0.444-0.429,0.444-1.143,0-1.571L21.205,5.007z" fill="#489472"/></symbol></defs></svg>
+
+        <header class="header-post" role="banner">
+   	<!-- <p>λ</p> -->
+    <div class="search-wrapper">
+    <div class="search-form">
+        <input type="text" class="search-field" placeholder="Search...">
+        <svg class="icon-remove-sign"><use xlink:href="#icon-close"></use></svg>
+        <ul class="search-results search-list"></ul>
+    </div>
+</div>
+
+<div id="fade" class="overlay"></div>
+<a id="slide" class="slideButton fade">
+    <svg id="open" class="icon-menu"><use xlink:href="#icon-menu"></use></svg>
+    <svg id="close" class="icon-menu"><use xlink:href="#icon-close"></use></svg>
+</a>
+<aside id="sidebar">
+  <div id="topmenu">
+  
+    <ul>
+      <li><span>1</span></li>
+      <li><span> /Array-methods/</span></li>
+      <li><span>⌘  blogspace  </span></li>
+      <li><span>  Menu  </span></li>
+    </ul>
+    <ul>
+      <li><span>utf-8</span></li>
+      <li><span>web</span></li>
+      <li><span>.html</span></li>
+    </ul>
+  </div>
+  <nav id="navigation">
+    <!-- <h2>MENU</h2> -->
+    <ul>
+      
+      
+      
+        <li><span class="counter-menu">1</span><svg viewBox="0 0 50 50" class="icon-arrow-menu"><use xlink:href="#icon-right-arrow"></use></svg><a href="http://localhost:4000/"> home</a></li>
+      
+
+         
+      
+      
+        <li><span class="counter-menu">2</span><svg viewBox="0 0 50 50" class="icon-arrow-menu"><use xlink:href="#icon-right-arrow"></use></svg><a href="http://localhost:4000/posts"> my posts</a></li>
+      
+
+         
+      
+      
+        <li><span class="counter-menu">3</span><svg viewBox="0 0 50 50" class="icon-arrow-menu"><use xlink:href="#icon-right-arrow"></use></svg><a href="http://localhost:4000/series"> series</a></li>
+      
+
+         
+      
+      
+        <li><span class="counter-menu">4</span><svg viewBox="0 0 50 50" class="icon-arrow-menu"><use xlink:href="#icon-right-arrow"></use></svg><a href="http://localhost:4000/tags"> tags</a></li>
+      
+
+         
+      
+      
+        <li><span class="counter-menu">5</span><svg viewBox="0 0 50 50" class="icon-arrow-menu"><use xlink:href="#icon-right-arrow"></use></svg><a href="http://localhost:4000/about"> about me</a></li>
+      
+
+         
+      
+    </ul>
+    <ul>
+      <li><span class="counter-menu">g</span><svg viewBox="0 0 50 50" class="icon-arrow-menu"><use xlink:href="#icon-right-arrow"></use></svg><a target="_blank" href="http://github.com/shadeofgod" class="search">github</a></li>
+      <li><span class="counter-menu">s</span><svg viewBox="0 0 50 50" class="icon-arrow-menu"><use xlink:href="#icon-right-arrow"></use></svg><a class="search">search</a></li>
+      <li><span class="counter-menu">r</span><svg viewBox="0 0 50 50" class="icon-arrow-menu"><use xlink:href="#icon-right-arrow"></use></svg><a target="_blank" href="randomquote.html">random quote</a></li>
+    </ul>
+  </nav>
+</aside>
+<a id="search" class="dosearch">
+    <svg class="icon-menu icon-search"><use xlink:href="#icon-search"></use></svg>
+</a>
+
+</header>
+
+        <div class="tree-posts">
+    <h3>*Posts*</h3>
+    
+    <article role="article" class="post-item" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+        <div class="content">
+            <a href="/Array-methods/">
+                <h2 class="post-title" itemprop="name">Javascript中操作数组的一些常用方法总结.md</h2>
+            </a>
+        </div>
+    </article>
+    
+    <article role="article" class="post-item" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+        <div class="content">
+            <a href="/Closure/">
+                <h2 class="post-title" itemprop="name">Closure for dummies(translated).md</h2>
+            </a>
+        </div>
+    </article>
+    
+    <article role="article" class="post-item" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+        <div class="content">
+            <a href="/%E4%BA%BA%E7%94%9F%E3%81%AF%E3%83%9E%E3%83%A9%E3%82%BD%E3%83%B3%E3%81%A7%E3%81%99/">
+                <h2 class="post-title" itemprop="name">人生はマラソンです.md</h2>
+            </a>
+        </div>
+    </article>
+    
+    <article role="article" class="post-item" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+        <div class="content">
+            <a href="/space/">
+                <h2 class="post-title" itemprop="name">Github is awesome.md</h2>
+            </a>
+        </div>
+    </article>
+    
+</div>
+        <section class="post" itemscope itemtype="http://schema.org/BlogPosting">
+            
+                <div class="time">
+                    <time itemprop="datePublished" datetime="2016-10-19 07:28:11 +0800">19 Oct 2016</time>
+                </div>
+            
+            <h1 class="post-title" itemprop="name">Javascript中操作数组的一些常用方法总结</h1>
+
+            <article role="article" id="scroll" class="post-content" itemprop="articleBody">
+                <hr />
+
+<h3 id="section">从头部或尾部添加或删除元素</h3>
+
+<hr />
+
+<ul>
+  <li>
+    <h4 id="pop">pop()</h4>
+
+    <p>删除一个数组中的最后的一个元素，并且返回这个元素。</p>
+
+    <p>pop()方法删除掉数组中的最后一个元素，并且把这个元素返回。</p>
+
+    <p>注意原数组此时已经被改动，返回的元素保持着原有的类型，并不会存放在一个数组中，不要和后面的方法混淆了。</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">pop</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="c1">// a = [1, 2, 3, 4];</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span> <span class="c1">// b = 5; typeof b = number;</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <h4 id="push">push()</h4>
+
+    <p>push()方法可以添加一个或多个元素到数组的尾部，并返回新的数组的长度。</p>
+
+    <p>需要添加的元素直接作为参数，用逗号隔开。</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"c"</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="c1">//a = ["a", "b", "c", 1, 2, 3];</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span> <span class="c1">//b = 6;</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <h4 id="shift">shift()</h4>
+
+    <p>shift()方法删除数组的首个元素，并返回这个元素。该方法会改变数组的长度。</p>
+
+    <p>如果数组为空的话，会返回<code class="highlighter-rouge">undefined</code>.</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">shift</span><span class="p">();</span>
+<span class="kd">var</span> <span class="nx">d</span> <span class="o">=</span> <span class="nx">b</span><span class="p">.</span><span class="nx">shift</span><span class="p">();</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="c1">// a = []</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span> <span class="c1">// b = [1, 2]</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">c</span><span class="p">);</span> <span class="c1">// c = undefined</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">d</span><span class="p">);</span> <span class="c1">// d = 1</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <h4 id="unshit">unshit()</h4>
+
+    <p>unshift() 方法在数组的开头添加一个或者多个元素，并返回数组新的 length 值。</p>
+
+    <p>类似于push()方法，只是位置在数组的开头。</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"c"</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">unshift</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="c1">//a = [1, 2, 3, "a", "b", "c"];</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span> <span class="c1">//b = 6;</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="section-1">数组元素的拼接或合并</h3>
+
+<hr />
+
+<ul>
+  <li>
+    <h4 id="join">join()</h4>
+
+    <p>将数组中的所有元素连接成一个字符串。</p>
+
+    <p>有一个可选参数，即指定每个元素的分隔符，如果省略的话默认是一个逗号，为空字符串则所有元素直接连接。</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'Wind'</span><span class="p">,</span> <span class="s1">'Rain'</span><span class="p">,</span> <span class="s1">'Fire'</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">myVar1</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">join</span><span class="p">();</span>      <span class="c1">// myVar1的值变为"Wind,Rain,Fire"</span>
+<span class="kd">var</span> <span class="nx">myVar2</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">', '</span><span class="p">);</span>  <span class="c1">// myVar2的值变为"Wind, Rain, Fire"</span>
+<span class="kd">var</span> <span class="nx">myVar3</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">' + '</span><span class="p">);</span> <span class="c1">// myVar3的值变为"Wind + Rain + Fire"</span>
+<span class="kd">var</span> <span class="nx">myVar4</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">''</span><span class="p">);</span>    <span class="c1">// myVar4的值变为"WindRainFire"</span>
+<span class="kd">var</span> <span class="nx">myVar5</span> <span class="o">=</span> <span class="nx">a</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">' '</span><span class="p">);</span>   <span class="c1">// myVar5为"Wind Rain Fire"</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <h4 id="concat">concat()</h4>
+
+    <p>将传入的数组或非数组值与原数组合并，组成一个新的数组并返回。参数即为需要合并的数组或者非数组。</p>
+
+    <p>返回的是一个新的数组，原数组没有被修改。</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">alpha</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"a"</span><span class="p">,</span> <span class="s2">"b"</span><span class="p">,</span> <span class="s2">"c"</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">numeric</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">];</span>
+
+<span class="c1">// 组成新数组 ["a", "b", "c", 1, 2, 3]; 原数组 alpha 和 numeric 未被修改</span>
+<span class="kd">var</span> <span class="nx">alphaNumeric</span> <span class="o">=</span> <span class="nx">alpha</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">numeric</span><span class="p">);</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <h4 id="reduce">reduce()</h4>
+
+    <p>接收一个函数作为累加器（accumulator），数组中的每个值（从左到右）开始合并，最终为一个值。这个方法提供了两个参数，第一个为一个函数，确定了如何对数组中的元素操作，第二个为初次调用这个函数时的首个参数，即一个初始值。</p>
+
+    <p>在这个回调函数中又有四个参数，即上次调用的返回值或者提供的初始值，数组中的当前被操作元素，当前被操作元素的索引，调用reduce方法的数组。</p>
+
+    <p><code class="highlighter-rouge">callback</code> 执行数组中每个值的函数，包含四个参数</p>
+
+    <ul>
+      <li>
+        <p><code class="highlighter-rouge">previousValue</code></p>
+
+        <p>上一次调用回调返回的值，或者是提供的初始值（initialValue）</p>
+      </li>
+      <li>
+        <p><code class="highlighter-rouge">currentValue</code></p>
+
+        <p>数组中当前被处理的元素</p>
+      </li>
+      <li>
+        <p><code class="highlighter-rouge">index</code></p>
+
+        <p>当前元素在数组中的索引</p>
+      </li>
+      <li>
+        <p><code class="highlighter-rouge">array</code></p>
+
+        <p>调用 <code class="highlighter-rouge">reduce</code> 的数组</p>
+      </li>
+    </ul>
+
+    <p><code class="highlighter-rouge">initialValue</code> 作为第一次调用 callback 的第一个参数。</p>
+
+    <p>这个方法相当于把从数组中的第一个元素开始（如果你有提供初始元素就从提供的初始元素开始），不断的和下一个元素进行合并，再把合并的值与下下一个元素合并，一直到最后仅返回一个元素。例如：</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">].</span><span class="nx">reduce</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">previousValue</span><span class="p">,</span> <span class="nx">currentValue</span><span class="p">,</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">array</span><span class="p">){</span>
+  <span class="k">return</span> <span class="nx">previousValue</span> <span class="o">+</span> <span class="nx">currentValue</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre>
+    </div>
+
+    <p>在回调函数中确定了相加的操作，因此数组会从第一个元素0开始，和第二个元素1相加获得1后，又与第三个元素2相加，获得的值再不断重复这一操作，最后返回的结果为10。</p>
+
+    <p>如果传入一个初始值，比如：</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">].</span><span class="nx">reduce</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">previousValue</span><span class="p">,</span> <span class="nx">currentValue</span><span class="p">,</span> <span class="nx">index</span><span class="p">,</span> <span class="nx">array</span><span class="p">){</span>
+  <span class="k">return</span> <span class="nx">previousValue</span> <span class="o">+</span> <span class="nx">currentValue</span><span class="p">;</span>
+<span class="p">},</span> <span class="mi">10</span><span class="p">);</span>
+</code></pre>
+    </div>
+
+    <p>那么就把10作为第一个元素，与0相加后获得的值再与1相加，不断重复，最后返回值为20.</p>
+
+    <p><strong>注意</strong>：如果数组为空并且没有提供initialValue， 会抛出<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/TypeError"><code class="highlighter-rouge">TypeError</code></a> 。如果数组仅有一个元素（无论位置如何）并且没有提供initialValue， 或者有提供initialValue但是数组为空，那么此唯一值将被返回并且callback不会被执行。</p>
+
+    <p>再来一个例子，二维数组变为一维数组：</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">flattened</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]].</span><span class="nx">reduce</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">a</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="c1">// flattened is [0, 1, 2, 3, 4, 5]</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <h4 id="reduceright">reduceRight()</h4>
+
+    <p>和reduce()方法一样，只是执行的顺序变成了从右到左，即从数组的最后一个元素开始。</p>
+  </li>
+</ul>
+
+<hr />
+
+<h3 id="section-2">数组元素的位置调换或剪切</h3>
+
+<hr />
+<ul>
+  <li>
+    <h4 id="sort">sort()</h4>
+
+    <p>对数组的元素做原地的排序，并返回这个数组。 sort 排序可能是不稳定的。默认按照字符串的Unicode码位点（code point）排序。有一个可选的参数，用来指定按某种顺序进行排列的函数。如果省略，元素按照转换为的字符串的诸个字符的Unicode位点进行排序。</p>
+
+    <p>注意如果没有设置参数，那么数字排序时会先被转换为字符串，比如：</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">scores</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">21</span><span class="p">];</span> 
+<span class="nx">scores</span><span class="p">.</span><span class="nx">sort</span><span class="p">();</span> <span class="c1">// [1, 10, 2, 21]</span>
+</code></pre>
+    </div>
+
+    <p>此时因为数字都先被转换为了字符串，10的Unicode位点顺序在2之前，所以10在2的前面。因此如果需要正确排序的话就需要设置参数。而数组会按照函数参数的返回值来排序，例如需要比较的两个元素为a和b，那么返回值大于零时，b会排在a之前，返回值小于零时，a会排在b之前。格式如下：</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">compare</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">a</span> <span class="nx">is</span> <span class="nx">less</span> <span class="nx">than</span> <span class="nx">b</span> <span class="nx">by</span> <span class="nx">some</span> <span class="nx">ordering</span> <span class="nx">criterion</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span> <span class="c1">// a会放在b的前面</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">a</span> <span class="nx">is</span> <span class="nx">greater</span> <span class="nx">than</span> <span class="nx">b</span> <span class="nx">by</span> <span class="nx">the</span> <span class="nx">ordering</span> <span class="nx">criterion</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>  <span class="c1">// b会放在a的前面</span>
+  <span class="p">}</span>
+  <span class="c1">// a must be equal to b</span>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">//a和b的位置不变</span>
+<span class="p">}</span>
+</code></pre>
+    </div>
+
+    <p>假设一个数字数组，要将数组升序排列，思路为<code class="highlighter-rouge">if (a &gt; b) return 1; if (a &lt; b) return -1;</code>，这样就可以简单的按如下写为：</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">];</span>
+<span class="nx">numbers</span><span class="p">.</span><span class="nx">sort</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">a</span><span class="p">,</span> <span class="nx">b</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">a</span> <span class="o">-</span> <span class="nx">b</span><span class="p">;</span>
+<span class="p">});</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">numbers</span><span class="p">);</span>  <span class="c1">// [1, 2, 3, 4, 5]</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <h4 id="reverse">reverse()</h4>
+
+    <p>颠倒数组中元素的位置。第一个元素会成为最后一个，最后一个会成为第一个。返回这个数组的引用。</p>
+
+    <p>这个方法直接修改了原数组。</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">myArray</span> <span class="o">=</span> <span class="p">[</span><span class="s1">'one'</span><span class="p">,</span> <span class="s1">'two'</span><span class="p">,</span> <span class="s1">'three'</span><span class="p">];</span>
+<span class="nx">myArray</span><span class="p">.</span><span class="nx">reverse</span><span class="p">();</span> 
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">myArray</span><span class="p">)</span> <span class="c1">// ['three', 'two', 'one']</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <h4 id="slice">slice()</h4>
+
+    <p>浅复制（shallow copy）数组的一部分到一个新的数组，并返回这个新数组。</p>
+
+    <p>包含了两个参数，即开始的索引值和结束的索引值，注意包含了开始索引的值而不包含结束索引的值。当值为负数的时候表示从尾部开始数起。</p>
+
+    <p>slice()不修改原数组而会返回一个新数组，注意如果元素如果是对象引用（不是实例对象）那么拷贝过去有着相同的引用，如果被引用的对象发生改变，则新的和原数组中的都会改变。</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">fruits</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"banana"</span><span class="p">,</span> <span class="s2">"orange"</span><span class="p">,</span> <span class="s2">"lemon"</span><span class="p">,</span> <span class="s2">"apple"</span><span class="p">,</span> <span class="s2">"mango"</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="nx">fruits</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span> <span class="c1">//["orange", "lemon"]</span>
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="nx">fruits</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">);</span> <span class="c1">//["apple", "mango"]</span>
+<span class="kd">var</span> <span class="nx">c</span> <span class="o">=</span> <span class="nx">fruits</span><span class="p">.</span><span class="nx">slice</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="c1">//["apple"]</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <h4 id="splice">splice()</h4>
+
+    <p>用新元素替换旧元素，以此修改数组的内容。</p>
+
+    <p>由被删除的元素组成的一个数组。如果只删除了一个元素，则返回只包含一个元素的数组。如果没有删除元素，则返回空数组。</p>
+
+    <p><strong>注意</strong>，splice() 方法与 slice() 方法的作用是不同的，splice() 方法会直接对数组进行修改。</p>
+
+    <p>包含了三个参数：</p>
+
+    <ul>
+      <li>
+        <p><code class="highlighter-rouge">start​</code></p>
+
+        <p>从数组的哪一位开始修改内容。如果超出了数组的长度，则从数组末尾开始添加内容；如果是负值，则表示从数组末位开始的第几位。</p>
+      </li>
+      <li>
+        <p><code class="highlighter-rouge">deleteCount</code></p>
+
+        <p>整数，表示要移除的数组元素的个数。如果 <code class="highlighter-rouge">deleteCount</code> 是 0，则不移除元素。这种情况下，至少应添加一个新元素。如果 <code class="highlighter-rouge">deleteCount </code>大于<code class="highlighter-rouge">start</code> 之后的元素的总数，则从 <code class="highlighter-rouge">start</code> 后面的元素都将被删除（含第 <code class="highlighter-rouge">start</code> 位）。</p>
+      </li>
+      <li>
+        <p><code class="highlighter-rouge">item*N*</code></p>
+
+        <p>要添加进数组的元素。如果不指定，则 <code class="highlighter-rouge">splice()</code> 只删除数组元素。</p>
+      </li>
+    </ul>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">myFish</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"angel"</span><span class="p">,</span> <span class="s2">"clown"</span><span class="p">,</span> <span class="s2">"mandarin"</span><span class="p">,</span> <span class="s2">"surgeon"</span><span class="p">];</span>
+
+<span class="c1">//从第 2 位开始删除 0 个元素，插入 "drum"</span>
+<span class="kd">var</span> <span class="nx">removed</span> <span class="o">=</span> <span class="nx">myFish</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">"drum"</span><span class="p">);</span>
+<span class="c1">//运算后的 myFish:["angel", "clown", "drum", "mandarin", "surgeon"]</span>
+<span class="c1">//被删除元素数组：[]，没有元素被删除</span>
+
+<span class="c1">//从第 3 位开始删除 1 个元素</span>
+<span class="nx">removed</span> <span class="o">=</span> <span class="nx">myFish</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="c1">//运算后的myFish：["angel", "clown", "drum", "surgeon"]</span>
+<span class="c1">//被删除元素数组：["mandarin"]</span>
+
+<span class="c1">//从第 2 位开始删除 1 个元素，然后插入 "trumpet"</span>
+<span class="nx">removed</span> <span class="o">=</span> <span class="nx">myFish</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="s2">"trumpet"</span><span class="p">);</span>
+<span class="c1">//运算后的myFish: ["angel", "clown", "trumpet", "surgeon"]</span>
+<span class="c1">//被删除元素数组：["drum"]</span>
+
+<span class="c1">//从第 0 位开始删除 2 个元素，然后插入 "parrot", "anemone" 和 "blue"</span>
+<span class="nx">removed</span> <span class="o">=</span> <span class="nx">myFish</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="s2">"parrot"</span><span class="p">,</span> <span class="s2">"anemone"</span><span class="p">,</span> <span class="s2">"blue"</span><span class="p">);</span>
+<span class="c1">//运算后的myFish：["parrot", "anemone", "blue", "trumpet", "surgeon"]</span>
+<span class="c1">//被删除元素的数组：["angel", "clown"]</span>
+
+<span class="c1">//从第 3 位开始删除 2 个元素</span>
+<span class="nx">removed</span> <span class="o">=</span> <span class="nx">myFish</span><span class="p">.</span><span class="nx">splice</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="nb">Number</span><span class="p">.</span><span class="nx">MAX_VALUE</span><span class="p">);</span>
+<span class="c1">//运算后的myFish: ["parrot", "anemone", "blue"]</span>
+<span class="c1">//被删除元素的数组：["trumpet", "surgeon"]</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <h4 id="map">map()</h4>
+
+    <p>对组中的每个元素，按照参数设置的回调函数操作后的返回值组成一个新的数组。</p>
+
+    <p><code class="highlighter-rouge">callback</code> 函数会被自动传入三个参数：数组元素，元素索引，原数组本身。</p>
+
+    <p>例如，求数组中每个数的平方根：</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">numbers</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">];</span>
+<span class="kd">var</span> <span class="nx">roots</span> <span class="o">=</span> <span class="nx">numbers</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">sqrt</span><span class="p">);</span>
+<span class="cm">/* roots的值为[1, 2, 3], numbers的值仍为[1, 4, 9] */</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+            </article>
+
+            <!-- <section class="share">
+    <h3>Share</h3>
+    <a aria-label="Share on Twitter" href="https://twitter.com/intent/tweet?text=&quot;&quot;%20http://localhost:4000/Array-methods/%20via%20&#64;&hashtags=Array,"
+    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" title="Share on Twitter">
+        <svg class="icon icon-twitter"><use xlink:href="#icon-twitter"></use></svg>
+    </a>
+    <a aria-label="Share on Facebook"href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/Array-methods/"
+    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" title="Share on Facebook">
+        <svg class="icon icon-facebook"><use xlink:href="#icon-facebook"></use></svg>
+    </a>
+    <a aria-label="Share on Google Plus" href="https://plus.google.com/share?url=http://localhost:4000/Array-methods/"
+    onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" title="Share on Google+">
+        <svg class="icon icon-google-plus"><use xlink:href="#icon-google-plus"></use></svg>
+    </a>
+</section> -->
+            <section class="comments">
+    <h3>Comments</h3>
+    <!-- <div id="disqus_thread"></div> -->
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="Javascript中操作数组的一些常用方法总结" data-title='' data-url="/Array-methods/"></div>
+    <!-- 多说评论框 end -->
+</section>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"shadeofgod"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+<!-- 多说公共JS代码 end -->
+
+<!-- <script type="text/javascript">
+    var disqus_loaded = false;
+
+    function load_disqus()
+    {
+        disqus_loaded = true;
+        var disqus_shortname = '';
+        var disqus_title = '';
+        var disqus_url = '/Array-methods/';
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        var ldr = document.getElementById('disqus_loader');
+    };
+    window.onscroll = function(e) {
+        if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 800)) {
+            //hit bottom of page
+            if (disqus_loaded==false)
+                load_disqus()
+        }
+    };
+</script> -->
+
+            <footer>
+	<!-- <p>Made with <span id="heart">💚</span></p> -->
+</footer>
+
+            <script src="/assets/js/main.js"></script>
+        </section>
+    </body>
+</html>
