@@ -64,7 +64,7 @@ serie: learn
   var c = a.shift();
   var d = b.shift();
   console.log(a); // a = []
-  console.log(b); // b = [1, 2]
+  console.log(b); // b = [2, 3]
   console.log(c); // c = undefined
   console.log(d); // d = 1
   ```
