@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Github is awesome</title>
+    <title>通过javascript修改css样式的常用方式</title>
     <meta name="description" content="">
 
     <!-- Google Authorship Markup -->
@@ -14,15 +14,15 @@
     <!-- Social: Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@">
-    <meta name="twitter:title" content="Github is awesome">
+    <meta name="twitter:title" content="通过javascript修改css样式的常用方式">
     <meta name="twitter:description" content="">
     
     <meta property="twitter:image:src" content="http://localhost:4000">
     
 
     <!-- Social: Facebook / Open Graph -->
-    <meta property="og:url" content="http://localhost:4000/space/">
-    <meta property="og:title" content="Github is awesome">
+    <meta property="og:url" content="http://localhost:4000/%E9%80%9A%E8%BF%87javascript%E4%BF%AE%E6%94%B9css%E6%A0%B7%E5%BC%8F%E7%9A%84%E6%96%B9%E5%BC%8F/">
+    <meta property="og:title" content="通过javascript修改css样式的常用方式">
     
     <meta property="og:image" content="http://localhost:4000">
     
@@ -30,7 +30,7 @@
     <meta property="og:site_name" content="ShadeofGod">
 
     <!-- Social: Google+ / Schema.org  -->
-    <meta itemprop="name" content="Github is awesome"/>
+    <meta itemprop="name" content="通过javascript修改css样式的常用方式"/>
     <meta itemprop="description" content="">
     <meta itemprop="image" content="http://localhost:4000/assets/img/blog-image.png"/>
 
@@ -57,7 +57,7 @@
     <meta name="theme-color" content="#5d4d7a">
 
     <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="canonical" href="http://localhost:4000/space/">
+    <link rel="canonical" href="http://localhost:4000/%E9%80%9A%E8%BF%87javascript%E4%BF%AE%E6%94%B9css%E6%A0%B7%E5%BC%8F%E7%9A%84%E6%96%B9%E5%BC%8F/">
     <link rel="alternate" type="application/rss+xml" title="ShadeofGod" href="http://localhost:4000/feed.xml" />
 </head>
 
@@ -84,7 +84,7 @@
   
     <ul>
       <li><span>1</span></li>
-      <li><span> /space/</span></li>
+      <li><span> /%E9%80%9A%E8%BF%87javascript%E4%BF%AE%E6%94%B9css%E6%A0%B7%E5%BC%8F%E7%9A%84%E6%96%B9%E5%BC%8F/</span></li>
       <li><span>⌘  blogspace  </span></li>
       <li><span>  Menu  </span></li>
     </ul>
@@ -190,78 +190,176 @@
         <section class="post" itemscope itemtype="http://schema.org/BlogPosting">
             
                 <div class="time">
-                    <time itemprop="datePublished" datetime="2016-03-12 08:06:31 +0800">12 Mar 2016</time>
+                    <time itemprop="datePublished" datetime="2016-10-26 08:48:21 +0800">26 Oct 2016</time>
                 </div>
             
-            <h1 class="post-title" itemprop="name">Github is awesome</h1>
+            <h1 class="post-title" itemprop="name">通过javascript修改css样式的常用方式</h1>
 
             <article role="article" id="scroll" class="post-content" itemprop="articleBody">
-                <p class="music-read"><a href="spotify:track:4DAZ8UYNpWVIV46aLkN2Qp">Music for reading(spotify)</a></p>
+                <ul>
+  <li>通过dom element对象的<code class="highlighter-rouge">getAttribute()</code>、<code class="highlighter-rouge">setAttribute()</code>、<code class="highlighter-rouge">removeAttribute()</code>方法修改style属性。
+    <ul>
+      <li><code class="highlighter-rouge">element.getAttribute()</code></li>
+      <li><code class="highlighter-rouge">element.getAttributeNode()</code></li>
+      <li><code class="highlighter-rouge">element.setAttribute()</code></li>
+      <li><code class="highlighter-rouge">element.setAttributeNode()</code></li>
+      <li><code class="highlighter-rouge">element.removeAttribute()</code></li>
+      <li><code class="highlighter-rouge">element.removeAttributeNode()</code></li>
+    </ul>
 
-<p><img src="http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2016/02/raw.gif" /></p>
+    <p>比如：</p>
 
-<h2 id="github--why-">Github ? why ?</h2>
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"div1"</span><span class="p">);</span>
+<span class="nx">div</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s2">"style"</span><span class="p">,</span> <span class="s2">"color:red;height:200px;"</span><span class="p">);</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste quas, esse laudantium quis ipsa consequuntur iure atque! Necessitatibus quam quidem illum, corrupti molestiae, maxime neque, consequuntur quia alias, modi commodi.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate rem ducimus dolores repellat itaque perferendis corporis ex dicta doloremque optio harum excepturi, ut, praesentium asperiores! Voluptatum amet perspiciatis iusto, fugiat!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, libero quia placeat necessitatibus culpa mollitia, illum, quam sed ratione ad eaque suscipit consectetur itaque quasi aperiam. Quaerat, nihil voluptas tenetur?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos unde quam autem fugit, aliquam perspiciatis, accusamus numquam, pariatur impedit excepturi debitis repellendus consectetur laboriosam voluptatem temporibus sunt illo magnam! Voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam repudiandae quidem, fuga eaque, deserunt eius. Aperiam, maxime fuga alias ad vel amet et facere soluta asperiores quasi. A, aperiam, ipsam.</p>
+<hr />
 
-<figure class="foto-legenda">
-	<img src="/assets/img/sharding-gerenciamento-usuarios/ajudando-carregar.jpg" alt="" />
-	<figcaption> <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat architecto minus sed dolorum debitis iste quae harum, fuga commodi libero voluptatum voluptates nemo, assumenda itaque. Placeat neque voluptatem, veritatis quae.</p>
-	</figcaption>
-</figure>
+<ul>
+  <li>
+    <p>通过对元素节点的style对象，来读写行内css样式。</p>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur, illo eaque incidunt voluptatibus minus repudiandae eius consectetur tempore enim quisquam, quia veniam fuga autem, labore quas voluptate suscipit. Omnis, rem!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, veritatis modi libero unde! Sapiente tempora eius cum doloribus, non, provident, veniam placeat veritatis quos possimus asperiores ipsam animi aliquam vel!</p>
+    <p>比如：</p>
 
-<p><img src="https://octodex.github.com/images/codercat.jpg" alt="" /></p>
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"div1"</span><span class="p">);</span>
+<span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">height</span> <span class="o">=</span> <span class="s2">"100px"</span><span class="p">;</span>
+<span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">color</span> <span class="o">=</span> <span class="s2">"red"</span><span class="p">;</span>
+<span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">fontSize</span> <span class="o">=</span> <span class="s2">"20px"</span><span class="p">;</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
 
-<h2 id="lorem-ipsum-dolor-alias">Lorem ipsum dolor, alias.?</h2>
+<p>注意css属性在有小横杠的时候要改用驼峰命名，比如<code class="highlighter-rouge">background-color</code>应改为<code class="highlighter-rouge">backgroundColor</code>，在遇到js保留字的时候要添加css，比如<code class="highlighter-rouge">float</code>改为<code class="highlighter-rouge">cssFloat</code>。另外所有的值都是字符串，所以必须添加单位，比如高度不能设置为<code class="highlighter-rouge">100</code>，而是必须带上单位写为<code class="highlighter-rouge">100px</code>。</p>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo minima veritatis est, unde nesciunt optio debitis. Soluta eos temporibus harum esse eveniet, alias praesentium, sapiente ipsa excepturi reprehenderit ullam ea.</p>
+<hr />
 
-<h3 id="warning">Warning!</h3>
+<ul>
+  <li>
+    <p>通过style对象的<code class="highlighter-rouge">cssText</code>属性来修改全部的style属性。</p>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque corporis, fuga sequi cumque in quos excepturi placeat iste! Eaque voluptatum laudantium, recusandae optio! Rem impedit laborum enim minima aliquid, repellendus.<br />
-` scalability` Lorem ipsum dolor sit amet, consebus tempora!:</p>
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">span</span> <span class="nx">id</span><span class="o">=</span><span class="s2">"s1"</span> <span class="nx">style</span><span class="o">=</span><span class="s2">"color: red;font-size: 20px;"</span><span class="o">&gt;</span>
+<span class="nx">Some</span> <span class="nx">text</span>
+<span class="o">&lt;</span><span class="sr">/span</span><span class="err">&gt;
+</span>
+<span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+  <span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s2">"s1"</span><span class="p">);</span>
+  <span class="nx">alert</span><span class="p">(</span><span class="nx">elem</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">cssText</span><span class="p">);</span> <span class="c1">// { color: red; font-size: 20px;}</span>
+<span class="o">&lt;</span><span class="sr">/script</span><span class="err">&gt;
+</span></code></pre>
+    </div>
+  </li>
+</ul>
 
-<ol>
-  <li><a href="http://dba.stackexchange.com/questions/4508/what-does-horizontal-scaling-mean" target="_blank">What does horizontal scaling mean?</a></li>
-  <li><a href="https://blog.openshift.com/best-practices-for-horizontal-application-scaling/" target="_blank">Best Practices For Horizontal Application Scaling</a></li>
-  <li><a href="http://www.infoq.com/articles/ebay-scalability-best-practices" target="_blank">Scalability Best Practices: Lessons from eBay</a></li>
-  <li><a href="http://stackoverflow.com/questions/5401992/what-does-scale-horizontally-and-scale-vertically-mean" target="_blank">What does scale horizontally and scale vertically mean?</a></li>
-</ol>
+<hr />
 
-<h2 id="lorem-ipsum-dolor-sit-ametres">Lorem ipsum dolor sit amet,res.</h2>
+<ul>
+  <li>
+    <p>通过style对象的setProperty()，getPropertyValue()，removeProperty()方法来读写行内css样式。</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">use</span> <span class="nx">admin</span>
-<span class="nx">db</span><span class="p">.</span><span class="nx">createUser</span><span class="p">{</span>
-	<span class="nl">user</span><span class="p">:</span> <span class="s2">"bonitao"</span><span class="p">,</span>
-	<span class="nx">pwd</span><span class="err">:</span> <span class="s2">"2016bonitao"</span><span class="p">,</span>
-	<span class="nx">roles</span><span class="err">:</span> <span class="p">[{</span><span class="na">role</span><span class="p">:</span> <span class="s2">"userAdminAnyDatabase"</span><span class="p">,</span> <span class="na">db</span><span class="p">:</span> <span class="s2">"admin"</span><span class="p">}]</span>
-<span class="p">}</span></code></pre></figure>
+    <blockquote>
+      <p>setProperty(propertyName,value)：设置某个CSS属性。
+getPropertyValue(propertyName)：读取某个CSS属性。
+removeProperty(propertyName)：删除某个CSS属性。</p>
+    </blockquote>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque asperiores quam fuga tempora nisi consequatur, sequi cum voluptate deleniti quis, perspiciatis commodi beatae modi, iusto ab deserunt corrupti libero doloribus.</p>
+    <p>这里的属性名字都不需要改写连词的横杠。</p>
 
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">updateUser</span><span class="p">(</span><span class="s2">"bonitao"</span><span class="p">,</span>
-<span class="p">{</span>
-	<span class="na">pwd</span><span class="p">:</span> <span class="s2">"2016bonitao"</span><span class="p">,</span>
-	<span class="na">roles</span><span class="p">:</span> <span class="p">[{</span><span class="na">role</span><span class="p">:</span> <span class="s2">"read"</span><span class="p">,</span> <span class="na">db</span><span class="p">:</span> <span class="s2">"assets"</span><span class="p">}]</span>
-<span class="p">})</span></code></pre></figure>
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'div1'</span><span class="p">);</span>
 
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni assumenda perferendis, iure atque. Tempore qui blanditiis autem necessitatibus natus soluta voluptas saepe totam animi voluptatum recusandae, nihil maiores et cumque.</p>
+<span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">setProperty</span><span class="p">(</span><span class="s1">'background-color'</span><span class="p">,</span><span class="s1">'red'</span><span class="p">);</span>
+<span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">getPropertyValue</span><span class="p">(</span><span class="s1">'background-color'</span><span class="p">);</span>
+<span class="nx">div</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">removeProperty</span><span class="p">(</span><span class="s1">'background-color'</span><span class="p">);</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<hr />
+
+<ul>
+  <li>
+    <p>通过<code class="highlighter-rouge">window.getComputedStyle()</code>方法获得浏览器最终计算出来的样式规则。</p>
+
+    <p>因为网页元素最终的样式是综合多种规则计算出来的，而不仅仅是行内样式，通过这个方法就可以返回这个规则。</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">div</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'div'</span><span class="p">);</span>
+<span class="nb">window</span><span class="p">.</span><span class="nx">getComputedStyle</span><span class="p">(</span><span class="nx">div</span><span class="p">).</span><span class="nx">backgroundColor</span>
+</code></pre>
+    </div>
+
+    <p>可以通过第二个参数来选择指定节点的伪元素：</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">getComputedStyle</span><span class="p">(</span><span class="nx">div</span><span class="p">,</span> <span class="s1">':before'</span><span class="p">);</span>
+</code></pre>
+    </div>
+
+    <p>另比如如何获取元素的高度：</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">elem</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'elem-container'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">hValue</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">getComputedStyle</span><span class="p">(</span><span class="nx">elem</span><span class="p">,</span> <span class="kc">null</span><span class="p">)</span>
+  <span class="p">.</span><span class="nx">getPropertyValue</span><span class="p">(</span><span class="s1">'height'</span><span class="p">);</span>
+</code></pre>
+    </div>
+
+    <p>注意这个得到的height属性是浏览器最终渲染出来的高度。</p>
+
+    <p>该方法有几点需要注意：</p>
+
+    <blockquote>
+      <ul>
+        <li>计算出来的CSS都是绝对单位，比如长度都是像素单位（返回值包括<code class="highlighter-rouge">px</code>后缀），颜色是<code class="highlighter-rouge">rgb(#, #, #)</code>或<code class="highlighter-rouge">rgba(#, #, #, #)</code>格式。</li>
+        <li>CSS规则的简便写法无效，比如想读取<code class="highlighter-rouge">margin</code>属性的值，不能直接读，只能读<code class="highlighter-rouge">marginLeft</code>、<code class="highlighter-rouge">marginTop</code>等属性。</li>
+        <li>如果一个元素不是绝对定位，<code class="highlighter-rouge">top</code>和<code class="highlighter-rouge">left</code>属性总是返回<code class="highlighter-rouge">auto</code>。</li>
+        <li>该方法返回的样式对象的<code class="highlighter-rouge">cssText</code>属性无效，返回<code class="highlighter-rouge">undefined</code>。</li>
+        <li>该方法返回的样式对象是只读的，如果想设置样式，应该使用元素节点的<code class="highlighter-rouge">style</code>属性。</li>
+      </ul>
+    </blockquote>
+  </li>
+</ul>
+
+<hr />
+
+<ul>
+  <li>
+    <p>直接添加样式表。</p>
+
+    <p>可以通过创建style标签来添加内置样式表。</p>
+
+    <p>或者通过创建link标签来引入外部样式表。</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">style1</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">'style'</span><span class="p">);</span>
+<span class="nx">style1</span><span class="p">.</span><span class="nx">innerHTML</span> <span class="o">=</span> <span class="s1">'body{color:red}#top:hover{background-color: red;color: white;}'</span><span class="p">;</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">head</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">style1</span><span class="p">);</span>
+
+<span class="kd">var</span> <span class="nx">link1</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">'link'</span><span class="p">);</span>
+<span class="nx">link1</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">'rel'</span><span class="p">,</span> <span class="s1">'stylesheet'</span><span class="p">);</span>
+<span class="nx">link1</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">'type'</span><span class="p">,</span> <span class="s1">'text/css'</span><span class="p">);</span>
+<span class="nx">link1</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">'href'</span><span class="p">,</span> <span class="s1">'reset-min.css'</span><span class="p">);</span>
+<span class="nb">document</span><span class="p">.</span><span class="nx">head</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">link1</span><span class="p">);</span>
+</code></pre>
+    </div>
+
+    <p>​</p>
+  </li>
+</ul>
 
             </article>
 
             <!-- <section class="share">
     <h3>Share</h3>
-    <a aria-label="Share on Twitter" href="https://twitter.com/intent/tweet?text=&quot;&quot;%20http://localhost:4000/space/%20via%20&#64;&hashtags=Githubisawesome,"
+    <a aria-label="Share on Twitter" href="https://twitter.com/intent/tweet?text=&quot;&quot;%20http://localhost:4000/%E9%80%9A%E8%BF%87javascript%E4%BF%AE%E6%94%B9css%E6%A0%B7%E5%BC%8F%E7%9A%84%E6%96%B9%E5%BC%8F/%20via%20&#64;&hashtags=Javascript,"
     onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" title="Share on Twitter">
         <svg class="icon icon-twitter"><use xlink:href="#icon-twitter"></use></svg>
     </a>
-    <a aria-label="Share on Facebook"href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/space/"
+    <a aria-label="Share on Facebook"href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/%E9%80%9A%E8%BF%87javascript%E4%BF%AE%E6%94%B9css%E6%A0%B7%E5%BC%8F%E7%9A%84%E6%96%B9%E5%BC%8F/"
     onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" title="Share on Facebook">
         <svg class="icon icon-facebook"><use xlink:href="#icon-facebook"></use></svg>
     </a>
-    <a aria-label="Share on Google Plus" href="https://plus.google.com/share?url=http://localhost:4000/space/"
+    <a aria-label="Share on Google Plus" href="https://plus.google.com/share?url=http://localhost:4000/%E9%80%9A%E8%BF%87javascript%E4%BF%AE%E6%94%B9css%E6%A0%B7%E5%BC%8F%E7%9A%84%E6%96%B9%E5%BC%8F/"
     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" title="Share on Google+">
         <svg class="icon icon-google-plus"><use xlink:href="#icon-google-plus"></use></svg>
     </a>
@@ -270,7 +368,7 @@
     <h3>Comments</h3>
     <!-- <div id="disqus_thread"></div> -->
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="Github is awesome" data-title='' data-url="/space/"></div>
+    <div class="ds-thread" data-thread-key="通过javascript修改css样式的常用方式" data-title='' data-url="/%E9%80%9A%E8%BF%87javascript%E4%BF%AE%E6%94%B9css%E6%A0%B7%E5%BC%8F%E7%9A%84%E6%96%B9%E5%BC%8F/"></div>
     <!-- 多说评论框 end -->
 </section>
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
@@ -295,7 +393,7 @@ var duoshuoQuery = {short_name:"shadeofgod"};
         disqus_loaded = true;
         var disqus_shortname = '';
         var disqus_title = '';
-        var disqus_url = '/space/';
+        var disqus_url = '/%E9%80%9A%E8%BF%87javascript%E4%BF%AE%E6%94%B9css%E6%A0%B7%E5%BC%8F%E7%9A%84%E6%96%B9%E5%BC%8F/';
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
