@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 通过javascript修改css样式的常用方式
+title: "通过javascript修改css样式的常用方式"
 image: ''
 date:   2016-10-26 00:48:21
 tags:
