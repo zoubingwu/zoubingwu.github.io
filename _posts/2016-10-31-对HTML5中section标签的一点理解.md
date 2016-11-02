@@ -21,7 +21,7 @@ section标签应该包含了非特定的一段普通文档或者应用，它的�
 
 Examples of sections would be chapters, the   various tabbed pages in a tabbed dialog box, or the numbered   sections of a thesis. A Web site's home page could be split into   sections for an introduction, news items, and contact   information.
 
-典型的例子包括了章节、可切换型的多标签页的对话框中的标签页，或者带有数字编号的论文小节。比如说一个网页的主页可以分为简单介绍、新的物品、联系方式等几个section。
+典型的例子包括了章节、可切换型的多标签页的对话框中的标签页，或者带有数字编号的论文小节。比如说一个网页的主页可以分为简单介绍、新闻、联系方式等几个section。
 
 Note: Authors are encouraged to use the   article element instead of the section   element when it would make sense to syndicate the contents of the   element.
 
