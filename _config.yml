@@ -39,7 +39,7 @@ links:
 projects:
   - name: Front-end related demos
     url: https://github.com/shadeofgod/demos
-  - name: Basic algorithm scripting
-    url: https://github.com/shadeofgod/basic-algorithm
+  - name: anime.js
+    url: https://github.com/shadeofgod/anime.js
 # exclude my node related stuff
 exclude: ['package.json', 'src', 'node_modules']
