@@ -13,7 +13,7 @@ serie: learn
 
 ### 不要轻易为DOM对象添加自定义属性和方法。
 
-最近在研究js的框架设计，见的比较多的是封装成对象的方法而不是仅仅封装在一个函数里，这样使用的时候更加方便，但针对dom对象的时候鲜少有直接为dom对象的原型添加方法，查了下中文这方面相关的资料很少，但是有篇2010年的英文博客写的很是详细，所以决定简单翻译一下，不过毕竟是六年前的文章了，有错漏的欢迎指出。
+最近在研究js的框架设计，见的比较多的是封装成对象的方法而不是仅仅封装在一个函数里，这样使用的时候更加方便，但针对dom对象的时候鲜少有直接为dom对象的原型添加方法，查了下中文这方面相关的资料很少，但是有篇2010年的英文博客写的很是详细，所以简单翻译一下，不过毕竟是六年前的文章了，有错漏的欢迎指出。
 
 原地址在这里：http://perfectionkills.com/whats-wrong-with-extending-the-dom/
 
@@ -25,9 +25,9 @@ serie: learn
 
 #### How DOM extension works
 
-所谓dom扩展就是直接为dom对象添加自定义的方法和属性。扩展的时候，就是直接把定义好的方法或者属性直接添加给dom对象或者dom对象的原型（必须在何时的环境下）。
+所谓dom扩展就是直接为dom对象添加自定义的方法和属性。扩展的时候，就是把定义好的方法或者属性直接添加给dom对象或者dom对象的原型（必须在合适的环境下）。
 
-最常见的被扩展的可能就是dom元素，比如`Element`对象，像比较流行的Prototype，Mootools等js库，同样的还有`Event`和`document`对象。
+最常见的被扩展的可能就是dom元素，比如`Element`对象，像比较流行的Prototype，Mootools等库，同样的还有`Event`和`document`对象。
 
 通常的写法就像下面这样：
 
@@ -133,7 +133,7 @@ element.style.display; // 'none'
 
 > Host objects may implement these internal methods with any implementation-dependent behaviour, or it may be that a host object implements only some internal methods and not others.
 
-上面说到的这些内部方法就[[Get]], [[Put]], [[Delete]]等等。注意这句：**internal methods behavior is implementation-dependent**。这也就意味着，在调用，比如说，get方法出现错误是非常正常的。在IE中，我们可以很轻易的观察到这一现象：
+上面说到的这些内部方法就是[[Get]], [[Put]], [[Delete]]等等。注意这句：**internal methods behavior is implementation-dependent**。这也就意味着，在调用，比如说，get方法出现错误是非常正常的。在IE中，我们可以很轻易的观察到这一现象：
 
 ```javascript
 document.createElement('p').offsetParent; // "Unspecified error."
@@ -148,4 +148,114 @@ xmlDoc.loadXML('<foo>bar');
 xmlDoc.firstChild.foo = 'bar'; // "Object doesn't support this property or method"
 ```
 
-IE中还有一些问题可以看这里： [other cases of failures in IE](http://jibbering.com/faq/notes/code-guidelines/#hostObjects)，比如 `document.styleSheets[99999]`会抛出"Invalid procedure call or argument"错误， `document.createElement('p').filters` 会抛出 "Member not found."
+IE中还有一些问题可以看这里： [other cases of failures in IE](http://jibbering.com/faq/notes/code-guidelines/#hostObjects)，比如 `document.styleSheets[99999]`会抛出"Invalid procedure call or argument"错误， `document.createElement('p').filters` 会抛出 "Member not found."同样的，在火狐中尝试修改event对象的target属性会造成TypeError错误，因为这是一个readonly 的属性。在webkit内核的浏览器中，同样也会造成错误，因为target属性在被赋值后会持续引向原始对象。
+
+#### Chance of collisions 可能造成冲突
+
+#### Performance overhead 性能瓶颈
+
+#### IE DOM is a mess 
+
+#### Bonus: browser bugs 浏览器bug
+
+#### Wrappers to the rescue 解决方案：wrappers
+
+针对DOM扩展这一问题最常用的解决方法就是对象包装，这也是jQuery最开始使用这种方法的，之后很多其他的库也开始学习这种方法。办法很简单，与其直接扩展元素或者对象，不如创建一个包裹他们的容器，然后针对容器去进行扩展。没有冲突，不需要去管宿主对象，能更轻松的管理泄漏和控制过时的MSHTML DOM，更好的性能，维护性和大规模运用也没有问题。
+
+原文没有写具体如何操作，此处插入stackoverflow上的一个回答，原地址在[这里](http://stackoverflow.com/questions/779880/in-javascript-can-you-extend-the-dom)：
+
+```javascript
+var myDOM = (function(){
+    var myDOM = function(elems){
+            return new MyDOMConstruct(elems);
+        },
+        MyDOMConstruct = function(elems) {
+            this.collection = elems[1] ? Array.prototype.slice.call(elems) : [elems];
+            return this;
+        };
+    myDOM.fn = MyDOMConstruct.prototype = {
+        forEach : function(fn) {
+            var elems = this.collection;
+            for (var i = 0, l = elems.length; i < l; i++) {
+                fn( elems[i], i );
+            }
+            return this;
+        },
+        addStyles : function(styles) {
+            var elems = this.collection;
+            for (var i = 0, l = elems.length; i < l; i++) {
+                for (var prop in styles) {
+                    elems[i].style[prop] = styles[prop];
+                }
+            }
+            return this;
+        }
+    };
+    return myDOM;
+})();
+```
+
+然后就可以通过`myDOM.fn...`来添加自己的方法，也可以像这样：
+
+```javascript
+myDOM(document.getElementsByTagName('*')).forEach(function(elem){
+    myDOM(elem).addStyles({
+        color: 'red',
+        backgroundColor : 'blue'
+    });
+});
+```
+
+另外一个[例子](http://stackoverflow.com/questions/16279025/using-object-wrappers-to-extend-the-javascripts-dom)：
+
+```javascript
+(function() {
+    window.wrap = function(el) {
+        return new Wrapper(el);
+    };
+
+    function Wrapper(el) {
+        this.element = el;
+    }
+
+    Wrapper.prototype.addClass = function(cls) {
+        if (this.element)
+            this.element.className += " " + cls;
+    }
+    Wrapper.prototype.swap = function(el) {
+        this.element = el;
+    }
+})();
+```
+
+然后可以如此使用：
+
+```javascript
+var wrp = wrap(document.body);
+
+wrp.addClass("foo");
+wrp.swap(document.body.firstElementChild);
+wrp.addClass("bar");
+```
+
+如果再给所有的方法最后添加一句`return this`，就可以像jQuery一样chainning：
+
+```javascript
+var wrp = wrap(document.body);
+
+wrp.addClass("foo")
+   .swap(document.body.firstElementChild)
+   .addClass("bar");
+```
+
+
+
+*Reference:*
+
+*http://perfectionkills.com/whats-wrong-with-extending-the-dom/*
+
+*http://stackoverflow.com/questions/779880/in-javascript-can-you-extend-the-dom*
+
+*http://stackoverflow.com/questions/16279025/using-object-wrappers-to-extend-the-javascripts-dom*
+
+*http://perfectionkills.com/extending-native-builtins/*
