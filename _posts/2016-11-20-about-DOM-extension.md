@@ -15,8 +15,6 @@ serie: learn
 
 最近在研究js的框架设计，见的比较多的是封装成对象的方法而不是仅仅封装在一个函数里，这样使用的时候更加方便，但针对dom对象的时候鲜少有直接为dom对象的原型添加方法，查了下中文这方面相关的资料很少，但是有篇2010年的英文博客写的很是详细，所以简单翻译一下，不过毕竟是六年前的文章了，有错漏的欢迎指出。
 
-原地址在这里：http://perfectionkills.com/whats-wrong-with-extending-the-dom/
-
 #### What's wrong with extending the DOM
 
 我最近很惊讶的发现网上关于dom扩展方面的资料非常非常少，难怪如今有些库和插件都会掉到这个陷阱里面。这篇文章我想解释一下为什么扩展dom不是个好主意。
@@ -252,10 +250,10 @@ wrp.addClass("foo")
 
 *Reference:*
 
-*http://perfectionkills.com/whats-wrong-with-extending-the-dom/*
+[http://perfectionkills.com/whats-wrong-with-extending-the-dom/](http://perfectionkills.com/whats-wrong-with-extending-the-dom/)
 
-*http://stackoverflow.com/questions/779880/in-javascript-can-you-extend-the-dom*
+[http://stackoverflow.com/questions/779880/in-javascript-can-you-extend-the-dom](http://stackoverflow.com/questions/779880/in-javascript-can-you-extend-the-dom)
 
-*http://stackoverflow.com/questions/16279025/using-object-wrappers-to-extend-the-javascripts-dom*
+[http://stackoverflow.com/questions/16279025/using-object-wrappers-to-extend-the-javascripts-dom](http://stackoverflow.com/questions/16279025/using-object-wrappers-to-extend-the-javascripts-dom)
 
-*http://perfectionkills.com/extending-native-builtins/*
+[http://perfectionkills.com/extending-native-builtins/](http://perfectionkills.com/extending-native-builtins/)
