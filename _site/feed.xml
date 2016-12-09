@@ -5,9 +5,93 @@
     <description>bing's blogsite about coding ...</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 26 Oct 2016 15:47:11 +0800</pubDate>
-    <lastBuildDate>Wed, 26 Oct 2016 15:47:11 +0800</lastBuildDate>
+    <pubDate>Sat, 10 Dec 2016 02:52:53 +0800</pubDate>
+    <lastBuildDate>Sat, 10 Dec 2016 02:52:53 +0800</lastBuildDate>
     <generator>Jekyll v3.3.0</generator>
+    
+      <item>
+        <title>闭包运用的一个典型例子</title>
+        <description>&lt;p&gt;由于函数内部的私有变量在函数外部是无法直接访问的，所以通过闭包我们可以为内部的私有变量来创建一个接口去读取和修改，下面就是一个典型的例子：&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;secret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'secret'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// “闭包”内的函数可以访问 secret 变量，而 secret 变量对于外部却是隐藏的&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;get_secret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 通过定义的接口来访问 secret&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;secret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;set_secret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;new_secret&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 通过定义的接口来修改 secret&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;secret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;new_secret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;get_secret&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 得到...</description>
+        <pubDate>Mon, 05 Dec 2016 18:27:18 +0800</pubDate>
+        <link>http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/</link>
+        <guid isPermaLink="true">http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/</guid>
+        
+        <category>Closure</category>
+        
+        
+        <category>Javascript</category>
+        
+      </item>
+    
+      <item>
+        <title>about DOM extension</title>
+        <description>&lt;h3 id=&quot;dom&quot;&gt;不要轻易为DOM对象添加自定义属性和方法。&lt;/h3&gt; &lt;p&gt;最近在研究js的框架设计，见的比较多的是封装成对象的方法而不是仅仅封装在一个函数里，这样使用的时候更加方便，但针对dom对象的时候鲜少有直接为dom对象的原型添加方法，查了下中文这方面相关的资料很少，但是有篇2010年的英文博客写的很是详细，所以简单翻译一下，不过毕竟是六年前的文章了，有错漏的欢迎指出。&lt;/p&gt; &lt;h4 id=&quot;whats-wrong-with-extending-the-dom&quot;&gt;What’s wrong with extending the DOM&lt;/h4&gt; &lt;p&gt;我最近很惊讶的发现网上关于dom扩展方面的资料非常非常少，难怪如今有些库和插件都会掉到这个陷阱里面。这篇文章我想解释一下为什么扩展dom不是个好主意。&lt;/p&gt; &lt;p&gt;首先来看下什么叫dom扩展（DOM extension），以及它是如何运行的。&lt;/p&gt; &lt;h4 id=&quot;how-dom-extension-works&quot;&gt;How DOM extension works&lt;/h4&gt; &lt;p&gt;所谓dom扩展就是直接为dom对象添加自定义的方法和属性。扩展的时候，就是把定义好的方法或者属性直接添加给dom对象或者dom对象的原型（必须在合适的环境下）。&lt;/p&gt; &lt;p&gt;最常见的被扩展的可能就是dom元素，比如&lt;code class=&quot;highlighter-rouge&quot;&gt;Element&lt;/code&gt;对象，像比较流行的Prototype，Mootools等库，同样的还有&lt;code class=&quot;highlighter-rouge&quot;&gt;Event&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;document&lt;/code&gt;对象。&lt;/p&gt; &lt;p&gt;通常的写法就像下面这样：&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;Element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;prototype&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hide&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;display&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'none'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;element&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createElement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'p'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;display&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// ''&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hide&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;display&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 'none'&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt; &lt;p&gt;你可以看到hide()方法被添加给了&lt;code class=&quot;highlighter-rouge&quot;&gt;Element.prototype&lt;/code&gt;，因此你可以直接让一个dom元素调用这个方法，直接设置它为不可见。&lt;/p&gt; &lt;p&gt;之所以可以这样是因为&lt;code class=&quot;highlighter-rouge&quot;&gt;Element.prototype&lt;/code&gt;就是&lt;code class=&quot;highlighter-rouge&quot;&gt;P&lt;/code&gt;元素的原型链中的一个对象，当调用了hide方法以后，它就沿着原型链一路往上查找，直到发现&lt;code...</description>
+        <pubDate>Sun, 20 Nov 2016 18:33:18 +0800</pubDate>
+        <link>http://localhost:4000/about-DOM-extension/</link>
+        <guid isPermaLink="true">http://localhost:4000/about-DOM-extension/</guid>
+        
+        <category>DOM</category>
+        
+        
+        <category>Javascript</category>
+        
+      </item>
+    
+      <item>
+        <title>css3 flexbox</title>
+        <description>&lt;p&gt;关于css3 flex一些属性的效果详解。&lt;/p&gt; &lt;p&gt;首先设置一个class为container的div容器，并包含了5个class为flex-item的子元素。为了方便查看效果设置了宽高等基础的样式。默认的显示效果如图：&lt;/p&gt; &lt;p&gt;&lt;img src=&quot;http://res.cloudinary.com/dxmlgmzb7/image/upload/v1479038185/blog/Screen_Shot_2016-11-13_at_19.41.37.png&quot; /&gt;&lt;/p&gt; &lt;p&gt;html结构为：&lt;/p&gt; &lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;flex-item&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;flex-item&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;flex-item&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;flex-item&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;flex-item&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt; &lt;p&gt;给container添加&lt;code class=&quot;highlighter-rouge&quot;&gt;display: flex;&lt;/code&gt;（为了方便查看后续效果，这里给五个子元素设置了不同的高度，并且写上了序号），子元素的div排列发生改变：（&lt;strong&gt;注意，设为Flex布局以后，子元素的float、clear和vertical-align属性将失效。&lt;/strong&gt;）&lt;/p&gt; &lt;p&gt;&lt;img src=&quot;http://res.cloudinary.com/dxmlgmzb7/image/upload/v1479038593/blog/Screen_Shot_2016-11-13_at_20.02.26.png&quot; /&gt;&lt;/p&gt; &lt;p&gt;可以看到五个元素并排排列，并且顶部是对齐的，并且默认的样式是不会随着浏览器宽度变化换行的。为了改变样式就引入了后续几个属性。&lt;/p&gt; &lt;h4 id=&quot;section&quot;&gt;关于父元素容器的设置：&lt;/h4&gt; &lt;p&gt;首先是&lt;code class=&quot;highlighter-rouge&quot;&gt;justify-content&lt;/code&gt;，这个属性定义了浏览器如何分配容器主轴上的子元素之间的空间。&lt;/p&gt; &lt;p&gt;The &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/CSS&quot;&gt;CSS&lt;/a&gt; &lt;strong&gt;justify-content&lt;/strong&gt; property defines how the browser distributes space between and around flex items along the main-axis of their container.&lt;/p&gt; &lt;div class=&quot;language-css highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;/* 从行首起始位置开始排列 (默认值)*/&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;justify-content&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;flex-start&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;/* 从行尾位置开始排列 */&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;justify-content&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;...</description>
+        <pubDate>Mon, 14 Nov 2016 04:38:18 +0800</pubDate>
+        <link>http://localhost:4000/css3-flexbox/</link>
+        <guid isPermaLink="true">http://localhost:4000/css3-flexbox/</guid>
+        
+        <category>flex</category>
+        
+        
+        <category>CSS3</category>
+        
+      </item>
+    
+      <item>
+        <title>优秀和糟糕前端工程师的区别</title>
+        <description>&lt;p&gt;立此为警。&lt;/p&gt; &lt;p&gt;前端应该做到的：&lt;/p&gt; &lt;p&gt;1、在设计师和工程师之间创建可视化的语言； 2、根据设计稿定义一组代表内容、品牌和功能的组件； 3、为Web应用程序的框架、需求、可视化的语言和规格设定基准； 4、根据设备、浏览器、屏幕、动画来划分web应用的工作划分； 5、用QA基准来保证指南来确保品牌忠诚度、代码质量、产品标准； 6、调节Web应用程序的样式，包括间距、字体、标题、图标、布局等等； 7、根据不同分辨率、横屏竖屏等，调节Web应用程序的样式； 8、标记 Web 应用程序，使之语义化，SEO 友好； 9、通过API获取内容要考虑友好性、电池消耗性、设备和客户端的特性； 10、开发客户端要考虑动画的流畅、延迟加载、交互、应用工作流程，大多数时间用来考虑渐进增强和向后兼容的标准； 11、保证后台连接安全，采取跨地资源共享（ CORS ）的程序考虑，防止跨站点脚本（ XSS）和跨站点请求伪造（ CSRF ） ； 12、最重要的是，尽管要符合以上标准，但是无论现在还是将来永远是「用户第一」。&lt;/p&gt; &lt;p&gt;糟糕的前端在做的：&lt;/p&gt; &lt;p&gt;1、滥用JS库，因为他们实际上并不了JS的内部（e.g. 一切都用jQuery）；&lt;/p&gt; &lt;p&gt;2、滥用JS插件，抄别人的代码哪怕自己根本读不懂（e.g.jQuery.doParallaxPls.js）；&lt;/p&gt; &lt;p&gt;3、给Web应用程序添加CSS框架，却只用到CSS/JS的5%，没有看到任何的需求、设计或者比较和评价；&lt;/p&gt; &lt;p&gt;4、认为只要添加了CSS框架，网站就可以「有求必应」；&lt;/p&gt; &lt;p&gt;5、一边在说着「响应式web设计」，却对服务器端技术一无所知；&lt;/p&gt; &lt;p&gt;6、用CSS编程时不管预处理器、命名规范等，却用不合适的selector/ids/magic numbers等；&lt;/p&gt; &lt;p&gt;7、忽视表现、内存泄露（并不理解内存泄露的真正含义），不会检测代码；&lt;/p&gt; &lt;p&gt;8、不会用指标衡量一个产品，或者这种指标旨在自己的电脑、浏览器、设备有效；&lt;/p&gt; &lt;p&gt;9、忽视软件技术。&lt;/p&gt; &lt;p&gt;&lt;strong&gt;以下是优秀的前端工程师在即时面对普通的任务也会做的事情：（这才是市场急需的前端）&lt;/strong&gt;&lt;/p&gt; &lt;p&gt;1、DNS解析、使用CDN和关于multiple Hostnames as part of resources request.&lt;/p&gt; &lt;p&gt;2、HTTP Headers (Expires, Cache-Control, If-Modified-Since)&lt;/p&gt; &lt;p&gt;3、Steve Souders的所有规则(&lt;a href=&quot;shop.oreilly.com/product/9780596529307.do&quot;&gt;High Performance Websites&lt;/a&gt;)&lt;/p&gt; &lt;p&gt;4、如何解决PageSpeed, YSlow, Chrome Dev Tools Audit, Chrome Dev Tools Timeline显示的所有问题；&lt;/p&gt; &lt;p&gt;5、何时把任务传到服务器和客户端；&lt;/p&gt; &lt;p&gt;6、缓存，预取和负荷技术的使用；&lt;/p&gt; &lt;p&gt;7、Native JS，知道何时从头开始做，何时查找别人的代码，同时可以评估这样做的优缺点；&lt;/p&gt; &lt;p&gt;8、modern MVC Javascript libraries (e.g. AngularJS, EmberJS, ReactJS), graphic libraries (e.g. D3, SnapSVG), DOM manipulation libraries (e.g. jQuery, Zepto), lazy loading or package management libraries (e.g. RequireJS, CommonJS), task managers (e.g. Grunt, Gulp),...</description>
+        <pubDate>Sat, 12 Nov 2016 06:38:18 +0800</pubDate>
+        <link>http://localhost:4000/%E4%BC%98%E7%A7%80%E5%92%8C%E7%B3%9F%E7%B3%95%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E5%8C%BA%E5%88%AB/</link>
+        <guid isPermaLink="true">http://localhost:4000/%E4%BC%98%E7%A7%80%E5%92%8C%E7%B3%9F%E7%B3%95%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E5%8C%BA%E5%88%AB/</guid>
+        
+        <category>F2E</category>
+        
+        
+        <category>HTML</category>
+        
+      </item>
+    
+      <item>
+        <title>对HTML5中section标签的一点理解</title>
+        <description>&lt;p&gt;一直对HTML5中的某些语义化标签具体该如何具体应用的理解有点模糊，今天稍微研究了一下，在w3c的html标准中是这么写的：&lt;/p&gt; &lt;p&gt;&lt;img src=&quot;http://res.cloudinary.com/dxmlgmzb7/image/upload/v1477925844/blog/section.png&quot; /&gt;&lt;/p&gt; &lt;p&gt;The section element represents a generic section of a document or application. A section, in this context, is a thematic grouping of content, typically with a heading.&lt;/p&gt; &lt;p&gt;section标签应该包含了非特定的一段普通文档或者应用，它的内容的主题性应该是很明确的，所有通常有一个标题。&lt;/p&gt; &lt;p&gt;Examples of sections would be chapters, the various tabbed pages in a tabbed dialog box, or the numbered sections of a thesis. A Web site’s home page could be split into sections for an introduction, news items, and contact information.&lt;/p&gt; &lt;p&gt;典型的例子包括了章节、可切换型的多标签页的对话框中的标签页，或者带有数字编号的论文小节。比如说一个网页的主页可以分为简单介绍、新闻、联系方式等几个section。&lt;/p&gt; &lt;p&gt;Note: Authors are encouraged to use the article element instead of the section element when it would make sense to syndicate the contents of the element.&lt;/p&gt; &lt;p&gt;注意一：在需要聚合多块内容的时候，最好是使用article标签而不是section标签。这意味着section标签相比于前后内容来说，它的独立性更强。&lt;/p&gt;...</description>
+        <pubDate>Tue, 01 Nov 2016 06:30:18 +0800</pubDate>
+        <link>http://localhost:4000/%E5%AF%B9HTML5%E4%B8%ADsection%E6%A0%87%E7%AD%BE%E7%9A%84%E4%B8%80%E7%82%B9%E7%90%86%E8%A7%A3/</link>
+        <guid isPermaLink="true">http://localhost:4000/%E5%AF%B9HTML5%E4%B8%ADsection%E6%A0%87%E7%AD%BE%E7%9A%84%E4%B8%80%E7%82%B9%E7%90%86%E8%A7%A3/</guid>
+        
+        <category>HTML5</category>
+        
+        
+        <category>HTML</category>
+        
+      </item>
+    
+      <item>
+        <title>Airbnb js代码规范（译）</title>
+        <description>&lt;p&gt;https://github.com/airbnb/javascript&lt;/p&gt; &lt;p&gt;Airbnb关于JS的代码规范，还是推荐阅读英文原文，尝试缓慢翻译填坑中.&lt;/p&gt; &lt;p&gt;注意：有很多内容是ES6的规范，使用可以按照自己的需要，并注意浏览器兼容性。&lt;/p&gt; &lt;p&gt;correct me if something wrong :D&lt;/p&gt; &lt;p&gt;(stop updating currently since there are so many es6 stuff and I can’t guarantee the quality without good understanding of es6.)&lt;/p&gt; &lt;h2 id=&quot;section&quot;&gt;目录&lt;/h2&gt; &lt;ol&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#types&quot;&gt;Types&lt;/a&gt; 类型&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#references&quot;&gt;References&lt;/a&gt; 引用&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#objects&quot;&gt;Objects&lt;/a&gt; 对象&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#arrays&quot;&gt;Arrays&lt;/a&gt; 数组&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#destructuring&quot;&gt;Destructuring&lt;/a&gt; 去构造化&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#strings&quot;&gt;Strings&lt;/a&gt; 字符串&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#functions&quot;&gt;Functions&lt;/a&gt; 函数&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#arrow-functions&quot;&gt;Arrow Functions&lt;/a&gt; 箭头函数&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#classes--constructors&quot;&gt;Classes &amp;amp; Constructors&lt;/a&gt; 类／构造器&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#modules&quot;&gt;Modules&lt;/a&gt; 模组&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#iterators-and-generators&quot;&gt;Iterators and Generators&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#properties&quot;&gt;Properties&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#variables&quot;&gt;Variables&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#hoisting&quot;&gt;Hoisting&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#comparison-operators--equality&quot;&gt;Comparison Operators &amp;amp; Equality&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#blocks&quot;&gt;Blocks&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#comments&quot;&gt;Comments&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#whitespace&quot;&gt;Whitespace&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#commas&quot;&gt;Commas&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#semicolons&quot;&gt;Semicolons&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#type-casting--coercion&quot;&gt;Type Casting &amp;amp; Coercion&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a href=&quot;https://github.com/airbnb/javascript#naming-conventions&quot;&gt;Naming Conventions&lt;/a&gt;&lt;/li&gt; &lt;li&gt;&lt;a...</description>
+        <pubDate>Sat, 29 Oct 2016 06:13:27 +0800</pubDate>
+        <link>http://localhost:4000/Airbnb-js%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/</link>
+        <guid isPermaLink="true">http://localhost:4000/Airbnb-js%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/</guid>
+        
+        <category>Javascript</category>
+        
+        
+        <category>Javascript</category>
+        
+      </item>
     
       <item>
         <title>通过javascript修改css样式的常用方式</title>
@@ -143,20 +227,6 @@
         
         
         <category>鸡汤</category>
-        
-      </item>
-    
-      <item>
-        <title>Github is awesome</title>
-        <description>&lt;p class=&quot;music-read&quot;&gt;&lt;a href=&quot;spotify:track:4DAZ8UYNpWVIV46aLkN2Qp&quot;&gt;Music for reading(spotify)&lt;/a&gt;&lt;/p&gt; &lt;p&gt;&lt;img src=&quot;http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2016/02/raw.gif&quot; /&gt;&lt;/p&gt; &lt;h2 id=&quot;github--why-&quot;&gt;Github ? why ?&lt;/h2&gt; &lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste quas, esse laudantium quis ipsa consequuntur iure atque! Necessitatibus quam quidem illum, corrupti molestiae, maxime neque, consequuntur quia alias, modi commodi.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate rem ducimus dolores repellat itaque perferendis corporis ex dicta doloremque optio harum excepturi, ut, praesentium asperiores! Voluptatum amet perspiciatis iusto, fugiat!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, libero quia placeat necessitatibus culpa mollitia, illum, quam sed ratione ad eaque suscipit consectetur itaque quasi aperiam. Quaerat, nihil voluptas...</description>
-        <pubDate>Sat, 12 Mar 2016 08:06:31 +0800</pubDate>
-        <link>http://localhost:4000/space/</link>
-        <guid isPermaLink="true">http://localhost:4000/space/</guid>
-        
-        <category>Githubisawesome</category>
-        
-        
-        <category>Github is awesome</category>
         
       </item>
     

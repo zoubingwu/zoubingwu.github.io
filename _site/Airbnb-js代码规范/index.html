@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Airbnb js代码规范（译）</title>
+    <meta name="description" content="">
+
+    <!-- Google Authorship Markup -->
+    <link rel="author" href="https://plus.google.com/?rel=author">
+
+    <!-- Social: Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@">
+    <meta name="twitter:title" content="Airbnb js代码规范（译）">
+    <meta name="twitter:description" content="">
+    
+    <meta property="twitter:image:src" content="http://localhost:4000">
+    
+
+    <!-- Social: Facebook / Open Graph -->
+    <meta property="og:url" content="http://localhost:4000/Airbnb-js%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/">
+    <meta property="og:title" content="Airbnb js代码规范（译）">
+    
+    <meta property="og:image" content="http://localhost:4000">
+    
+    <meta property="og:description" content="">
+    <meta property="og:site_name" content="ShadeofGod">
+
+    <!-- Social: Google+ / Schema.org  -->
+    <meta itemprop="name" content="Airbnb js代码规范（译）"/>
+    <meta itemprop="description" content="">
+    <meta itemprop="image" content="http://localhost:4000/assets/img/blog-image.png"/>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/assets/img/favicons/favicon.ico" type="image/x-icon" />
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" href="/assets/img/favicons/apple-touch-icon.png" />
+    <link rel="apple-touch-icon" sizes="57x57" href="/assets/img/favicons/apple-touch-icon-57x57.png" />
+    <link rel="apple-touch-icon" sizes="72x72" href="/assets/img/favicons/apple-touch-icon-72x72.png" />
+    <link rel="apple-touch-icon" sizes="114x114" href="/assets/img/favicons/apple-touch-icon-114x114.png" />
+    <link rel="apple-touch-icon" sizes="144x144" href="/assets/img/favicons/apple-touch-icon-144x144.png" />
+    <link rel="apple-touch-icon" sizes="60x60" href="/assets/img/favicons/apple-touch-icon-60x60.png" />
+    <link rel="apple-touch-icon" sizes="120x120" href="/assets/img/favicons/apple-touch-icon-120x120.png" />
+    <link rel="apple-touch-icon" sizes="76x76" href="/assets/img/favicons/apple-touch-icon-76x76.png" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/assets/img/favicons/apple-touch-icon-152x152.png" />
+    <!-- Windows 8 Tile Icons -->
+    <meta name="application-name" content="ShadeofGod Blog">
+    <meta name="msapplication-TileColor" content="#5d4d7a">
+    <meta name="msapplication-square70x70logo" content="smalltile.png" />
+    <meta name="msapplication-square150x150logo" content="mediumtile.png" />
+    <meta name="msapplication-wide310x150logo" content="widetile.png" />
+    <meta name="msapplication-square310x310logo" content="largetile.png" />
+    <!-- Android Lolipop Theme Color -->
+    <meta name="theme-color" content="#5d4d7a">
+
+    <link rel="stylesheet" href="/assets/css/main.css">
+    <link rel="canonical" href="http://localhost:4000/Airbnb-js%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/">
+    <link rel="alternate" type="application/rss+xml" title="ShadeofGod" href="http://localhost:4000/feed.xml" />
+</head>
+
+    <body>
+        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" display="none" version="1.1"><defs><symbol id="icon-menu" viewBox="0 0 1024 1024"><path class="path1" d="M128 213.333h768q17.667 0 30.167 12.5t12.5 30.167-12.5 30.167-30.167 12.5h-768q-17.667 0-30.167-12.5t-12.5-30.167 12.5-30.167 30.167-12.5zM128 725.333h768q17.667 0 30.167 12.5t12.5 30.167-12.5 30.167-30.167 12.5h-768q-17.667 0-30.167-12.5t-12.5-30.167 12.5-30.167 30.167-12.5zM128 469.333h768q17.667 0 30.167 12.5t12.5 30.167-12.5 30.167-30.167 12.5h-768q-17.667 0-30.167-12.5t-12.5-30.167 12.5-30.167 30.167-12.5z"/></symbol><symbol id="icon-search" viewBox="0 0 951 1024"><path class="path1" d="M658.286 475.429q0-105.714-75.143-180.857t-180.857-75.143-180.857 75.143-75.143 180.857 75.143 180.857 180.857 75.143 180.857-75.143 75.143-180.857zM950.857 950.857q0 29.714-21.714 51.429t-51.429 21.714q-30.857 0-51.429-21.714l-196-195.429q-102.286 70.857-228 70.857-81.714 0-156.286-31.714t-128.571-85.714-85.714-128.571-31.714-156.286 31.714-156.286 85.714-128.571 128.571-85.714 156.286-31.714 156.286 31.714 128.571 85.714 85.714 128.571 31.714 156.286q0 125.714-70.857 228l196 196q21.143 21.143 21.143 51.429z"/></symbol><symbol id="icon-email" viewBox="0 0 1024 1024"><path class="path1" d="M950.857 859.429v-438.857q-18.286 20.571-39.429 37.714-153.143 117.714-243.429 193.143-29.143 24.571-47.429 38.286t-49.429 27.714-58.571 14h-1.143q-27.429 0-58.571-14t-49.429-27.714-47.429-38.286q-90.286-75.429-243.429-193.143-21.143-17.143-39.429-37.714v438.857q0 7.429 5.429 12.857t12.857 5.429h841.143q7.429 0 12.857-5.429t5.429-12.857zM950.857 258.857v-14t-0.286-7.429-1.714-7.143-3.143-5.143-5.143-4.286-8-1.429h-841.143q-7.429 0-12.857 5.429t-5.429 12.857q0 96 84 162.286 110.286 86.857 229.143 181.143 3.429 2.857 20 16.857t26.286 21.429 25.429 18 28.857 15.714 24.571 5.143h1.143q11.429 0 24.571-5.143t28.857-15.714 25.429-18 26.286-21.429 20-16.857q118.857-94.286 229.143-181.143 30.857-24.571 57.429-66t26.571-75.143zM1024 237.714v621.714q0 37.714-26.857 64.571t-64.571 26.857h-841.143q-37.714 0-64.571-26.857t-26.857-64.571v-621.714q0-37.714 26.857-64.571t64.571-26.857h841.143q37.714 0 64.571 26.857t26.857 64.571z"/></symbol><symbol id="icon-close" viewBox="0 0 805 1024"><path class="path1" d="M741.714 755.429q0 22.857-16 38.857l-77.714 77.714q-16 16-38.857 16t-38.857-16l-168-168-168 168q-16 16-38.857 16t-38.857-16l-77.714-77.714q-16-16-16-38.857t16-38.857l168-168-168-168q-16-16-16-38.857t16-38.857l77.714-77.714q16-16 38.857-16t38.857 16l168 168 168-168q16-16 38.857-16t38.857 16l77.714 77.714q16 16 16 38.857t-16 38.857l-168 168 168 168q16 16 16 38.857z"/></symbol><symbol id="icon-twitter" viewBox="0 0 951 1024"><path class="path1" d="M925.714 233.143q-38.286 56-92.571 95.429 0.571 8 0.571 24 0 74.286-21.714 148.286t-66 142-105.429 120.286-147.429 83.429-184.571 31.143q-154.857 0-283.429-82.857 20 2.286 44.571 2.286 128.571 0 229.143-78.857-60-1.143-107.429-36.857t-65.143-91.143q18.857 2.857 34.857 2.857 24.571 0 48.571-6.286-64-13.143-106-63.714t-42-117.429v-2.286q38.857 21.714 83.429 23.429-37.714-25.143-60-65.714t-22.286-88q0-50.286 25.143-93.143 69.143 85.143 168.286 136.286t212.286 56.857q-4.571-21.714-4.571-42.286 0-76.571 54-130.571t130.571-54q80 0 134.857 58.286 62.286-12 117.143-44.571-21.143 65.714-81.143 101.714 53.143-5.714 106.286-28.571z"/></symbol><symbol id="icon-facebook" viewBox="0 0 585 1024"><path class="path1" d="M548 6.857v150.857h-89.714q-49.143 0-66.286 20.571t-17.143 61.714v108h167.429l-22.286 169.143h-145.143v433.714h-174.857v-433.714h-145.714v-169.143h145.714v-124.571q0-106.286 59.429-164.857t158.286-58.571q84 0 130.286 6.857z"/></symbol><symbol id="icon-rss" viewBox="0 0 805 1024"><path class="path1" d="M219.429 768q0 45.714-32 77.714t-77.714 32-77.714-32-32-77.714 32-77.714 77.714-32 77.714 32 32 77.714zM512 838.286q1.143 16-9.714 27.429-10.286 12-26.857 12h-77.143q-14.286 0-24.571-9.429t-11.429-23.714q-12.571-130.857-105.429-223.714t-223.714-105.429q-14.286-1.143-23.714-11.429t-9.429-24.571v-77.143q0-16.571 12-26.857 9.714-9.714 24.571-9.714h2.857q91.429 7.429 174.857 46t148 103.714q65.143 64.571 103.714 148t46 174.857zM804.571 839.429q1.143 15.429-10.286 26.857-10.286 11.429-26.286 11.429h-81.714q-14.857 0-25.429-10t-11.143-24.286q-6.857-122.857-57.714-233.429t-132.286-192-192-132.286-233.429-58.286q-14.286-0.571-24.286-11.143t-10-24.857v-81.714q0-16 11.429-26.286 10.286-10.286 25.143-10.286h1.714q149.714 7.429 286.571 68.571t243.143 168q106.857 106.286 168 243.143t68.571 286.571z"/></symbol><symbol id="icon-google-plus" viewBox="0 0 951 1024"><path class="path1" d="M420 454.857q0 20.571 18.286 40.286t44.286 38.857 51.714 42 44 59.429 18.286 81.143q0 51.429-27.429 98.857-41.143 69.714-120.571 102.571t-170.286 32.857q-75.429 0-140.857-23.714t-98-78.571q-21.143-34.286-21.143-74.857 0-46.286 25.429-85.714t67.714-65.714q74.857-46.857 230.857-57.143-18.286-24-27.143-42.286t-8.857-41.714q0-20.571 12-48.571-26.286 2.286-38.857 2.286-84.571 0-142.571-55.143t-58-139.714q0-46.857 20.571-90.857t56.571-74.857q44-37.714 104.286-56t124.286-18.286h238.857l-78.857 50.286h-74.857q42.286 36 64 76t21.714 91.429q0 41.143-14 74t-33.714 53.143-39.714 37.143-34 35.143-14 37.714zM336.571 400q21.714 0 44.571-9.429t37.714-24.857q30.286-32.571 30.286-90.857 0-33.143-9.714-71.429t-27.714-74-48.286-59.143-66.857-23.429q-24 0-47.143 11.143t-37.429 30q-26.857 33.714-26.857 91.429 0 26.286 5.714 55.714t18 58.857 29.714 52.857 42.857 38.286 55.143 14.857zM337.714 898.857q33.143 0 63.714-7.429t56.571-22.286 41.714-41.714 15.714-62.286q0-14.286-4-28t-8.286-24-15.429-23.714-16.857-20-22-19.714-20.857-16.571-23.714-17.143-20.857-14.857q-9.143-1.143-27.429-1.143-30.286 0-60 4t-61.429 14.286-55.429 26.286-39.143 42.571-15.429 60.286q0 40 20 70.571t52.286 47.429 68 25.143 72.857 8.286zM800.571 398.286h121.714v61.714h-121.714v125.143h-60v-125.143h-121.143v-61.714h121.143v-124h60v124z"/></symbol><symbol id="icon-github-alt" viewBox="0 0 951 1024"><path class="path1" d="M365.714 694.857q0 22.857-7.143 46.857t-24.571 43.429-41.429 19.429-41.429-19.429-24.571-43.429-7.143-46.857 7.143-46.857 24.571-43.429 41.429-19.429 41.429 19.429 24.571 43.429 7.143 46.857zM731.429 694.857q0 22.857-7.143 46.857t-24.571 43.429-41.429 19.429-41.429-19.429-24.571-43.429-7.143-46.857 7.143-46.857 24.571-43.429 41.429-19.429 41.429 19.429 24.571 43.429 7.143 46.857zM822.857 694.857q0-68.571-39.429-116.571t-106.857-48q-23.429 0-111.429 12-40.571 6.286-89.714 6.286t-89.714-6.286q-86.857-12-111.429-12-67.429 0-106.857 48t-39.429 116.571q0 50.286 18.286 87.714t46.286 58.857 69.714 34.286 80 16.857 85.143 4h96q46.857 0 85.143-4t80-16.857 69.714-34.286 46.286-58.857 18.286-87.714zM950.857 594.286q0 118.286-34.857 189.143-21.714 44-60.286 76t-80.571 49.143-97.143 27.143-98 12.571-95.429 2.571q-44.571 0-81.143-1.714t-84.286-7.143-87.143-17.143-78.286-29.429-69.143-46.286-49.143-65.714q-35.429-70.286-35.429-189.143 0-135.429 77.714-226.286-15.429-46.857-15.429-97.143 0-66.286 29.143-124.571 61.714 0 108.571 22.571t108 70.571q84-20 176.571-20 84.571 0 160 18.286 60-46.857 106.857-69.143t108-22.286q29.143 58.286 29.143 124.571 0 49.714-15.429 96 77.714 91.429 77.714 227.429z"/></symbol><symbol id="icon-right-arrow"><path d="M21.205,5.007c-0.429-0.444-1.143-0.444-1.587,0c-0.429,0.429-0.429,1.143,0,1.571l8.047,8.047H1.111  C0.492,14.626,0,15.118,0,15.737c0,0.619,0.492,1.127,1.111,1.127h26.554l-8.047,8.032c-0.429,0.444-0.429,1.159,0,1.587  c0.444,0.444,1.159,0.444,1.587,0l9.952-9.952c0.444-0.429,0.444-1.143,0-1.571L21.205,5.007z" fill="#489472"/></symbol></defs></svg>
+
+        <header class="header-post" role="banner">
+   	<!-- <p>λ</p> -->
+    <div class="search-wrapper">
+    <div class="search-form">
+        <input type="text" class="search-field" placeholder="Search...">
+        <svg class="icon-remove-sign"><use xlink:href="#icon-close"></use></svg>
+        <ul class="search-results search-list"></ul>
+    </div>
+</div>
+
+<div id="fade" class="overlay"></div>
+<a id="slide" class="slideButton fade">
+    <svg id="open" class="icon-menu"><use xlink:href="#icon-menu"></use></svg>
+    <svg id="close" class="icon-menu"><use xlink:href="#icon-close"></use></svg>
+</a>
+<aside id="sidebar">
+  <div id="topmenu">
+  
+    <ul>
+      <li><span>1</span></li>
+      <li><span> /Airbnb-js%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/</span></li>
+      <li><span>⌘  blogspace  </span></li>
+      <li><span>  Menu  </span></li>
+    </ul>
+    <ul>
+      <li><span>utf-8</span></li>
+      <li><span>web</span></li>
+      <li><span>.html</span></li>
+    </ul>
+  </div>
+  <nav id="navigation">
+    <!-- <h2>MENU</h2> -->
+    <ul>
+      
+      
+      
+        <li><span class="counter-menu">1</span><svg viewBox="0 0 50 50" class="icon-arrow-menu"><use xlink:href="#icon-right-arrow"></use></svg><a href="http://localhost:4000/"> home</a></li>
+      
+
+         
+      
+      
+        <li><span class="counter-menu">2</span><svg viewBox="0 0 50 50" class="icon-arrow-menu"><use xlink:href="#icon-right-arrow"></use></svg><a href="http://localhost:4000/posts"> my posts</a></li>
+      
+
+         
+      
+      
+        <li><span class="counter-menu">3</span><svg viewBox="0 0 50 50" class="icon-arrow-menu"><use xlink:href="#icon-right-arrow"></use></svg><a href="http://localhost:4000/series"> series</a></li>
+      
+
+         
+      
+      
+        <li><span class="counter-menu">4</span><svg viewBox="0 0 50 50" class="icon-arrow-menu"><use xlink:href="#icon-right-arrow"></use></svg><a href="http://localhost:4000/tags"> tags</a></li>
+      
+
+         
+      
+      
+        <li><span class="counter-menu">5</span><svg viewBox="0 0 50 50" class="icon-arrow-menu"><use xlink:href="#icon-right-arrow"></use></svg><a href="http://localhost:4000/about"> about me</a></li>
+      
+
+         
+      
+    </ul>
+    <ul>
+      <li><span class="counter-menu">g</span><svg viewBox="0 0 50 50" class="icon-arrow-menu"><use xlink:href="#icon-right-arrow"></use></svg><a target="_blank" href="http://github.com/shadeofgod" class="search">github</a></li>
+      <li><span class="counter-menu">s</span><svg viewBox="0 0 50 50" class="icon-arrow-menu"><use xlink:href="#icon-right-arrow"></use></svg><a class="search">search</a></li>
+      <li><span class="counter-menu">r</span><svg viewBox="0 0 50 50" class="icon-arrow-menu"><use xlink:href="#icon-right-arrow"></use></svg><a target="_blank" href="randomquote.html">random quote</a></li>
+    </ul>
+  </nav>
+</aside>
+<a id="search" class="dosearch">
+    <svg class="icon-menu icon-search"><use xlink:href="#icon-search"></use></svg>
+</a>
+
+</header>
+
+        <div class="tree-posts">
+    <h3>*Posts*</h3>
+    
+    <article role="article" class="post-item" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+        <div class="content">
+            <a href="/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/">
+                <h2 class="post-title" itemprop="name">闭包运用的一个典型例子.md</h2>
+            </a>
+        </div>
+    </article>
+    
+    <article role="article" class="post-item" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+        <div class="content">
+            <a href="/about-DOM-extension/">
+                <h2 class="post-title" itemprop="name">about DOM extension.md</h2>
+            </a>
+        </div>
+    </article>
+    
+    <article role="article" class="post-item" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+        <div class="content">
+            <a href="/css3-flexbox/">
+                <h2 class="post-title" itemprop="name">css3 flexbox.md</h2>
+            </a>
+        </div>
+    </article>
+    
+    <article role="article" class="post-item" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+        <div class="content">
+            <a href="/%E4%BC%98%E7%A7%80%E5%92%8C%E7%B3%9F%E7%B3%95%E5%89%8D%E7%AB%AF%E5%B7%A5%E7%A8%8B%E5%B8%88%E7%9A%84%E5%8C%BA%E5%88%AB/">
+                <h2 class="post-title" itemprop="name">优秀和糟糕前端工程师的区别.md</h2>
+            </a>
+        </div>
+    </article>
+    
+    <article role="article" class="post-item" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+        <div class="content">
+            <a href="/%E5%AF%B9HTML5%E4%B8%ADsection%E6%A0%87%E7%AD%BE%E7%9A%84%E4%B8%80%E7%82%B9%E7%90%86%E8%A7%A3/">
+                <h2 class="post-title" itemprop="name">对HTML5中section标签的一点理解.md</h2>
+            </a>
+        </div>
+    </article>
+    
+    <article role="article" class="post-item" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+        <div class="content">
+            <a href="/Airbnb-js%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/">
+                <h2 class="post-title" itemprop="name">Airbnb js代码规范（译）.md</h2>
+            </a>
+        </div>
+    </article>
+    
+    <article role="article" class="post-item" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+        <div class="content">
+            <a href="/%E9%80%9A%E8%BF%87javascript%E4%BF%AE%E6%94%B9css%E6%A0%B7%E5%BC%8F%E7%9A%84%E6%96%B9%E5%BC%8F/">
+                <h2 class="post-title" itemprop="name">通过javascript修改css样式的常用方式.md</h2>
+            </a>
+        </div>
+    </article>
+    
+    <article role="article" class="post-item" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+        <div class="content">
+            <a href="/Array-methods/">
+                <h2 class="post-title" itemprop="name">Javascript中操作数组的一些常用方法总结.md</h2>
+            </a>
+        </div>
+    </article>
+    
+    <article role="article" class="post-item" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+        <div class="content">
+            <a href="/Closure/">
+                <h2 class="post-title" itemprop="name">Closure for dummies(translated).md</h2>
+            </a>
+        </div>
+    </article>
+    
+    <article role="article" class="post-item" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+        <div class="content">
+            <a href="/%E4%BA%BA%E7%94%9F%E3%81%AF%E3%83%9E%E3%83%A9%E3%82%BD%E3%83%B3%E3%81%A7%E3%81%99/">
+                <h2 class="post-title" itemprop="name">人生はマラソンです.md</h2>
+            </a>
+        </div>
+    </article>
+    
+    <article role="article" class="post-item" itemscope="itemscope" itemtype="http://schema.org/BlogPosting" itemprop="blogPost">
+        <div class="content">
+            <a href="/space/">
+                <h2 class="post-title" itemprop="name">Github is awesome.md</h2>
+            </a>
+        </div>
+    </article>
+    
+</div>
+        <section class="post" itemscope itemtype="http://schema.org/BlogPosting">
+            
+                <div class="time">
+                    <time itemprop="datePublished" datetime="2016-10-29 06:13:27 +0800">29 Oct 2016</time>
+                </div>
+            
+            <h1 class="post-title" itemprop="name">Airbnb js代码规范（译）</h1>
+
+            <article role="article" id="scroll" class="post-content" itemprop="articleBody">
+                <p>https://github.com/airbnb/javascript</p>
+
+<p>Airbnb关于JS的代码规范，还是推荐阅读英文原文，尝试缓慢翻译填坑中.</p>
+
+<p>注意：有很多内容是ES6的规范，使用可以按照自己的需要，并注意浏览器兼容性。</p>
+
+<p>correct me if something wrong :D</p>
+
+<p>(stop updating currently since there are so many es6 stuff and I can’t guarantee the quality without good understanding of es6.)</p>
+
+<h2 id="section">目录</h2>
+
+<ol>
+  <li><a href="https://github.com/airbnb/javascript#types">Types</a> 类型</li>
+  <li><a href="https://github.com/airbnb/javascript#references">References</a> 引用</li>
+  <li><a href="https://github.com/airbnb/javascript#objects">Objects</a> 对象</li>
+  <li><a href="https://github.com/airbnb/javascript#arrays">Arrays</a> 数组</li>
+  <li><a href="https://github.com/airbnb/javascript#destructuring">Destructuring</a> 去构造化</li>
+  <li><a href="https://github.com/airbnb/javascript#strings">Strings</a> 字符串</li>
+  <li><a href="https://github.com/airbnb/javascript#functions">Functions</a>  函数</li>
+  <li><a href="https://github.com/airbnb/javascript#arrow-functions">Arrow Functions</a>  箭头函数</li>
+  <li><a href="https://github.com/airbnb/javascript#classes--constructors">Classes &amp; Constructors</a> 类／构造器</li>
+  <li><a href="https://github.com/airbnb/javascript#modules">Modules</a> 模组</li>
+  <li><a href="https://github.com/airbnb/javascript#iterators-and-generators">Iterators and Generators</a></li>
+  <li><a href="https://github.com/airbnb/javascript#properties">Properties</a></li>
+  <li><a href="https://github.com/airbnb/javascript#variables">Variables</a></li>
+  <li><a href="https://github.com/airbnb/javascript#hoisting">Hoisting</a></li>
+  <li><a href="https://github.com/airbnb/javascript#comparison-operators--equality">Comparison Operators &amp; Equality</a></li>
+  <li><a href="https://github.com/airbnb/javascript#blocks">Blocks</a></li>
+  <li><a href="https://github.com/airbnb/javascript#comments">Comments</a></li>
+  <li><a href="https://github.com/airbnb/javascript#whitespace">Whitespace</a></li>
+  <li><a href="https://github.com/airbnb/javascript#commas">Commas</a></li>
+  <li><a href="https://github.com/airbnb/javascript#semicolons">Semicolons</a></li>
+  <li><a href="https://github.com/airbnb/javascript#type-casting--coercion">Type Casting &amp; Coercion</a></li>
+  <li><a href="https://github.com/airbnb/javascript#naming-conventions">Naming Conventions</a></li>
+  <li><a href="https://github.com/airbnb/javascript#accessors">Accessors</a></li>
+  <li><a href="https://github.com/airbnb/javascript#events">Events</a></li>
+  <li><a href="https://github.com/airbnb/javascript#jquery">jQuery</a></li>
+  <li><a href="https://github.com/airbnb/javascript#ecmascript-5-compatibility">ECMAScript 5 Compatibility</a></li>
+  <li><a href="https://github.com/airbnb/javascript#ecmascript-6-es-2015-styles">ECMAScript 6+ (ES 2015+) Styles</a></li>
+  <li><a href="https://github.com/airbnb/javascript#testing">Testing</a></li>
+  <li><a href="https://github.com/airbnb/javascript#performance">Performance</a></li>
+  <li><a href="https://github.com/airbnb/javascript#resources">Resources</a></li>
+  <li><a href="https://github.com/airbnb/javascript#in-the-wild">In the Wild</a></li>
+  <li><a href="https://github.com/airbnb/javascript#translation">Translation</a></li>
+  <li><a href="https://github.com/airbnb/javascript#the-javascript-style-guide-guide">The JavaScript Style Guide Guide</a></li>
+  <li><a href="https://github.com/airbnb/javascript#chat-with-us-about-javascript">Chat With Us About JavaScript</a></li>
+  <li><a href="https://github.com/airbnb/javascript#contributors">Contributors</a></li>
+  <li><a href="https://github.com/airbnb/javascript#license">License</a></li>
+</ol>
+
+<h2 id="type-">Type 类型</h2>
+
+<ul>
+  <li>
+    <p>1.1 当你处理一个如下简单的数据类型时，你是直接对它对应的值进行操作。</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">string</code></li>
+      <li><code class="highlighter-rouge">number</code></li>
+      <li><code class="highlighter-rouge">boolean</code></li>
+      <li><code class="highlighter-rouge">null</code></li>
+      <li><code class="highlighter-rouge">undefined</code></li>
+    </ul>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">foo</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kd">let</span> <span class="nx">bar</span> <span class="o">=</span> <span class="nx">foo</span><span class="p">;</span>
+
+<span class="nx">bar</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">,</span> <span class="nx">bar</span><span class="p">);</span> <span class="c1">// =&gt; 1, 9</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>1.2 当你处理一个如下复杂的数据类型时，你处理的是它的引用。</p>
+
+    <ul>
+      <li><code class="highlighter-rouge">object</code></li>
+      <li><code class="highlighter-rouge">array</code></li>
+      <li><code class="highlighter-rouge">function</code></li>
+    </ul>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">foo</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">];</span>
+<span class="kr">const</span> <span class="nx">bar</span> <span class="o">=</span> <span class="nx">foo</span><span class="p">;</span>
+
+<span class="nx">bar</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">9</span><span class="p">;</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">foo</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">bar</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span> <span class="c1">// =&gt; 9, 9</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<h2 id="references-">References 引用</h2>
+
+<ul>
+  <li>
+    <p>2.1 使用 <code class="highlighter-rouge">const</code> 来声明所有的引用，避免使用 <code class="highlighter-rouge">var</code>。详见 eslint: <a href="http://eslint.org/docs/rules/prefer-const.html"><code class="highlighter-rouge">prefer-const</code></a>, <a href="http://eslint.org/docs/rules/no-const-assign.html"><code class="highlighter-rouge">no-const-assign</code></a></p>
+
+    <blockquote>
+      <p>为什么？因为这样可以保证你不会重新给引用赋一个另外的值，避免以此引起的bug和对代码的理解困难</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kd">var</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+
+<span class="c1">// good</span>
+<span class="kr">const</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>2.2 如果你必须要重新给一个引用赋值,，使用 <code class="highlighter-rouge">let</code> 而不是<code class="highlighter-rouge">var</code>。详见 eslint: <a href="http://eslint.org/docs/rules/no-var.html"><code class="highlighter-rouge">no-var</code></a> jscs: <a href="http://jscs.info/rule/disallowVar"><code class="highlighter-rouge">disallowVar</code></a></p>
+
+    <blockquote>
+      <p>为什么？因为<code class="highlighter-rouge">let</code>是块级作用，而不像<code class="highlighter-rouge">var</code>有着函数作用域。</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kd">var</span> <span class="nx">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">count</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// good, use the let.</span>
+<span class="kd">let</span> <span class="nx">count</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="kc">true</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">count</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>2.3 注意，使用<code class="highlighter-rouge">let</code>和<code class="highlighter-rouge">const</code>声明的变量，都只作用于块级作用域。</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// const and let only exist in the blocks they are defined in.</span>
+<span class="p">{</span>
+  <span class="kd">let</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span> <span class="c1">// ReferenceError</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">b</span><span class="p">);</span> <span class="c1">// ReferenceError</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<h2 id="object-">Object 对象</h2>
+
+<ul>
+  <li>
+    <p>3.1 尽量使用字面语法来直接创建对象。详见eslint: <a href="http://eslint.org/docs/rules/no-new-object.html"><code class="highlighter-rouge">no-new-object</code></a></p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kr">const</span> <span class="nx">item</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Object</span><span class="p">();</span>
+
+<span class="c1">// good</span>
+<span class="kr">const</span> <span class="nx">item</span> <span class="o">=</span> <span class="p">{};</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>3.2 创建一个有着动态的属性名的对象时，尽量使用计算后的属性名。</p>
+
+    <blockquote>
+      <p>为什么？这样可以让你同时定义一个对象所有的属性</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">getKey</span><span class="p">(</span><span class="nx">k</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="err">`</span><span class="nx">a</span> <span class="nx">key</span> <span class="nx">named</span> <span class="nx">$</span><span class="p">{</span><span class="nx">k</span><span class="p">}</span><span class="err">`</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// bad</span>
+<span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">id</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="na">name</span><span class="p">:</span> <span class="s1">'San Francisco'</span><span class="p">,</span>
+<span class="p">};</span>
+<span class="nx">obj</span><span class="p">[</span><span class="nx">getKey</span><span class="p">(</span><span class="s1">'enabled'</span><span class="p">)]</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
+
+<span class="c1">// good</span>
+<span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">id</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+  <span class="na">name</span><span class="p">:</span> <span class="s1">'San Francisco'</span><span class="p">,</span>
+  <span class="p">[</span><span class="nx">getKey</span><span class="p">(</span><span class="s1">'enabled'</span><span class="p">)]:</span> <span class="kc">true</span><span class="p">,</span>
+<span class="p">};</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>3.3 使用简写的属性方法。详见eslint: <a href="http://eslint.org/docs/rules/object-shorthand.html"><code class="highlighter-rouge">object-shorthand</code></a> jscs: <a href="http://jscs.info/rule/requireEnhancedObjectLiterals"><code class="highlighter-rouge">requireEnhancedObjectLiterals</code></a></p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kr">const</span> <span class="nx">atom</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">value</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+
+  <span class="na">addValue</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">atom</span><span class="p">.</span><span class="nx">value</span> <span class="o">+</span> <span class="nx">value</span><span class="p">;</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+
+<span class="c1">// good</span>
+<span class="kr">const</span> <span class="nx">atom</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">value</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+
+  <span class="nx">addValue</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">atom</span><span class="p">.</span><span class="nx">value</span> <span class="o">+</span> <span class="nx">value</span><span class="p">;</span>
+  <span class="p">},</span>
+<span class="p">};</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>3.4使用简写的属性值。详见 <a href="http://eslint.org/docs/rules/object-shorthand.html"><code class="highlighter-rouge">object-shorthand</code></a> jscs: <a href="http://jscs.info/rule/requireEnhancedObjectLiterals"><code class="highlighter-rouge">requireEnhancedObjectLiterals</code></a></p>
+
+    <blockquote>
+      <p>为什么？书写更简短，描述性更强。</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">lukeSkywalker</span> <span class="o">=</span> <span class="s1">'Luke Skywalker'</span><span class="p">;</span>
+
+<span class="c1">// bad</span>
+<span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">lukeSkywalker</span><span class="p">:</span> <span class="nx">lukeSkywalker</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="c1">// good</span>
+<span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">lukeSkywalker</span><span class="p">,</span>
+<span class="p">};</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>3.5 把简写的属性名统一分组写在声明对象最开始的地方。</p>
+
+    <blockquote>
+      <p>为什么？这样一下就能看出来哪些属性使用了简写。</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">anakinSkywalker</span> <span class="o">=</span> <span class="s1">'Anakin Skywalker'</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">lukeSkywalker</span> <span class="o">=</span> <span class="s1">'Luke Skywalker'</span><span class="p">;</span>
+
+<span class="c1">// bad</span>
+<span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">episodeOne</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="na">twoJediWalkIntoACantina</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="nx">lukeSkywalker</span><span class="p">,</span>
+  <span class="na">episodeThree</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="na">mayTheFourth</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="nx">anakinSkywalker</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="c1">// good</span>
+<span class="kr">const</span> <span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="nx">lukeSkywalker</span><span class="p">,</span>
+  <span class="nx">anakinSkywalker</span><span class="p">,</span>
+  <span class="na">episodeOne</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+  <span class="na">twoJediWalkIntoACantina</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+  <span class="na">episodeThree</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="na">mayTheFourth</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+<span class="p">};</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>3.6 只有在属性名是无效的标识符的时候才使用引号包起来使之成为字符串（比如数字开头或带有空格的多个词）。详见eslint: <a href="http://eslint.org/docs/rules/quote-props.html"><code class="highlighter-rouge">quote-props</code></a> jscs: <a href="http://jscs.info/rule/disallowQuotedKeysInObjects"><code class="highlighter-rouge">disallowQuotedKeysInObjects</code></a></p>
+
+    <blockquote>
+      <p>为什么？一般主观上来说这样更容易阅读，也有利于语法高亮和一些JS引擎优化。</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kr">const</span> <span class="nx">bad</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'foo'</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="s1">'bar'</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="s1">'data-blah'</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="c1">// good</span>
+<span class="kr">const</span> <span class="nx">good</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">foo</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+  <span class="na">bar</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+  <span class="s1">'data-blah'</span><span class="p">:</span> <span class="mi">5</span><span class="p">,</span>
+<span class="p">};</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>3.7 尽量不要直接调用某些<code class="highlighter-rouge">Object.prototype</code>的方法，比如 <code class="highlighter-rouge">hasOwnProperty</code>, <code class="highlighter-rouge">propertyIsEnumerable</code>, 和<code class="highlighter-rouge">isPrototypeOf</code>.</p>
+
+    <blockquote>
+      <p>为什么？因为某些对象里这些方法可能被覆写了，比如这种<code class="highlighter-rouge"><span class="p">{</span><span class="w"> </span><span class="err">hasOwnProperty:</span><span class="w"> </span><span class="err">false</span><span class="w"> </span><span class="p">}</span></code> ，或者是一个null对象 (<code class="highlighter-rouge">Object.create(null)</code>).</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">object</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">(</span><span class="nx">key</span><span class="p">));</span>
+
+<span class="c1">// good</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">object</span><span class="p">,</span> <span class="nx">key</span><span class="p">));</span>
+
+<span class="c1">// best</span>
+<span class="kr">const</span> <span class="nx">has</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">hasOwnProperty</span><span class="p">;</span> <span class="c1">// cache the lookup once, in module scope.</span>
+<span class="cm">/* or */</span>
+<span class="kr">import</span> <span class="nx">has</span> <span class="nx">from</span> <span class="s1">'has'</span><span class="p">;</span>
+<span class="err">…</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">has</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">object</span><span class="p">,</span> <span class="nx">key</span><span class="p">));</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>3.8 浅复制对象时使用<code class="highlighter-rouge">...</code>操作符而不是使用 <a href="https://developer.mozilla.org/en/docs/Web/JavaScript/Reference/Global_Objects/Object/assign"><code class="highlighter-rouge">Object.assign</code></a> </p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// very bad</span>
+<span class="kr">const</span> <span class="nx">original</span> <span class="o">=</span> <span class="p">{</span> <span class="na">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">b</span><span class="p">:</span> <span class="mi">2</span> <span class="p">};</span>
+<span class="kr">const</span> <span class="nx">copy</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">(</span><span class="nx">original</span><span class="p">,</span> <span class="p">{</span> <span class="na">c</span><span class="p">:</span> <span class="mi">3</span> <span class="p">});</span> <span class="c1">// this mutates `original` ಠ_ಠ</span>
+<span class="k">delete</span> <span class="nx">copy</span><span class="p">.</span><span class="nx">a</span><span class="p">;</span> <span class="c1">// so does this</span>
+
+<span class="c1">// bad</span>
+<span class="kr">const</span> <span class="nx">original</span> <span class="o">=</span> <span class="p">{</span> <span class="na">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">b</span><span class="p">:</span> <span class="mi">2</span> <span class="p">};</span>
+<span class="kr">const</span> <span class="nx">copy</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">assign</span><span class="p">({},</span> <span class="nx">original</span><span class="p">,</span> <span class="p">{</span> <span class="na">c</span><span class="p">:</span> <span class="mi">3</span> <span class="p">});</span> <span class="c1">// copy =&gt; { a: 1, b: 2, c: 3 }</span>
+
+<span class="c1">// good</span>
+<span class="kr">const</span> <span class="nx">original</span> <span class="o">=</span> <span class="p">{</span> <span class="na">a</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="na">b</span><span class="p">:</span> <span class="mi">2</span> <span class="p">};</span>
+<span class="kr">const</span> <span class="nx">copy</span> <span class="o">=</span> <span class="p">{</span> <span class="p">...</span><span class="nx">original</span><span class="p">,</span> <span class="na">c</span><span class="p">:</span> <span class="mi">3</span> <span class="p">};</span> <span class="c1">// copy =&gt; { a: 1, b: 2, c: 3 }</span>
+
+<span class="kr">const</span> <span class="p">{</span> <span class="nx">a</span><span class="p">,</span> <span class="p">...</span><span class="nx">noA</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">copy</span><span class="p">;</span> <span class="c1">// noA =&gt; { b: 2, c: 3 }</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<h2 id="array-">Array 数组</h2>
+
+<ul>
+  <li>
+    <p>4.1 使用字面语法来创建数组对象。详见eslint: <a href="http://eslint.org/docs/rules/no-array-constructor.html"><code class="highlighter-rouge">no-array-constructor</code></a></p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kr">const</span> <span class="nx">items</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Array</span><span class="p">();</span>
+
+<span class="c1">// good</span>
+<span class="kr">const</span> <span class="nx">items</span> <span class="o">=</span> <span class="p">[];</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>4.2 使用<code class="highlighter-rouge">push()</code>方法来添加元素而不是直接赋值。</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">someStack</span> <span class="o">=</span> <span class="p">[];</span>
+
+<span class="c1">// bad</span>
+<span class="nx">someStack</span><span class="p">[</span><span class="nx">someStack</span><span class="p">.</span><span class="nx">length</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'abracadabra'</span><span class="p">;</span>
+
+<span class="c1">// good</span>
+<span class="nx">someStack</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="s1">'abracadabra'</span><span class="p">);</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>4.3 使用<code class="highlighter-rouge">...</code>操作符来复制数组。</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kr">const</span> <span class="nx">len</span> <span class="o">=</span> <span class="nx">items</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">itemsCopy</span> <span class="o">=</span> <span class="p">[];</span>
+<span class="kd">let</span> <span class="nx">i</span><span class="p">;</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">len</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">itemsCopy</span><span class="p">[</span><span class="nx">i</span><span class="p">]</span> <span class="o">=</span> <span class="nx">items</span><span class="p">[</span><span class="nx">i</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="c1">// good</span>
+<span class="kr">const</span> <span class="nx">itemsCopy</span> <span class="o">=</span> <span class="p">[...</span><span class="nx">items</span><span class="p">];</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>4.4 使用<code class="highlighter-rouge">Array.from()</code>来把一个类数组转化成数组。</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">foo</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">querySelectorAll</span><span class="p">(</span><span class="s1">'.foo'</span><span class="p">);</span>
+<span class="kr">const</span> <span class="nx">nodes</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">from</span><span class="p">(</span><span class="nx">foo</span><span class="p">);</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>4.5 数组方法的回调函数里使用return声明。除非像8.2那样函数内只有一句表达的时候可以删去return，详见 <a href="http://eslint.org/docs/rules/array-callback-return"><code class="highlighter-rouge">array-callback-return</code></a></p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">].</span><span class="nx">map</span><span class="p">((</span><span class="nx">x</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">y</span> <span class="o">=</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">return</span> <span class="nx">x</span> <span class="o">*</span> <span class="nx">y</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="c1">// good</span>
+<span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">].</span><span class="nx">map</span><span class="p">(</span><span class="nx">x</span> <span class="o">=&gt;</span> <span class="nx">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">);</span>
+
+<span class="c1">// bad</span>
+<span class="kr">const</span> <span class="nx">flat</span> <span class="o">=</span> <span class="p">{};</span>
+<span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]].</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">memo</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">flatten</span> <span class="o">=</span> <span class="nx">memo</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">item</span><span class="p">);</span>
+  <span class="nx">flat</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="o">=</span> <span class="nx">flatten</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="c1">// good</span>
+<span class="kr">const</span> <span class="nx">flat</span> <span class="o">=</span> <span class="p">{};</span>
+<span class="p">[[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">]].</span><span class="nx">reduce</span><span class="p">((</span><span class="nx">memo</span><span class="p">,</span> <span class="nx">item</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">flatten</span> <span class="o">=</span> <span class="nx">memo</span><span class="p">.</span><span class="nx">concat</span><span class="p">(</span><span class="nx">item</span><span class="p">);</span>
+  <span class="nx">flat</span><span class="p">[</span><span class="nx">index</span><span class="p">]</span> <span class="o">=</span> <span class="nx">flatten</span><span class="p">;</span>
+  <span class="k">return</span> <span class="nx">flatten</span><span class="p">;</span>
+<span class="p">});</span>
+
+<span class="c1">// bad</span>
+<span class="nx">inbox</span><span class="p">.</span><span class="nx">filter</span><span class="p">((</span><span class="nx">msg</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="p">{</span> <span class="nx">subject</span><span class="p">,</span> <span class="nx">author</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">msg</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">subject</span> <span class="o">===</span> <span class="s1">'Mockingbird'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">author</span> <span class="o">===</span> <span class="s1">'Harper Lee'</span><span class="p">;</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">});</span>
+
+<span class="c1">// good</span>
+<span class="nx">inbox</span><span class="p">.</span><span class="nx">filter</span><span class="p">((</span><span class="nx">msg</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="p">{</span> <span class="nx">subject</span><span class="p">,</span> <span class="nx">author</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">msg</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">subject</span> <span class="o">===</span> <span class="s1">'Mockingbird'</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">author</span> <span class="o">===</span> <span class="s1">'Harper Lee'</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+<span class="p">});</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<h2 id="destructuring-">Destructuring 去构造化</h2>
+
+<ul>
+  <li>
+    <p>5.1 在获取和使用多种对象的属性的时候，尽量对对象去构造化。详见jscs: <a href="http://jscs.info/rule/requireObjectDestructuring"><code class="highlighter-rouge">requireObjectDestructuring</code></a></p>
+
+    <blockquote>
+      <p>为什么？这样可以免于为这些属性设置很多临时的引用变量。</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kd">function</span> <span class="nx">getFullName</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">firstName</span> <span class="o">=</span> <span class="nx">user</span><span class="p">.</span><span class="nx">firstName</span><span class="p">;</span>
+  <span class="kr">const</span> <span class="nx">lastName</span> <span class="o">=</span> <span class="nx">user</span><span class="p">.</span><span class="nx">lastName</span><span class="p">;</span>
+
+  <span class="k">return</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">firstName</span><span class="p">}</span> <span class="nx">$</span><span class="p">{</span><span class="nx">lastName</span><span class="p">}</span><span class="err">`</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// good</span>
+<span class="kd">function</span> <span class="nx">getFullName</span><span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="p">{</span> <span class="nx">firstName</span><span class="p">,</span> <span class="nx">lastName</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">user</span><span class="p">;</span>
+  <span class="k">return</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">firstName</span><span class="p">}</span> <span class="nx">$</span><span class="p">{</span><span class="nx">lastName</span><span class="p">}</span><span class="err">`</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// best</span>
+<span class="kd">function</span> <span class="nx">getFullName</span><span class="p">({</span> <span class="nx">firstName</span><span class="p">,</span> <span class="nx">lastName</span> <span class="p">})</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="err">`</span><span class="nx">$</span><span class="p">{</span><span class="nx">firstName</span><span class="p">}</span> <span class="nx">$</span><span class="p">{</span><span class="nx">lastName</span><span class="p">}</span><span class="err">`</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>5.2 数组的去构造化。详见 jscs: <a href="http://jscs.info/rule/requireArrayDestructuring"><code class="highlighter-rouge">requireArrayDestructuring</code></a></p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kr">const</span> <span class="nx">arr</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">];</span>
+
+<span class="c1">// bad</span>
+<span class="kr">const</span> <span class="nx">first</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="kr">const</span> <span class="nx">second</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+
+<span class="c1">// good</span>
+<span class="kr">const</span> <span class="p">[</span><span class="nx">first</span><span class="p">,</span> <span class="nx">second</span><span class="p">]</span> <span class="o">=</span> <span class="nx">arr</span><span class="p">;</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>5.3 对多个返回值使用对象去构造化而不是数组去构造化。详见jscs: <a href="http://jscs.info/rule/disallowArrayDestructuringReturn"><code class="highlighter-rouge">disallowArrayDestructuringReturn</code></a></p>
+
+    <blockquote>
+      <p>为什么？因为这样你可以随时添加新属性或者改变顺序而不会影响调用。</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kd">function</span> <span class="nx">processInput</span><span class="p">(</span><span class="nx">input</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// then a miracle occurs</span>
+  <span class="k">return</span> <span class="p">[</span><span class="nx">left</span><span class="p">,</span> <span class="nx">right</span><span class="p">,</span> <span class="nx">top</span><span class="p">,</span> <span class="nx">bottom</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="c1">// the caller needs to think about the order of return data</span>
+<span class="kr">const</span> <span class="p">[</span><span class="nx">left</span><span class="p">,</span> <span class="nx">__</span><span class="p">,</span> <span class="nx">top</span><span class="p">]</span> <span class="o">=</span> <span class="nx">processInput</span><span class="p">(</span><span class="nx">input</span><span class="p">);</span>
+
+<span class="c1">// good</span>
+<span class="kd">function</span> <span class="nx">processInput</span><span class="p">(</span><span class="nx">input</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// then a miracle occurs</span>
+  <span class="k">return</span> <span class="p">{</span> <span class="nx">left</span><span class="p">,</span> <span class="nx">right</span><span class="p">,</span> <span class="nx">top</span><span class="p">,</span> <span class="nx">bottom</span> <span class="p">};</span>
+<span class="p">}</span>
+
+<span class="c1">// the caller selects only the data they need</span>
+<span class="kr">const</span> <span class="p">{</span> <span class="nx">left</span><span class="p">,</span> <span class="nx">top</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">processInput</span><span class="p">(</span><span class="nx">input</span><span class="p">);</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<h2 id="strings-">Strings 字符串</h2>
+
+<ul>
+  <li>
+    <p>6.1 对字符串使用<strong>单</strong>引号。详见eslint: <a href="http://eslint.org/docs/rules/quotes.html"><code class="highlighter-rouge">quotes</code></a> jscs: <a href="http://jscs.info/rule/validateQuoteMarks"><code class="highlighter-rouge">validateQuoteMarks</code></a></p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kr">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="s2">"Capt. Janeway"</span><span class="p">;</span>
+
+<span class="c1">// bad - template literals should contain interpolation or newlines</span>
+<span class="kr">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="err">`</span><span class="nx">Capt</span><span class="p">.</span> <span class="nx">Janeway</span><span class="err">`</span><span class="p">;</span>
+
+<span class="c1">// good</span>
+<span class="kr">const</span> <span class="nx">name</span> <span class="o">=</span> <span class="s1">'Capt. Janeway'</span><span class="p">;</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>6.2 超过100个字符的长字符串不要使用换行符或者字符串拼接。</p>
+
+    <blockquote>
+      <p>为什么？难以处理，并且不方便搜索。</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kr">const</span> <span class="nx">errorMessage</span> <span class="o">=</span> <span class="s1">'This is a super long error that was thrown because \
+of Batman. When you stop to think about how Batman had anything to do \
+with this, you would get nowhere \
+fast.'</span><span class="p">;</span>
+
+<span class="c1">// bad</span>
+<span class="kr">const</span> <span class="nx">errorMessage</span> <span class="o">=</span> <span class="s1">'This is a super long error that was thrown because '</span> <span class="o">+</span>
+  <span class="s1">'of Batman. When you stop to think about how Batman had anything to do '</span> <span class="o">+</span>
+  <span class="s1">'with this, you would get nowhere fast.'</span><span class="p">;</span>
+
+<span class="c1">// good</span>
+<span class="kr">const</span> <span class="nx">errorMessage</span> <span class="o">=</span> <span class="s1">'This is a super long error that was thrown because of Batman. When you stop to think about how Batman had anything to do with this, you would get nowhere fast.'</span><span class="p">;</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>6.3 包含动态内容的字符串使用模版字符串而不是字符串拼接。详见eslint: <a href="http://eslint.org/docs/rules/prefer-template.html"><code class="highlighter-rouge">prefer-template</code></a> <a href="http://eslint.org/docs/rules/template-curly-spacing"><code class="highlighter-rouge">template-curly-spacing</code></a> jscs: <a href="http://jscs.info/rule/requireTemplateStrings"><code class="highlighter-rouge">requireTemplateStrings</code></a></p>
+
+    <blockquote>
+      <p>为什么？因为代码更简洁，可读性更好。方便合适的换行和字符串插入。</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kd">function</span> <span class="nx">sayHi</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="s1">'How are you, '</span> <span class="o">+</span> <span class="nx">name</span> <span class="o">+</span> <span class="s1">'?'</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// bad</span>
+<span class="kd">function</span> <span class="nx">sayHi</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">[</span><span class="s1">'How are you, '</span><span class="p">,</span> <span class="nx">name</span><span class="p">,</span> <span class="s1">'?'</span><span class="p">].</span><span class="nx">join</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// bad</span>
+<span class="kd">function</span> <span class="nx">sayHi</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="err">`</span><span class="nx">How</span> <span class="nx">are</span> <span class="nx">you</span><span class="p">,</span> <span class="nx">$</span><span class="p">{</span> <span class="nx">name</span> <span class="p">}?</span><span class="err">`</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// good</span>
+<span class="kd">function</span> <span class="nx">sayHi</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="err">`</span><span class="nx">How</span> <span class="nx">are</span> <span class="nx">you</span><span class="p">,</span> <span class="nx">$</span><span class="p">{</span><span class="nx">name</span><span class="p">}?</span><span class="err">`</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>6.4 在字符串中永远不要使用<code class="highlighter-rouge">eval()</code>，很容易出现bug。</p>
+  </li>
+  <li>
+    <p>6.5 没有必要的时候不要使用转义符。详见eslint: <a href="http://eslint.org/docs/rules/no-useless-escape"><code class="highlighter-rouge">no-useless-escape</code></a></p>
+
+    <blockquote>
+      <p>为什么？因为反斜线大大影响代码阅读。除非必要不然不要使用。</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kr">const</span> <span class="nx">foo</span> <span class="o">=</span> <span class="s1">'\'this\' \i\s \"quoted\"'</span><span class="p">;</span>
+
+<span class="c1">// good</span>
+<span class="kr">const</span> <span class="nx">foo</span> <span class="o">=</span> <span class="s1">'\'this\' is "quoted"'</span><span class="p">;</span>
+<span class="kr">const</span> <span class="nx">foo</span> <span class="o">=</span> <span class="err">`</span><span class="s1">'this'</span> <span class="nx">is</span> <span class="s2">"quoted"</span><span class="err">`</span><span class="p">;</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<h2 id="functions-">Functions 函数</h2>
+
+<ul>
+  <li>
+    <p>7.1 使用命名的函数表达式，而不是直接声明函数。详见eslint: <a href="http://eslint.org/docs/rules/func-style"><code class="highlighter-rouge">func-style</code></a> jscs: <a href="http://jscs.info/rule/requireFunctionDeclarations"><code class="highlighter-rouge">requireFunctionDeclarations</code></a></p>
+
+    <blockquote>
+      <p>为什么？因为函数声明会被提升到顶部，也就意味着很轻易就会出现函数在文件中被定义之前就被引用了。这影响了代码的可读性和维护性。如果你发现一个函数的定义已经大到或者复杂到影响对其他代码的理解，那么你最好把它抽出来到一个单独的模组。不要忘记命名函数，匿名函数通常在出现问题的时候很难去定位。</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kr">const</span> <span class="nx">foo</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+<span class="p">};</span>
+
+<span class="c1">// bad</span>
+<span class="kd">function</span> <span class="nx">foo</span><span class="p">()</span> <span class="p">{</span>
+<span class="p">}</span>
+
+<span class="c1">// good</span>
+<span class="kr">const</span> <span class="nx">foo</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">bar</span><span class="p">()</span> <span class="p">{</span>
+<span class="p">};</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>7.2 立即调用的函数（IIFE）记得用括号包起来。详见eslint: <a href="http://eslint.org/docs/rules/wrap-iife.html"><code class="highlighter-rouge">wrap-iife</code></a> jscs: <a href="http://jscs.info/rule/requireParenthesesAroundIIFE"><code class="highlighter-rouge">requireParenthesesAroundIIFE</code></a></p>
+
+    <blockquote>
+      <p>为什么？一个立即调用的函数是一个单独的整体。记得要用括号包起来整个内容。包括调用函数的一对括号。注意在现在这样一个到处都是模组的世界，基本上你不会需要用到这样的函数。</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// immediately-invoked function expression (IIFE)</span>
+<span class="p">(</span><span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Welcome to the Internet. Please follow me.'</span><span class="p">);</span>
+<span class="p">}());</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>7.3 不要在非函数的代码块（比如if，while等）里直接声明函数，把函数赋给一个变量。浏览器虽然允许你这样做，但在解析的时候经常会有差别。详见eslint: <a href="http://eslint.org/docs/rules/no-loop-func.html"><code class="highlighter-rouge">no-loop-func</code></a></p>
+  </li>
+  <li>
+    <p>7.4 注意：ECMA-262把块（<code class="highlighter-rouge">block</code>）定义为一系列语句（<code class="highlighter-rouge">statement</code>）。而函数声明（`function declaration并不算语句。详见 <a href="http://www.ecma-international.org/publications/files/ECMA-ST/Ecma-262.pdf#page=97">Read ECMA-262’s note on this issue</a>.</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">currentUser</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">function</span> <span class="nx">test</span><span class="p">()</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Nope.'</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="c1">// good</span>
+<span class="kd">let</span> <span class="nx">test</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">currentUser</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">test</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'Yup.'</span><span class="p">);</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>7.5 不要把一个参数命名为<code class="highlighter-rouge">arguments</code>。这样在整个函数作用域里会判定为参数名而影响<code class="highlighter-rouge">arguments</code>对象的使用。</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kd">function</span> <span class="nx">nope</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">options</span><span class="p">,</span> <span class="nx">arguments</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// ...stuff...</span>
+<span class="p">}</span>
+
+<span class="c1">// good</span>
+<span class="kd">function</span> <span class="nx">yup</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">options</span><span class="p">,</span> <span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// ...stuff...</span>
+<span class="p">}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>7.6 不要直接使用<code class="highlighter-rouge">arguments</code>，使用剩余参数的语法<code class="highlighter-rouge">…</code>。详见eslint: <a href="http://eslint.org/docs/rules/prefer-rest-params"><code class="highlighter-rouge">prefer-rest-params</code></a></p>
+
+    <blockquote>
+      <p>为什么？因为对于你想要处理的参数使用<code class="highlighter-rouge">...</code>是非常明确的，而且剩余参数是一个真实的数组，而不像arguments对象是一个类数组。</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kd">function</span> <span class="nx">concatenateAll</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kr">const</span> <span class="nx">args</span> <span class="o">=</span> <span class="nb">Array</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">slice</span><span class="p">.</span><span class="nx">call</span><span class="p">(</span><span class="nx">arguments</span><span class="p">);</span>
+  <span class="k">return</span> <span class="nx">args</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">''</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// good</span>
+<span class="kd">function</span> <span class="nx">concatenateAll</span><span class="p">(...</span><span class="nx">args</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">args</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">''</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>7.7 使用默认的参数语法，而不是转化成函数的<code class="highlighter-rouge">arguments</code></p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// really bad</span>
+<span class="kd">function</span> <span class="nx">handleThings</span><span class="p">(</span><span class="nx">opts</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// No! We shouldn't mutate function arguments.</span>
+  <span class="c1">// Double bad: if opts is falsy it'll be set to an object which may</span>
+  <span class="c1">// be what you want but it can introduce subtle bugs.</span>
+  <span class="nx">opts</span> <span class="o">=</span> <span class="nx">opts</span> <span class="o">||</span> <span class="p">{};</span>
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="c1">// still bad</span>
+<span class="kd">function</span> <span class="nx">handleThings</span><span class="p">(</span><span class="nx">opts</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">opts</span> <span class="o">===</span> <span class="k">void</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">opts</span> <span class="o">=</span> <span class="p">{};</span>
+  <span class="p">}</span>
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="c1">// good</span>
+<span class="kd">function</span> <span class="nx">handleThings</span><span class="p">(</span><span class="nx">opts</span> <span class="o">=</span> <span class="p">{})</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>7.8 避免默认参数的副作用。关于<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Default_parameters">默认参数</a>。</p>
+
+    <blockquote>
+      <p>为什么？因为容易引起理解问题。</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+<span class="c1">// bad</span>
+<span class="kd">function</span> <span class="nx">count</span><span class="p">(</span><span class="nx">a</span> <span class="o">=</span> <span class="nx">b</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">a</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="nx">count</span><span class="p">();</span>  <span class="c1">// 1</span>
+<span class="nx">count</span><span class="p">();</span>  <span class="c1">// 2</span>
+<span class="nx">count</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span> <span class="c1">// 3</span>
+<span class="nx">count</span><span class="p">();</span>  <span class="c1">// 3</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>7.9 永远把默认参数值放在最后。</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kd">function</span> <span class="nx">handleThings</span><span class="p">(</span><span class="nx">opts</span> <span class="o">=</span> <span class="p">{},</span> <span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="c1">// good</span>
+<span class="kd">function</span> <span class="nx">handleThings</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">opts</span> <span class="o">=</span> <span class="p">{})</span> <span class="p">{</span>
+  <span class="c1">// ...</span>
+<span class="p">}</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>7.10 永远不要使用函数构造器来创建一个新函数。详见eslint: <a href="http://eslint.org/docs/rules/no-new-func"><code class="highlighter-rouge">no-new-func</code></a>。</p>
+
+    <blockquote>
+      <p>为什么？因为这样会类似<code class="highlighter-rouge">eval()</code>来处理字符串。容易引起错误。</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kd">var</span> <span class="nx">add</span> <span class="o">=</span> <span class="k">new</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'return a + b'</span><span class="p">);</span>
+
+<span class="c1">// still bad</span>
+<span class="kd">var</span> <span class="nx">subtract</span> <span class="o">=</span> <span class="nb">Function</span><span class="p">(</span><span class="s1">'a'</span><span class="p">,</span> <span class="s1">'b'</span><span class="p">,</span> <span class="s1">'return a - b'</span><span class="p">);</span>
+</code></pre>
+    </div>
+  </li>
+  <li>
+    <p>7.11 函数签名的空格问题。详见eslint: <a href="http://eslint.org/docs/rules/space-before-function-paren"><code class="highlighter-rouge">space-before-function-paren</code></a> <a href="http://eslint.org/docs/rules/space-before-blocks"><code class="highlighter-rouge">space-before-blocks</code></a></p>
+
+    <blockquote>
+      <p>保持一致性总是好的。而且在删除或添加函数名的时候你也不需要添加或删除空格。</p>
+    </blockquote>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="kr">const</span> <span class="nx">f</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(){};</span>
+<span class="kr">const</span> <span class="nx">g</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(){};</span>
+<span class="kr">const</span> <span class="nx">h</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{};</span>
+
+<span class="c1">// good</span>
+<span class="kr">const</span> <span class="nx">x</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{};</span>
+<span class="kr">const</span> <span class="nx">y</span> <span class="o">=</span> <span class="kd">function</span> <span class="nx">a</span><span class="p">()</span> <span class="p">{};</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+
+            </article>
+
+            <!-- <section class="share">
+    <h3>Share</h3>
+    <a aria-label="Share on Twitter" href="https://twitter.com/intent/tweet?text=&quot;&quot;%20http://localhost:4000/Airbnb-js%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/%20via%20&#64;&hashtags=Javascript,"
+    onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" title="Share on Twitter">
+        <svg class="icon icon-twitter"><use xlink:href="#icon-twitter"></use></svg>
+    </a>
+    <a aria-label="Share on Facebook"href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/Airbnb-js%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/"
+    onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" title="Share on Facebook">
+        <svg class="icon icon-facebook"><use xlink:href="#icon-facebook"></use></svg>
+    </a>
+    <a aria-label="Share on Google Plus" href="https://plus.google.com/share?url=http://localhost:4000/Airbnb-js%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/"
+    onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" title="Share on Google+">
+        <svg class="icon icon-google-plus"><use xlink:href="#icon-google-plus"></use></svg>
+    </a>
+</section> -->
+            <section class="comments">
+    <h3>Comments</h3>
+    <!-- <div id="disqus_thread"></div> -->
+    <!-- 多说评论框 start -->
+    <div class="ds-thread" data-thread-key="Airbnb js代码规范（译）" data-title='' data-url="/Airbnb-js%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/"></div>
+    <!-- 多说评论框 end -->
+</section>
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"shadeofgod"};
+    (function() {
+        var ds = document.createElement('script');
+        ds.type = 'text/javascript';ds.async = true;
+        ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+        ds.charset = 'UTF-8';
+        (document.getElementsByTagName('head')[0] 
+         || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+    </script>
+<!-- 多说公共JS代码 end -->
+
+<!-- <script type="text/javascript">
+    var disqus_loaded = false;
+
+    function load_disqus()
+    {
+        disqus_loaded = true;
+        var disqus_shortname = '';
+        var disqus_title = '';
+        var disqus_url = '/Airbnb-js%E4%BB%A3%E7%A0%81%E8%A7%84%E8%8C%83/';
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        var ldr = document.getElementById('disqus_loader');
+    };
+    window.onscroll = function(e) {
+        if ((window.innerHeight + window.scrollY) >= (document.body.offsetHeight - 800)) {
+            //hit bottom of page
+            if (disqus_loaded==false)
+                load_disqus()
+        }
+    };
+</script> -->
+
+            <footer>
+	<!-- <p>Made with <span id="heart">💚</span></p> -->
+</footer>
+
+            <script src="/assets/js/main.js"></script>
+        </section>
+    </body>
+</html>

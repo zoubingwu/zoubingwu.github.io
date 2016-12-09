@@ -82,9 +82,7 @@ test();
 // Window
 ```
 
-##### 注意：
-
-this不像变量，是无法向下传递的：
+注意：this不像变量，是无法向下传递的：
 
 ```javascript
 var obj = {

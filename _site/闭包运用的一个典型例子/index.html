@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Github is awesome</title>
+    <title>闭包运用的一个典型例子</title>
     <meta name="description" content="">
 
     <!-- Google Authorship Markup -->
@@ -14,15 +14,15 @@
     <!-- Social: Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@">
-    <meta name="twitter:title" content="Github is awesome">
+    <meta name="twitter:title" content="闭包运用的一个典型例子">
     <meta name="twitter:description" content="">
     
     <meta property="twitter:image:src" content="http://localhost:4000">
     
 
     <!-- Social: Facebook / Open Graph -->
-    <meta property="og:url" content="http://localhost:4000/space/">
-    <meta property="og:title" content="Github is awesome">
+    <meta property="og:url" content="http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/">
+    <meta property="og:title" content="闭包运用的一个典型例子">
     
     <meta property="og:image" content="http://localhost:4000">
     
@@ -30,7 +30,7 @@
     <meta property="og:site_name" content="ShadeofGod">
 
     <!-- Social: Google+ / Schema.org  -->
-    <meta itemprop="name" content="Github is awesome"/>
+    <meta itemprop="name" content="闭包运用的一个典型例子"/>
     <meta itemprop="description" content="">
     <meta itemprop="image" content="http://localhost:4000/assets/img/blog-image.png"/>
 
@@ -57,7 +57,7 @@
     <meta name="theme-color" content="#5d4d7a">
 
     <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="canonical" href="http://localhost:4000/space/">
+    <link rel="canonical" href="http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/">
     <link rel="alternate" type="application/rss+xml" title="ShadeofGod" href="http://localhost:4000/feed.xml" />
 </head>
 
@@ -84,7 +84,7 @@
   
     <ul>
       <li><span>1</span></li>
-      <li><span> /space/</span></li>
+      <li><span> /%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/</span></li>
       <li><span>⌘  blogspace  </span></li>
       <li><span>  Menu  </span></li>
     </ul>
@@ -238,78 +238,49 @@
         <section class="post" itemscope itemtype="http://schema.org/BlogPosting">
             
                 <div class="time">
-                    <time itemprop="datePublished" datetime="2016-03-12 08:06:31 +0800">12 Mar 2016</time>
+                    <time itemprop="datePublished" datetime="2016-12-05 18:27:18 +0800">05 Dec 2016</time>
                 </div>
             
-            <h1 class="post-title" itemprop="name">Github is awesome</h1>
+            <h1 class="post-title" itemprop="name">闭包运用的一个典型例子</h1>
 
             <article role="article" id="scroll" class="post-content" itemprop="articleBody">
-                <p class="music-read"><a href="spotify:track:4DAZ8UYNpWVIV46aLkN2Qp">Music for reading(spotify)</a></p>
+                <p>由于函数内部的私有变量在函数外部是无法直接访问的，所以通过闭包我们可以为内部的私有变量来创建一个接口去读取和修改，下面就是一个典型的例子：</p>
 
-<p><img src="http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2016/02/raw.gif" /></p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="p">(</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">secret</span> <span class="o">=</span> <span class="s1">'secret'</span><span class="p">;</span>
+    <span class="c1">// “闭包”内的函数可以访问 secret 变量，而 secret 变量对于外部却是隐藏的</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="na">get_secret</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+            <span class="c1">// 通过定义的接口来访问 secret</span>
+            <span class="k">return</span> <span class="nx">secret</span><span class="p">;</span>
+        <span class="p">},</span>
+        <span class="na">set_secret</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">new_secret</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="c1">// 通过定义的接口来修改 secret</span>
+            <span class="nx">secret</span> <span class="o">=</span> <span class="nx">new_secret</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">};</span>
+<span class="p">}</span> <span class="p">()</span> <span class="p">);</span>
 
-<h2 id="github--why-">Github ? why ?</h2>
-
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste quas, esse laudantium quis ipsa consequuntur iure atque! Necessitatibus quam quidem illum, corrupti molestiae, maxime neque, consequuntur quia alias, modi commodi.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cupiditate rem ducimus dolores repellat itaque perferendis corporis ex dicta doloremque optio harum excepturi, ut, praesentium asperiores! Voluptatum amet perspiciatis iusto, fugiat!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum, libero quia placeat necessitatibus culpa mollitia, illum, quam sed ratione ad eaque suscipit consectetur itaque quasi aperiam. Quaerat, nihil voluptas tenetur?Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos unde quam autem fugit, aliquam perspiciatis, accusamus numquam, pariatur impedit excepturi debitis repellendus consectetur laboriosam voluptatem temporibus sunt illo magnam! Voluptates.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam repudiandae quidem, fuga eaque, deserunt eius. Aperiam, maxime fuga alias ad vel amet et facere soluta asperiores quasi. A, aperiam, ipsam.</p>
-
-<figure class="foto-legenda">
-	<img src="/assets/img/sharding-gerenciamento-usuarios/ajudando-carregar.jpg" alt="" />
-	<figcaption> <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repellat architecto minus sed dolorum debitis iste quae harum, fuga commodi libero voluptatum voluptates nemo, assumenda itaque. Placeat neque voluptatem, veritatis quae.</p>
-	</figcaption>
-</figure>
-
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur, illo eaque incidunt voluptatibus minus repudiandae eius consectetur tempore enim quisquam, quia veniam fuga autem, labore quas voluptate suscipit. Omnis, rem!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Vero, veritatis modi libero unde! Sapiente tempora eius cum doloribus, non, provident, veniam placeat veritatis quos possimus asperiores ipsam animi aliquam vel!</p>
-
-<p><img src="https://octodex.github.com/images/codercat.jpg" alt="" /></p>
-
-<h2 id="lorem-ipsum-dolor-alias">Lorem ipsum dolor, alias.?</h2>
-
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nemo minima veritatis est, unde nesciunt optio debitis. Soluta eos temporibus harum esse eveniet, alias praesentium, sapiente ipsa excepturi reprehenderit ullam ea.</p>
-
-<h3 id="warning">Warning!</h3>
-
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque corporis, fuga sequi cumque in quos excepturi placeat iste! Eaque voluptatum laudantium, recusandae optio! Rem impedit laborum enim minima aliquid, repellendus.<br />
-` scalability` Lorem ipsum dolor sit amet, consebus tempora!:</p>
-
-<ol>
-  <li><a href="http://dba.stackexchange.com/questions/4508/what-does-horizontal-scaling-mean" target="_blank">What does horizontal scaling mean?</a></li>
-  <li><a href="https://blog.openshift.com/best-practices-for-horizontal-application-scaling/" target="_blank">Best Practices For Horizontal Application Scaling</a></li>
-  <li><a href="http://www.infoq.com/articles/ebay-scalability-best-practices" target="_blank">Scalability Best Practices: Lessons from eBay</a></li>
-  <li><a href="http://stackoverflow.com/questions/5401992/what-does-scale-horizontally-and-scale-vertically-mean" target="_blank">What does scale horizontally and scale vertically mean?</a></li>
-</ol>
-
-<h2 id="lorem-ipsum-dolor-sit-ametres">Lorem ipsum dolor sit amet,res.</h2>
-
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">use</span> <span class="nx">admin</span>
-<span class="nx">db</span><span class="p">.</span><span class="nx">createUser</span><span class="p">{</span>
-	<span class="nl">user</span><span class="p">:</span> <span class="s2">"bonitao"</span><span class="p">,</span>
-	<span class="nx">pwd</span><span class="err">:</span> <span class="s2">"2016bonitao"</span><span class="p">,</span>
-	<span class="nx">roles</span><span class="err">:</span> <span class="p">[{</span><span class="na">role</span><span class="p">:</span> <span class="s2">"userAdminAnyDatabase"</span><span class="p">,</span> <span class="na">db</span><span class="p">:</span> <span class="s2">"admin"</span><span class="p">}]</span>
-<span class="p">}</span></code></pre></figure>
-
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cumque asperiores quam fuga tempora nisi consequatur, sequi cum voluptate deleniti quis, perspiciatis commodi beatae modi, iusto ab deserunt corrupti libero doloribus.</p>
-
-<figure class="highlight"><pre><code class="language-javascript" data-lang="javascript"><span class="nx">db</span><span class="p">.</span><span class="nx">updateUser</span><span class="p">(</span><span class="s2">"bonitao"</span><span class="p">,</span>
-<span class="p">{</span>
-	<span class="na">pwd</span><span class="p">:</span> <span class="s2">"2016bonitao"</span><span class="p">,</span>
-	<span class="na">roles</span><span class="p">:</span> <span class="p">[{</span><span class="na">role</span><span class="p">:</span> <span class="s2">"read"</span><span class="p">,</span> <span class="na">db</span><span class="p">:</span> <span class="s2">"assets"</span><span class="p">}]</span>
-<span class="p">})</span></code></pre></figure>
-
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magni assumenda perferendis, iure atque. Tempore qui blanditiis autem necessitatibus natus soluta voluptas saepe totam animi voluptatum recusandae, nihil maiores et cumque.</p>
+<span class="nx">foo</span><span class="p">.</span><span class="nx">get_secret</span> <span class="p">();</span> <span class="c1">// 得到 'secret'</span>
+<span class="nx">foo</span><span class="p">.</span><span class="nx">secret</span><span class="p">;</span> <span class="c1">// Type error，访问不能</span>
+<span class="nx">foo</span><span class="p">.</span><span class="nx">set_secret</span> <span class="p">(</span><span class="s1">'a new secret'</span><span class="p">);</span> <span class="c1">// 通过函数接口，我们访问并修改了 secret 变量</span>
+<span class="nx">foo</span><span class="p">.</span><span class="nx">get_secret</span> <span class="p">();</span> <span class="c1">// 得到 'a new secret'</span>
+</code></pre>
+</div>
 
             </article>
 
             <!-- <section class="share">
     <h3>Share</h3>
-    <a aria-label="Share on Twitter" href="https://twitter.com/intent/tweet?text=&quot;&quot;%20http://localhost:4000/space/%20via%20&#64;&hashtags=Githubisawesome,"
+    <a aria-label="Share on Twitter" href="https://twitter.com/intent/tweet?text=&quot;&quot;%20http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/%20via%20&#64;&hashtags=Closure,"
     onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" title="Share on Twitter">
         <svg class="icon icon-twitter"><use xlink:href="#icon-twitter"></use></svg>
     </a>
-    <a aria-label="Share on Facebook"href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/space/"
+    <a aria-label="Share on Facebook"href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/"
     onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" title="Share on Facebook">
         <svg class="icon icon-facebook"><use xlink:href="#icon-facebook"></use></svg>
     </a>
-    <a aria-label="Share on Google Plus" href="https://plus.google.com/share?url=http://localhost:4000/space/"
+    <a aria-label="Share on Google Plus" href="https://plus.google.com/share?url=http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/"
     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" title="Share on Google+">
         <svg class="icon icon-google-plus"><use xlink:href="#icon-google-plus"></use></svg>
     </a>
@@ -318,7 +289,7 @@
     <h3>Comments</h3>
     <!-- <div id="disqus_thread"></div> -->
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="Github is awesome" data-title='' data-url="/space/"></div>
+    <div class="ds-thread" data-thread-key="闭包运用的一个典型例子" data-title='' data-url="/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/"></div>
     <!-- 多说评论框 end -->
 </section>
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
@@ -343,7 +314,7 @@ var duoshuoQuery = {short_name:"shadeofgod"};
         disqus_loaded = true;
         var disqus_shortname = '';
         var disqus_title = '';
-        var disqus_url = '/space/';
+        var disqus_url = '/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/';
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
