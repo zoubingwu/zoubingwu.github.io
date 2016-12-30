@@ -50,17 +50,26 @@ serie: learn
 
 ```javascript
 function typeOf(item) {
-  	//对于IE8以下不支持null和undefined检测的hack
-  	if (item === null) {
-      return "null";
-  	}
-  	if (item === undefined) {
-      return "undefined";
-  	}
-	var result = Object.prototype.toString.apply(item);
-	result = result.slice(8, -1).toLowerCase();
-  	return result;
+  //对于IE8以下不支持null和undefined检测的hack
+  if (item === null) {
+    return "null";
+  }
+  if (item === undefined) {
+    return "undefined";
+  }
+  var result = Object.prototype.toString.apply(item);
+  result = result.slice(8, -1).toLowerCase();
+  return result;
 }
+
+typeOf(null); //null
+typeOf(1); //number
+typeOf("123"); //string
+typeOf(false); //boolean
+typeOf(function(){}); //function
+typeOf(new Date()); // date
+typeOf([1,2,3]); //array
+typeOf(window); //window
 ```
 
 *ref：*
