@@ -26,14 +26,18 @@ serie: learn
 
 - `instanceof`
 
-  `instanceof`是用来判断是否是某对象的实例的，比如：
+  `instanceof`是用来判断是否是某对象的实例的，返回结果为true或者false，比如：
 
   ```javascript
   var a = [1, false, null];
   a instanceof Array; // true
   ```
 
-  这个就需要事先对类型有一个了解，然后再去判断是否属实了。
+  这个就需要事先对类型有一个了解，然后再去判断是否属实了。要注意的是，左边必须是一个对象，否则会返回false，比如：
+
+  ```javascript
+  1 instanceof Number; //false
+  ```
 
 - `Object.prototype.toString.apply()`
 
