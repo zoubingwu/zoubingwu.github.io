@@ -37,9 +37,9 @@ links:
     url: /about
 # projects in header index
 projects:
-  - name: Front-end related demos
-    url: https://github.com/shadeofgod/demos
-  - name: anime.js
-    url: https://github.com/shadeofgod/anime.js
+  - name: photo gallery by react
+    url: https://github.com/shadeofgod/photo-gallery
+  - name: gobang
+    url: https://github.com/shadeofgod/gobang
 # exclude my node related stuff
 exclude: ['package.json', 'src', 'node_modules']
