@@ -11,7 +11,7 @@ categories:
 serie: learn
 ---
 
-<img src="http://s3.amazonaws.com/37assets/svn/845-bubbling.png">
+<img src="https://s3.amazonaws.com/37assets/svn/845-bubbling.png">
 
 一篇详细解释事件顺序的博文，虽然有点老不过感觉写的非常好，决定翻译一下。
 
