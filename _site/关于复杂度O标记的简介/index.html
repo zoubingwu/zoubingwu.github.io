@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>闭包运用的一个典型例子</title>
+    <title>关于复杂度大O标记的简介</title>
     <meta name="description" content="">
 
     <!-- Google Authorship Markup -->
@@ -14,15 +14,15 @@
     <!-- Social: Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@">
-    <meta name="twitter:title" content="闭包运用的一个典型例子">
+    <meta name="twitter:title" content="关于复杂度大O标记的简介">
     <meta name="twitter:description" content="">
     
     <meta property="twitter:image:src" content="http://localhost:4000">
     
 
     <!-- Social: Facebook / Open Graph -->
-    <meta property="og:url" content="http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/">
-    <meta property="og:title" content="闭包运用的一个典型例子">
+    <meta property="og:url" content="http://localhost:4000/%E5%85%B3%E4%BA%8E%E5%A4%8D%E6%9D%82%E5%BA%A6O%E6%A0%87%E8%AE%B0%E7%9A%84%E7%AE%80%E4%BB%8B/">
+    <meta property="og:title" content="关于复杂度大O标记的简介">
     
     <meta property="og:image" content="http://localhost:4000">
     
@@ -30,7 +30,7 @@
     <meta property="og:site_name" content="ShadeofGod">
 
     <!-- Social: Google+ / Schema.org  -->
-    <meta itemprop="name" content="闭包运用的一个典型例子"/>
+    <meta itemprop="name" content="关于复杂度大O标记的简介"/>
     <meta itemprop="description" content="">
     <meta itemprop="image" content="http://localhost:4000/assets/img/blog-image.png"/>
 
@@ -57,7 +57,7 @@
     <meta name="theme-color" content="#5d4d7a">
 
     <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="canonical" href="http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/">
+    <link rel="canonical" href="http://localhost:4000/%E5%85%B3%E4%BA%8E%E5%A4%8D%E6%9D%82%E5%BA%A6O%E6%A0%87%E8%AE%B0%E7%9A%84%E7%AE%80%E4%BB%8B/">
     <link rel="alternate" type="application/rss+xml" title="ShadeofGod" href="http://localhost:4000/feed.xml" />
 </head>
 
@@ -84,7 +84,7 @@
   
     <ul>
       <li><span>1</span></li>
-      <li><span> /%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/</span></li>
+      <li><span> /%E5%85%B3%E4%BA%8E%E5%A4%8D%E6%9D%82%E5%BA%A6O%E6%A0%87%E8%AE%B0%E7%9A%84%E7%AE%80%E4%BB%8B/</span></li>
       <li><span>⌘  blogspace  </span></li>
       <li><span>  Menu  </span></li>
     </ul>
@@ -294,49 +294,106 @@
         <section class="post" itemscope itemtype="http://schema.org/BlogPosting">
             
                 <div class="time">
-                    <time itemprop="datePublished" datetime="2016-12-05 10:27:18 +0000">05 Dec 2016</time>
+                    <time itemprop="datePublished" datetime="2017-02-14 22:22:18 +0000">15 Feb 2017</time>
                 </div>
             
-            <h1 class="post-title" itemprop="name">闭包运用的一个典型例子</h1>
+            <h1 class="post-title" itemprop="name">关于复杂度大O标记的简介</h1>
 
             <article role="article" id="scroll" class="post-content" itemprop="articleBody">
-                <p>由于函数内部的私有变量在函数外部是无法直接访问的，所以通过闭包我们可以为内部的私有变量来创建一个接口去读取和修改，下面就是一个典型的例子：</p>
+                <p>原文地址：<a href="https://rob-bell.net/2009/06/a-beginners-guide-to-big-o-notation/">https://rob-bell.net/2009/06/a-beginners-guide-to-big-o-notation/</a></p>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="p">(</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">secret</span> <span class="o">=</span> <span class="s1">'secret'</span><span class="p">;</span>
-    <span class="c1">// “闭包”内的函数可以访问 secret 变量，而 secret 变量对于外部却是隐藏的</span>
-    <span class="k">return</span> <span class="p">{</span>
-        <span class="na">get_secret</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-            <span class="c1">// 通过定义的接口来访问 secret</span>
-            <span class="k">return</span> <span class="nx">secret</span><span class="p">;</span>
-        <span class="p">},</span>
-        <span class="na">set_secret</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">new_secret</span> <span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// 通过定义的接口来修改 secret</span>
-            <span class="nx">secret</span> <span class="o">=</span> <span class="nx">new_secret</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">};</span>
-<span class="p">}</span> <span class="p">()</span> <span class="p">);</span>
+<p>写在前面：经常看到用O(N)这样类似的标记来表达算法的复杂度，非计算机或数学专业的人可能不会太懂，翻到了一篇浅显易懂的文章来简单介绍一下。里头的例子虽然不是用的Javascript不过理解却并不复杂。需要注意的是我并不会逐字逐句的翻译，主要还是按照意思加入了一些我个人的理解，建议对照着原文阅读。</p>
 
-<span class="nx">foo</span><span class="p">.</span><span class="nx">get_secret</span> <span class="p">();</span> <span class="c1">// 得到 'secret'</span>
-<span class="nx">foo</span><span class="p">.</span><span class="nx">secret</span><span class="p">;</span> <span class="c1">// Type error，访问不能</span>
-<span class="nx">foo</span><span class="p">.</span><span class="nx">set_secret</span> <span class="p">(</span><span class="s1">'a new secret'</span><span class="p">);</span> <span class="c1">// 通过函数接口，我们访问并修改了 secret 变量</span>
-<span class="nx">foo</span><span class="p">.</span><span class="nx">get_secret</span> <span class="p">();</span> <span class="c1">// 得到 'a new secret'</span>
+<h2 id="a-beginners-guide-to-big-o-notation">A beginner’s guide to Big O notation</h2>
+
+<p>大写的O标记经常用在计算机科学中来表达一个算法的性能或者复杂度。尤其是它可以用来描述最坏的情况下，算法所需要的时间或者空间（比如内存或者硬盘空间）。</p>
+
+<p>有时候看到O(N logN)之类的复杂标记可能许多人会弄不明白，希望在这篇文章可以帮助到你们。</p>
+
+<p>作为一个程序员和数学家，我觉得最好的解释方法就是用一下实际的代码来帮助理解。下面我就按照从易到难的顺序来一一解释。</p>
+
+<h3 id="o1">O(1)</h3>
+
+<p>O(1)用来描述一个算法执行时，不管输入的数据有多少，总是需要同样的时间或空间。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">IsFirstElementNull</span><span class="o">(</span><span class="n">IList</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">elements</span><span class="o">)</span>
+<span class="o">{</span>
+    <span class="k">return</span> <span class="n">elements</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">==</span> <span class="kc">null</span><span class="o">;</span>
+<span class="o">}</span>
 </code></pre>
 </div>
+
+<h3 id="on">O(N)</h3>
+
+<p>O(N)用来描述一个算法执行时时间（或空间）随着输入的数据量而线性增长，下面这个例子就展示了，这个O标记总是会考虑到最坏的情况。可能在这个函数中的循环最开始就可以找到符合条件的string从而return，但是事件复杂度总会按照上限来记录。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">ContainsValue</span><span class="o">(</span><span class="n">IList</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">elements</span><span class="o">,</span> <span class="n">string</span> <span class="n">value</span><span class="o">)</span>
+<span class="o">{</span>
+    <span class="n">foreach</span> <span class="o">(</span><span class="n">var</span> <span class="n">element</span> <span class="n">in</span> <span class="n">elements</span><span class="o">)</span>
+    <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">element</span> <span class="o">==</span> <span class="n">value</span><span class="o">)</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<h3 id="on2">O(N^2^)</h3>
+
+<p>这个表示算法的复杂度直接和输入数据量的平方成正比，通常这个主要见于数据的嵌套迭代，更多重的循环嵌套可能会出现复杂度为O(N^3^)，O(N^4^)等等。</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">bool</span> <span class="nf">ContainsDuplicates</span><span class="o">(</span><span class="n">IList</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">elements</span><span class="o">)</span>
+<span class="o">{</span>
+    <span class="k">for</span> <span class="o">(</span><span class="n">var</span> <span class="n">outer</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">outer</span> <span class="o">&lt;</span> <span class="n">elements</span><span class="o">.</span><span class="na">Count</span><span class="o">;</span> <span class="n">outer</span><span class="o">++)</span>
+    <span class="o">{</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">var</span> <span class="n">inner</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span> <span class="n">inner</span> <span class="o">&lt;</span> <span class="n">elements</span><span class="o">.</span><span class="na">Count</span><span class="o">;</span> <span class="n">inner</span><span class="o">++)</span>
+        <span class="o">{</span>
+            <span class="c1">// Don't compare with self</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">outer</span> <span class="o">==</span> <span class="n">inner</span><span class="o">)</span> <span class="k">continue</span><span class="o">;</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">elements</span><span class="o">[</span><span class="n">outer</span><span class="o">]</span> <span class="o">==</span> <span class="n">elements</span><span class="o">[</span><span class="n">inner</span><span class="o">])</span> <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<h3 id="o2n">O(2^N^)</h3>
+
+<p>O(2^N^)用来表示随着数据量每增加一则算法的复杂度翻倍，这样的函数的复杂度曲线是呈指数增长的：一开始特别小，但是增长的速度越来越快。很典型的就是递归的斐波那契数列函数：</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">Fibonacci</span><span class="o">(</span><span class="kt">int</span> <span class="n">number</span><span class="o">)</span>
+<span class="o">{</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">number</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="o">)</span> <span class="k">return</span> <span class="n">number</span><span class="o">;</span>
+
+    <span class="k">return</span> <span class="nf">Fibonacci</span><span class="o">(</span><span class="n">number</span> <span class="o">-</span> <span class="mi">2</span><span class="o">)</span> <span class="o">+</span> <span class="n">Fibonacci</span><span class="o">(</span><span class="n">number</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<h3 id="指数">指数</h3>
+
+<p>指数解释起来就稍微有一点复杂了，这里我用一个比较常见的例子：
+比如常见的二分查找，在排好序的情况下，通常我们选一个中间的数据，来和目标值比较，符合则返回true，比之大或者小的我们则同右侧或者左侧的数据重复一开始的步骤，不断缩小范围最终成功查找到。这样的复杂度我们通常描述为<strong>O(log N)</strong>，就如同指数的曲线一样，一开始会很陡峭，但随着数据的增多，复杂度反而慢慢趋于平缓，不会有特别大的增加。比如包含10个数字的数据量需要1秒来完成，包含100个数字的数据量需要2秒，包含1000个可能只需要3秒。翻倍的数据量对于复杂度的影响微乎其微，所以这也是为什么二分查找算法在面对大量的数据的时候特别有优势。</p>
+
+<p>当然我这里的解释还是很基础的，稍微详细的内容可以查看维基百科关于<em><a href="https://en.wikipedia.org/wiki/Big_O_notation">Big O notation</a></em>和<em><a href="https://en.wikipedia.org/wiki/Logarithm">Logarithms</a></em>的解释。</p>
 
             </article>
 
             <!-- <section class="share">
     <h3>Share</h3>
-    <a aria-label="Share on Twitter" href="https://twitter.com/intent/tweet?text=&quot;&quot;%20http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/%20via%20&#64;&hashtags=Closure,"
+    <a aria-label="Share on Twitter" href="https://twitter.com/intent/tweet?text=&quot;&quot;%20http://localhost:4000/%E5%85%B3%E4%BA%8E%E5%A4%8D%E6%9D%82%E5%BA%A6O%E6%A0%87%E8%AE%B0%E7%9A%84%E7%AE%80%E4%BB%8B/%20via%20&#64;&hashtags=algorithm,"
     onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" title="Share on Twitter">
         <svg class="icon icon-twitter"><use xlink:href="#icon-twitter"></use></svg>
     </a>
-    <a aria-label="Share on Facebook"href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/"
+    <a aria-label="Share on Facebook"href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/%E5%85%B3%E4%BA%8E%E5%A4%8D%E6%9D%82%E5%BA%A6O%E6%A0%87%E8%AE%B0%E7%9A%84%E7%AE%80%E4%BB%8B/"
     onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" title="Share on Facebook">
         <svg class="icon icon-facebook"><use xlink:href="#icon-facebook"></use></svg>
     </a>
-    <a aria-label="Share on Google Plus" href="https://plus.google.com/share?url=http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/"
+    <a aria-label="Share on Google Plus" href="https://plus.google.com/share?url=http://localhost:4000/%E5%85%B3%E4%BA%8E%E5%A4%8D%E6%9D%82%E5%BA%A6O%E6%A0%87%E8%AE%B0%E7%9A%84%E7%AE%80%E4%BB%8B/"
     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" title="Share on Google+">
         <svg class="icon icon-google-plus"><use xlink:href="#icon-google-plus"></use></svg>
     </a>
@@ -345,7 +402,7 @@
     <h3>Comments</h3>
     <!-- <div id="disqus_thread"></div> -->
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="闭包运用的一个典型例子" data-title='' data-url="/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/"></div>
+    <div class="ds-thread" data-thread-key="关于复杂度大O标记的简介" data-title='' data-url="/%E5%85%B3%E4%BA%8E%E5%A4%8D%E6%9D%82%E5%BA%A6O%E6%A0%87%E8%AE%B0%E7%9A%84%E7%AE%80%E4%BB%8B/"></div>
     <!-- 多说评论框 end -->
 </section>
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
@@ -370,7 +427,7 @@ var duoshuoQuery = {short_name:"shadeofgod"};
         disqus_loaded = true;
         var disqus_shortname = '';
         var disqus_title = '';
-        var disqus_url = '/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/';
+        var disqus_url = '/%E5%85%B3%E4%BA%8E%E5%A4%8D%E6%9D%82%E5%BA%A6O%E6%A0%87%E8%AE%B0%E7%9A%84%E7%AE%80%E4%BB%8B/';
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);

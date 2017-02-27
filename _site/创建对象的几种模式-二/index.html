@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>闭包运用的一个典型例子</title>
+    <title>创建对象的几种模式（二）</title>
     <meta name="description" content="">
 
     <!-- Google Authorship Markup -->
@@ -14,15 +14,15 @@
     <!-- Social: Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@">
-    <meta name="twitter:title" content="闭包运用的一个典型例子">
+    <meta name="twitter:title" content="创建对象的几种模式（二）">
     <meta name="twitter:description" content="">
     
     <meta property="twitter:image:src" content="http://localhost:4000">
     
 
     <!-- Social: Facebook / Open Graph -->
-    <meta property="og:url" content="http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/">
-    <meta property="og:title" content="闭包运用的一个典型例子">
+    <meta property="og:url" content="http://localhost:4000/%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%87%A0%E7%A7%8D%E6%A8%A1%E5%BC%8F-%E4%BA%8C/">
+    <meta property="og:title" content="创建对象的几种模式（二）">
     
     <meta property="og:image" content="http://localhost:4000">
     
@@ -30,7 +30,7 @@
     <meta property="og:site_name" content="ShadeofGod">
 
     <!-- Social: Google+ / Schema.org  -->
-    <meta itemprop="name" content="闭包运用的一个典型例子"/>
+    <meta itemprop="name" content="创建对象的几种模式（二）"/>
     <meta itemprop="description" content="">
     <meta itemprop="image" content="http://localhost:4000/assets/img/blog-image.png"/>
 
@@ -57,7 +57,7 @@
     <meta name="theme-color" content="#5d4d7a">
 
     <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="canonical" href="http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/">
+    <link rel="canonical" href="http://localhost:4000/%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%87%A0%E7%A7%8D%E6%A8%A1%E5%BC%8F-%E4%BA%8C/">
     <link rel="alternate" type="application/rss+xml" title="ShadeofGod" href="http://localhost:4000/feed.xml" />
 </head>
 
@@ -84,7 +84,7 @@
   
     <ul>
       <li><span>1</span></li>
-      <li><span> /%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/</span></li>
+      <li><span> /%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%87%A0%E7%A7%8D%E6%A8%A1%E5%BC%8F-%E4%BA%8C/</span></li>
       <li><span>⌘  blogspace  </span></li>
       <li><span>  Menu  </span></li>
     </ul>
@@ -294,49 +294,110 @@
         <section class="post" itemscope itemtype="http://schema.org/BlogPosting">
             
                 <div class="time">
-                    <time itemprop="datePublished" datetime="2016-12-05 10:27:18 +0000">05 Dec 2016</time>
+                    <time itemprop="datePublished" datetime="2017-01-04 20:22:18 +0000">05 Jan 2017</time>
                 </div>
             
-            <h1 class="post-title" itemprop="name">闭包运用的一个典型例子</h1>
+            <h1 class="post-title" itemprop="name">创建对象的几种模式（二）</h1>
 
             <article role="article" id="scroll" class="post-content" itemprop="articleBody">
-                <p>由于函数内部的私有变量在函数外部是无法直接访问的，所以通过闭包我们可以为内部的私有变量来创建一个接口去读取和修改，下面就是一个典型的例子：</p>
+                <ul>
+  <li>
+    <h4 id="原型模式">原型模式</h4>
 
-<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">foo</span> <span class="o">=</span> <span class="p">(</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
-    <span class="kd">var</span> <span class="nx">secret</span> <span class="o">=</span> <span class="s1">'secret'</span><span class="p">;</span>
-    <span class="c1">// “闭包”内的函数可以访问 secret 变量，而 secret 变量对于外部却是隐藏的</span>
-    <span class="k">return</span> <span class="p">{</span>
-        <span class="na">get_secret</span><span class="p">:</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
-            <span class="c1">// 通过定义的接口来访问 secret</span>
-            <span class="k">return</span> <span class="nx">secret</span><span class="p">;</span>
-        <span class="p">},</span>
-        <span class="na">set_secret</span><span class="p">:</span> <span class="kd">function</span> <span class="p">(</span> <span class="nx">new_secret</span> <span class="p">)</span> <span class="p">{</span>
-            <span class="c1">// 通过定义的接口来修改 secret</span>
-            <span class="nx">secret</span> <span class="o">=</span> <span class="nx">new_secret</span><span class="p">;</span>
-        <span class="p">}</span>
-    <span class="p">};</span>
-<span class="p">}</span> <span class="p">()</span> <span class="p">);</span>
+    <p>我们创建的每一个函数，都有一个<code class="highlighter-rouge">prototype</code>属性，指向一个对象，而这个对象的用途就是包涵所有可以被实例继承的方法和属性，也就是说，不必在构造函数中定义对象实例的信息，我们可以把那些不变的属性和方法，直接添加到原型对象中，如下面这个例子：</p>
 
-<span class="nx">foo</span><span class="p">.</span><span class="nx">get_secret</span> <span class="p">();</span> <span class="c1">// 得到 'secret'</span>
-<span class="nx">foo</span><span class="p">.</span><span class="nx">secret</span><span class="p">;</span> <span class="c1">// Type error，访问不能</span>
-<span class="nx">foo</span><span class="p">.</span><span class="nx">set_secret</span> <span class="p">(</span><span class="s1">'a new secret'</span><span class="p">);</span> <span class="c1">// 通过函数接口，我们访问并修改了 secret 变量</span>
-<span class="nx">foo</span><span class="p">.</span><span class="nx">get_secret</span> <span class="p">();</span> <span class="c1">// 得到 'a new secret'</span>
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">Person</span><span class="p">(</span><span class="nx">name</span><span class="p">,</span> <span class="nx">age</span><span class="p">,</span> <span class="nx">job</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">age</span> <span class="o">=</span> <span class="nx">age</span><span class="p">;</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">job</span> <span class="o">=</span> <span class="nx">job</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">sayName</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+  <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">var</span> <span class="nx">person1</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s2">"nicolas"</span><span class="p">,</span> <span class="mi">29</span><span class="p">,</span> <span class="s2">"software engineer"</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">person2</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Person</span><span class="p">(</span><span class="s2">"greg"</span><span class="p">,</span> <span class="mi">27</span><span class="p">,</span> <span class="s2">"doctor"</span><span class="p">);</span>
+
+<span class="nx">person1</span><span class="p">.</span><span class="nx">sayName</span><span class="p">()</span> <span class="p">;</span> <span class="c1">// "nicolas"</span>
+<span class="nx">person2</span><span class="p">.</span><span class="nx">sayName</span><span class="p">();</span> <span class="c1">// "greg"</span>
+
+<span class="nx">alert</span><span class="p">(</span><span class="nx">person1</span><span class="p">.</span><span class="nx">sayName</span> <span class="o">==</span> <span class="nx">person2</span><span class="p">.</span><span class="nx">sayName</span><span class="p">);</span> <span class="c1">// true</span>
 </code></pre>
-</div>
+    </div>
+
+    <p>这里我们可以看到两个实例访问的都是同一个sayName函数，他们共享了原型对象上的这一方法。要完全理解原型模式的工作原理，我们就需要先理解ECMAScript中原型对象的性质。下面总结一些关键点：</p>
+
+    <ol>
+      <li>
+        <p>任何时候创建一个函数，这个函数都会自动获得一个<code class="highlighter-rouge">prototype</code>属性，这个属性指向了了函数的原型对象，同时所有的原型对象都会包含一个<code class="highlighter-rouge">constructor</code>属性，指向了这个<code class="highlighter-rouge">prototype</code>属性所在的函数。根据前面的例子来说，也就是<code class="highlighter-rouge">Person.prototype.constructor</code>指向了<code class="highlighter-rouge">Person</code>。</p>
+      </li>
+      <li>
+        <p>这个原型对象默认是只获得<code class="highlighter-rouge">constructor</code>属性的，而其他方法，则是从Object继承而来。在浏览器脚本中，并没有标准的方式来访问<code class="highlighter-rouge">prototype</code>，但是Firefix、Safari、Chrome在每个对象上都支持一个属性<code class="highlighter-rouge">_proto_</code>来访问。</p>
+      </li>
+      <li>
+        <p>在我们调用<code class="highlighter-rouge">sayName</code>方法时，虽然<code class="highlighter-rouge">person1</code>实例上并没有这个方法，但是会从实例开始按照原型链往上搜索，因此我们如果在实例中添加一个属性，这个属性与原型中的一个属性同名，那么这个属性就会屏蔽原型中那个属性，因为代码执行时，发现实例上已经有了这个属性，就会停止往上搜索。因此只要创建了这个属性，哪怕再次把该属性设置为<code class="highlighter-rouge">null</code>，也依然无法恢复，不过可以使用<code class="highlighter-rouge">delete</code>操作符来删除该属性，从而重新访问原型中的同名属性。</p>
+      </li>
+      <li>
+        <p>关于实例中的属性还是原型中的属性的检测。<code class="highlighter-rouge">in</code>操作符是只要通过对象能访问到就返回<code class="highlighter-rouge">true</code>，而<code class="highlighter-rouge">hasOwnProperty()</code>只有属性存在于实例上时才返回<code class="highlighter-rouge">true</code>，在<code class="highlighter-rouge">for-in</code>循环中，返回的是所有能够通过对象访问，而且可枚举（enumerable）的属性。要获得所有可枚举的实例属性，可以使用ECMAScript5中的<code class="highlighter-rouge">Object.keys()</code>方法。</p>
+
+        <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">keys</span> <span class="o">=</span> <span class="nb">Object</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="nx">Person</span><span class="p">);</span>
+<span class="nx">alert</span><span class="p">(</span><span class="nx">keys</span><span class="p">);</span> <span class="c1">//"name,age,job"</span>
+</code></pre>
+        </div>
+      </li>
+    </ol>
+
+    <p>注意到我们每次为原型对象添加一个属性或方法就要敲一遍<code class="highlighter-rouge">Person.prototype</code>，因此为了减少不必要的输入，更常见的是直接用对象字面量来重写整个原型对象：</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">Person</span><span class="p">()</span> <span class="p">{};</span>
+
+<span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">name</span><span class="p">:</span><span class="s2">"nicolas"</span><span class="p">,</span>
+  <span class="na">age</span><span class="p">:</span> <span class="mi">29</span><span class="p">,</span>
+  <span class="na">job</span><span class="p">:</span> <span class="s2">"software engineer"</span><span class="p">,</span>
+  <span class="na">sayName</span><span class="p">:</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+    </div>
+
+    <p>但是有一点要注意，<code class="highlighter-rouge">constructor</code>属性不再指向Person了，因为我们重新创建了一个新的原型对象，因此需要手动指定：</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">Person</span><span class="p">()</span> <span class="p">{};</span>
+
+<span class="nx">Person</span><span class="p">.</span><span class="nx">prototype</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">constructor</span><span class="p">:</span> <span class="nx">Person</span><span class="p">,</span>
+  <span class="na">name</span><span class="p">:</span><span class="s2">"nicolas"</span><span class="p">,</span>
+  <span class="na">age</span><span class="p">:</span> <span class="mi">29</span><span class="p">,</span>
+  <span class="na">job</span><span class="p">:</span> <span class="s2">"software engineer"</span><span class="p">,</span>
+  <span class="na">sayName</span><span class="p">:</span> <span class="kd">function</span><span class="p">(){</span>
+    <span class="nx">alert</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+    </div>
+
+    <p>当然这样直接设置会导致该属性是可以枚举的，因为默认参数enumerable会设置为true，你也可以使用Object.defineProperty()来设置。</p>
+
+    <p>​</p>
+  </li>
+</ul>
 
             </article>
 
             <!-- <section class="share">
     <h3>Share</h3>
-    <a aria-label="Share on Twitter" href="https://twitter.com/intent/tweet?text=&quot;&quot;%20http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/%20via%20&#64;&hashtags=Closure,"
+    <a aria-label="Share on Twitter" href="https://twitter.com/intent/tweet?text=&quot;&quot;%20http://localhost:4000/%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%87%A0%E7%A7%8D%E6%A8%A1%E5%BC%8F-%E4%BA%8C/%20via%20&#64;&hashtags=javascript,"
     onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" title="Share on Twitter">
         <svg class="icon icon-twitter"><use xlink:href="#icon-twitter"></use></svg>
     </a>
-    <a aria-label="Share on Facebook"href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/"
+    <a aria-label="Share on Facebook"href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%87%A0%E7%A7%8D%E6%A8%A1%E5%BC%8F-%E4%BA%8C/"
     onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" title="Share on Facebook">
         <svg class="icon icon-facebook"><use xlink:href="#icon-facebook"></use></svg>
     </a>
-    <a aria-label="Share on Google Plus" href="https://plus.google.com/share?url=http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/"
+    <a aria-label="Share on Google Plus" href="https://plus.google.com/share?url=http://localhost:4000/%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%87%A0%E7%A7%8D%E6%A8%A1%E5%BC%8F-%E4%BA%8C/"
     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" title="Share on Google+">
         <svg class="icon icon-google-plus"><use xlink:href="#icon-google-plus"></use></svg>
     </a>
@@ -345,7 +406,7 @@
     <h3>Comments</h3>
     <!-- <div id="disqus_thread"></div> -->
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="闭包运用的一个典型例子" data-title='' data-url="/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/"></div>
+    <div class="ds-thread" data-thread-key="创建对象的几种模式（二）" data-title='' data-url="/%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%87%A0%E7%A7%8D%E6%A8%A1%E5%BC%8F-%E4%BA%8C/"></div>
     <!-- 多说评论框 end -->
 </section>
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
@@ -370,7 +431,7 @@ var duoshuoQuery = {short_name:"shadeofgod"};
         disqus_loaded = true;
         var disqus_shortname = '';
         var disqus_title = '';
-        var disqus_url = '/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/';
+        var disqus_url = '/%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%87%A0%E7%A7%8D%E6%A8%A1%E5%BC%8F-%E4%BA%8C/';
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
