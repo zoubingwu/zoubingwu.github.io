@@ -15,9 +15,9 @@ serie: learn
 
 首先要了解的是`clipboard`的相关api，由于这个标准一直在草稿阶段，加上浏览器对权限的限制不一，因此兼容性并不是很好。
 
-文档可以看这里：https://w3c.github.io/clipboard-apis/#widl-ClipboardEvent-clipboardData
+文档可以看这里：[https://w3c.github.io/clipboard-apis/#widl-ClipboardEvent-clipboardData](https://w3c.github.io/clipboard-apis/#widl-ClipboardEvent-clipboardData)
 
-具体的浏览器支持和详细的细节可以看这里：http://caniuse.com/#search=clipboard
+具体的浏览器支持和详细的细节可以看这里：[http://caniuse.com/#search=clipboard](http://caniuse.com/#search=clipboard)
 
 在IE中可以通过getData和setData两个方法就可以实现复制和粘贴了：
 
