@@ -37,8 +37,8 @@ links:
     url: /about
 # projects in header index
 projects:
-  - name: photo gallery by react
-    url: https://github.com/shadeofgod/photo-gallery
+  - name: mac terminal-like resume
+    url: https://github.com/shadeofgod/resume
   - name: gobang
     url: https://github.com/shadeofgod/gobang
 # exclude my node related stuff
