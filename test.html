@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    div#d {background-color: red;transition: 1s;position: absolute;width: 100px;height: 100px;left: 0;top: 0;}
+    #btn {position: absolute;left: 400px;}
+  </style>
+</head>
+<body>
+  <div id="d"></div>
+  <button id="btn">animate start</button>
+<script>
+var d = document.getElementById('d');
+var btn = document.getElementById('btn');
+
+// function moveDivTo(direction, range, callback) {
+//   setTimeout(function(){
+//     d.style[direction] = range + 'px';
+//     callback && callback();
+//   }, 1000)  ;
+// }
+// 
+// btn.addEventListener('click', function(){
+//   moveDivTo('left', 100, function(){
+//     moveDivTo('top', 200, function(){
+//       moveDivTo('left', 0, function(){
+//         moveDivTo('top', 0);
+//       });
+//     });
+//   });
+// });
+
+
+
+// var moveDivTo = function(direction, range) {
+//   var promise = new Promise(function(resolve, reject) {
+//     setTimeout(function(){
+//       d.style[direction] = range + 'px';
+//       resolve();
+//     }, 1000)
+//   });
+//   return promise;
+// }
+// 
+// btn.onclick = function() {
+//   moveDivTo('left', 100)
+//     .then(function(){
+//       return moveDivTo('top', 200)
+//     })
+//     .then(function(){
+//       return moveDivTo('left', 0)
+//     })
+//     .then(function(){
+//       return moveDivTo('top', 0)
+//     })
+// }
+
+
+
+var MyPromise = function(executor) {
+  var self = this;
+  self.steps = [];
+  
+  executor(resolve);
+  
+  function resolve(value) {
+    var fn = self.steps.shift();
+    fn && fn(value);
+  }
+}
+
+MyPromise.prototype.then = function(func) {
+  var self = this;
+  return new Promise(function(resolve) {
+    self.steps.push(function(value) {
+      var x = func();
+      if (x instanceof MyPromise) {
+        x.then(resolve);
+      }
+    });
+  });
+}
+
+var moveDivTo = function(direction, range) {
+  var promise =  new MyPromise(function(resolve){
+    setTimeout(function(){
+      d.style[direction] = range + 'px';
+      resolve();
+    }, 1000)
+  });
+  return promise;
+}
+btn.onclick = function() {
+  moveDivTo('left', 100)
+    .then(function(){
+      return moveDivTo('top', 200)
+    })
+    .then(function(){
+      return moveDivTo('left', 0)
+    })
+    .then(function(){
+      return moveDivTo('top', 0)
+    })
+}
+
+</script>
+</body>
+</html>
