@@ -2,19 +2,192 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>ShadeofGod</title>
-    <description>bing's blogsite about coding ...</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Mon, 27 Feb 2017 18:59:03 +0800</pubDate>
-    <lastBuildDate>Mon, 27 Feb 2017 18:59:03 +0800</lastBuildDate>
+    <description>bing's blog about coding ...</description>
+    <link>http://shadeofgod.github.io/</link>
+    <atom:link href="http://shadeofgod.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Tue, 02 May 2017 10:16:26 +0800</pubDate>
+    <lastBuildDate>Tue, 02 May 2017 10:16:26 +0800</lastBuildDate>
     <generator>Jekyll v3.4.0</generator>
+    
+      <item>
+        <title>从promise说说异步编程</title>
+        <description>&lt;p&gt;最近ajax请求都是使用的axios，将其包装成了一个&lt;code class=&quot;highlighter-rouge&quot;&gt;promise&lt;/code&gt;对象，因此可以直接使用&lt;code class=&quot;highlighter-rouge&quot;&gt;then&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;catch&lt;/code&gt;方法来代替之前的回调函数，多个并发请求也可以利用&lt;code class=&quot;highlighter-rouge&quot;&gt;all&lt;/code&gt;来使用，非常的方便。&lt;/p&gt; &lt;p&gt;promise就是针对异步编程的一种解决方案，我们之前经常需要在一个异步操作结束时进行下一步的操作，而传统的方式就是进行一层一层的回调嵌套，这种代码的可读性和维护性都是很差的，&lt;code class=&quot;highlighter-rouge&quot;&gt;promise&lt;/code&gt;就把之前基于回调函数和事件的的传统方案以同步操作的流程表达出来，这样就可以避免多重的嵌套引起的回调地狱。基本的promise用法可以参考阮一峰的&lt;a href=&quot;http://es6.ruanyifeng.com/?search=buffer&amp;amp;x=0&amp;amp;y=0#docs/promise&quot;&gt;ECMAScript 6 入门&lt;/a&gt;。&lt;/p&gt; &lt;p&gt;举个关于动画的例子，我们控制一个div点击按钮1s后开始动画，分为四步，先右移100px，到达后再下移200px，然后再左移100px，上移200px回到原始位置：&lt;/p&gt; &lt;div class=&quot;language-css highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;/* css */&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;div&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;#d&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;background-color&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;red&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;transition&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;1s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;absolute&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;100px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;100px&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nl&quot;&gt;top&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;//javascript&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;d&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'d'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;btn&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getElementById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'btn'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;...</description>
+        <pubDate>Sun, 30 Apr 2017 00:46:18 +0800</pubDate>
+        <link>http://shadeofgod.github.io/%E4%BB%8Epromise%E8%AF%B4%E8%AF%B4%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/</link>
+        <guid isPermaLink="true">http://shadeofgod.github.io/%E4%BB%8Epromise%E8%AF%B4%E8%AF%B4%E5%BC%82%E6%AD%A5%E7%BC%96%E7%A8%8B/</guid>
+        
+        <category>javascript</category>
+        
+        
+        <category>javascript</category>
+        
+      </item>
+    
+      <item>
+        <title>input标签上传文件的重置问题</title>
+        <description>&lt;p&gt;因为最近需要做一个功能，使用input上传图片，成功后为图片右上角添加一个删除的按钮，点击按钮则将图片去除并把input内容置空，这个过程中还有一点小坑。&lt;/p&gt; &lt;p&gt;因为是在vue的框架中，因此用一个变量来保存图片的地址，而按钮的显示就根据这个图片地址是否为空字符串来显示，点击删除就直接把这个变量赋值为空字符串就好了。但是需要注意的是清空的input的这个步骤，网络上有不少方法都会引起input标签上绑定事件的丢失，这样下一次上传图片的时候就无法触发change事件了。&lt;/p&gt; &lt;p&gt;总结了一下常用的方法有三种：&lt;/p&gt; &lt;ol&gt; &lt;li&gt;设置input的value为空，实际上因为类型为file的input标签的value值并不想文本输入框一样是可以随便设置的，因为安全性的问题这个value实际上是只读的，但是IE11+以上以及chrome等比较新的浏览器是可以把这个value设置为空的。&lt;/li&gt; &lt;li&gt;创建一个新的input标签，来取代之前的。这种方式就会丢失绑定的事件和一些扩展的属性了。&lt;/li&gt; &lt;li&gt;通过form.reset()方法来重置表单。对于没有使用表单提交而是ajax提交，或者为了不影响同一表单内其他的表单控件，可以创建一个form元素，用这个form元素来包裹住目标input，从而实现重置。&lt;/li&gt; &lt;/ol&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;clearInputFile&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;''&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//IE11, latest Chrome/Firefox/Opera...&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;catch&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;){&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//IE5 ~ IE10&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;form&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createElement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'form'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;parentNode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;parentNode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ref&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;f&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;nextSibling&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;form&lt;/span&gt;&lt;span...</description>
+        <pubDate>Sat, 22 Apr 2017 00:46:18 +0800</pubDate>
+        <link>http://shadeofgod.github.io/input%E6%A0%87%E7%AD%BE%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E9%87%8D%E7%BD%AE%E9%97%AE%E9%A2%98/</link>
+        <guid isPermaLink="true">http://shadeofgod.github.io/input%E6%A0%87%E7%AD%BE%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E9%87%8D%E7%BD%AE%E9%97%AE%E9%A2%98/</guid>
+        
+        <category>javascript</category>
+        
+        
+        <category>javascript</category>
+        
+      </item>
+    
+      <item>
+        <title>关于最近的一点想法和领悟</title>
+        <description>&lt;p&gt;好久没更新了博客了，最近有一个体会越来越深刻，就是追求代码的健壮，只是浅尝辄止功能的实现，不光个人对于技术追求略显不足，对于项目本身来说它的复杂度也会快速堆积。&lt;/p&gt;
+
+&lt;p&gt;好的程序构建，需要不断的简化逻辑，简化问题，简化代码，这个就很依赖程序员自身的水平了，如果环境中缺少高级的程序员做code review的话，那么平时就应该多多研究一些开源项目的代码来提升自己的品味。&lt;/p&gt;
+
+&lt;p&gt;在技巧上的细节就不详细说了，关键在于平时的积累。比如尽量少的if/else分支，使用变量前对变量值的判断，对于执行边界的考虑，多问问如果这个地方要是有异常怎么办，及早的补上漏洞。&lt;/p&gt;
+
+&lt;p&gt;另外一个完善的测试流程和环境简直太重要了，非常需要通过测试尤其是自动化测试，尽量把可能发生的问题在内部就先消化掉。&lt;/p&gt;
+
+&lt;p&gt;最后关于博客的问题，我决定换一种方式来更新，就是缩短篇幅，提高更新的频率，主要写写每段时间的积累。&lt;/p&gt;
+
+&lt;p&gt;长文的话如果要写的很出彩，老实说一个是需要很深的积累，二是需要做大量的工作比如查阅资料验证代码等等。&lt;/p&gt;
+
+&lt;p&gt;就是这样。&lt;/p&gt;
+</description>
+        <pubDate>Thu, 20 Apr 2017 20:46:18 +0800</pubDate>
+        <link>http://shadeofgod.github.io/%E5%85%B3%E4%BA%8E%E6%9C%80%E8%BF%91%E7%9A%84%E4%B8%80%E7%82%B9%E6%83%B3%E6%B3%95%E5%92%8C%E9%A2%86%E6%82%9F/</link>
+        <guid isPermaLink="true">http://shadeofgod.github.io/%E5%85%B3%E4%BA%8E%E6%9C%80%E8%BF%91%E7%9A%84%E4%B8%80%E7%82%B9%E6%83%B3%E6%B3%95%E5%92%8C%E9%A2%86%E6%82%9F/</guid>
+        
+        <category>javascript</category>
+        
+        
+        <category>javascript</category>
+        
+      </item>
+    
+      <item>
+        <title>javascript简单实现跨浏览器复制粘贴</title>
+        <description>&lt;p&gt;最近写一个小功能，需要点击按钮来把内容复制到剪贴板，虽然有不少插件可以很轻易的实现，不过其实用短短的几行原生js就足够了，代码不需要任何的依赖。&lt;/p&gt; &lt;p&gt;首先要了解的是&lt;code class=&quot;highlighter-rouge&quot;&gt;clipboard&lt;/code&gt;的相关api，由于这个标准一直在草稿阶段，加上浏览器对权限的限制不一，因此兼容性并不是很好。&lt;/p&gt; &lt;p&gt;文档可以看这里：&lt;a href=&quot;https://w3c.github.io/clipboard-apis/#widl-ClipboardEvent-clipboardData&quot;&gt;https://w3c.github.io/clipboard-apis/#widl-ClipboardEvent-clipboardData&lt;/a&gt;&lt;/p&gt; &lt;p&gt;具体的浏览器支持和详细的细节可以看这里：&lt;a href=&quot;http://caniuse.com/#search=clipboard&quot;&gt;http://caniuse.com/#search=clipboard&lt;/a&gt;&lt;/p&gt; &lt;p&gt;在IE中可以通过getData和setData两个方法就可以实现复制和粘贴了：&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;copy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;clipboardData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;clipBoard&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;setData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerHTML&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;paste&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;clipboardData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;innerText&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;clipboardData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;getData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt; &lt;p&gt;有一个更好的方法，是使用&lt;code class=&quot;highlighter-rouge&quot;&gt;document.execCommand(‘copy’) &lt;/code&gt;来执行复制操作，当然首先你需要先手动来选中需要复制的文本：&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;copy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span...</description>
+        <pubDate>Sat, 01 Apr 2017 05:46:18 +0800</pubDate>
+        <link>http://shadeofgod.github.io/javascript%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4/</link>
+        <guid isPermaLink="true">http://shadeofgod.github.io/javascript%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4/</guid>
+        
+        <category>javascript</category>
+        
+        
+        <category>javascript</category>
+        
+      </item>
+    
+      <item>
+        <title>工作一周小结</title>
+        <description>&lt;ol&gt;
+  &lt;li&gt;使用webpack来进行自动化。很多的重复性工作，比如开发环境下搭建服务器热加载，压缩图片，压缩js、css文件等组件，编译各种浏览器无法直接支持的es6，sass等。这些事情都可以通过webpack来帮你干了。&lt;/li&gt;
+  &lt;li&gt;通过git进行多人协作工作。&lt;/li&gt;
+  &lt;li&gt;vue的组件之间数据的通信和通过vuex来管理全局的状态。&lt;/li&gt;
+  &lt;li&gt;vue-router来管理单页面应用路径的跳转。&lt;/li&gt;
+  &lt;li&gt;关于富文本编辑器，后端有时候会把空格进行转义，有时候会导致英文长单词在换行的时候被截断，详细的内容可以参考这篇博文：http://www.alloyteam.com/2016/05/css-word-for-word-breaker-do-you-really-understand/&lt;/li&gt;
+  &lt;li&gt;详细的webpack和vue的使用之后写几篇比较详细的博客。&lt;/li&gt;
+&lt;/ol&gt;
+
+</description>
+        <pubDate>Sun, 12 Mar 2017 02:22:18 +0800</pubDate>
+        <link>http://shadeofgod.github.io/%E5%B7%A5%E4%BD%9C%E4%B8%80%E5%91%A8%E5%B0%8F%E7%BB%93/</link>
+        <guid isPermaLink="true">http://shadeofgod.github.io/%E5%B7%A5%E4%BD%9C%E4%B8%80%E5%91%A8%E5%B0%8F%E7%BB%93/</guid>
+        
+        <category>webpack vue git</category>
+        
+        
+        <category>javascript</category>
+        
+      </item>
+    
+      <item>
+        <title>浏览器端css和js的性能优化</title>
+        <description>&lt;p&gt;先说清楚两个概念：&lt;/p&gt; &lt;p&gt;&lt;strong&gt;重绘Repaint&lt;/strong&gt; 和&lt;strong&gt;重排Reflow&lt;/strong&gt;&lt;/p&gt; &lt;p&gt;浏览器下载完毕所有的页面组件–包括html标记，js，css，图片后，会解析并生成两个内部的数据结构：&lt;/p&gt; &lt;ul&gt; &lt;li&gt;DOM树&lt;/li&gt; &lt;li&gt;渲染树&lt;/li&gt; &lt;/ul&gt; &lt;p&gt;DOM树都很熟悉了，而渲染树就是DOM树中每一个节点所对应的frame或者box所组成的（不包括隐藏的DOM元素）。DOM的变化影响了元素的几何属性的时候，比如大小宽高，从而影响了其他元素的几何属性和位置，这个时候浏览器就需要重新构造渲染树，这个过程就叫做重排，完成重排以后，浏览器再重新绘制受影响的部分到屏幕中，这个就叫做重绘。有的的变化不会影响几何属性的，比如改变背景色，就只会发生重绘，而不需要重排，因为元素的布局并没有发生改变，但这两种操作都是代价昂贵的，虽然浏览器本身会进行优化，但是在编写代码的时候仍然需要最少的去进行这样的操作。&lt;/p&gt; &lt;p&gt;因为详细说性能优化的足够可以写一本书了，所以本文只是在前文基础之上总结一些常见的方法：&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;h4 id=&quot;合理的html结构和脚本的加载&quot;&gt;合理的html结构和脚本的加载&lt;/h4&gt; &lt;p&gt;由于浏览器往往使用单一进程来处理界面刷新和js脚本执行，意味着script标签会很霸道的让页面等待解析和执行完毕后才继续之后的下载和渲染，因此很典型的做法就是把脚本文件放在body的后部，把样式文件放在head标签中。如果把脚本放在页面顶部会导致明显的延迟，通常表现为白屏，用户看不到任何内容也无法进行任何的交互。&lt;/p&gt; &lt;p&gt;另外由于htttp请求会带来额外的性能开销，比如下载单个100kb的文件比下载4个25kb的文件要快，因此减少script和link标签的数量也是非常有必要的。关于这一点现在也有很多方便的打包压缩工具来实现了，就不赘述了。&lt;/p&gt; &lt;p&gt;值的一提的是因为web app的流行，现在的业务需求往往导致js代码量越来越多，所以精简代码和减少http请求往往只是优化的第一步，很多时候这是有极限并且远远不够的，因此我们在加载脚本文件时应该追求无阻塞的加载，比如：&lt;/p&gt; &lt;ol&gt; &lt;li&gt;对于不会修改DOM的脚本使用script标签的defer(HTML 4)或者async(HTML 5)属性来延迟执行。这两个属性相同点在于都是采用并行下载，不回造成阻塞，但是执行的时机不同，async是加载完成后自动执行，而defer需要等待页面完成后执行，详细的可以参考这里：&lt;a href=&quot;https://www.w3.org/TR/html5/single-page.html#attr-script-defer&quot;&gt;https://www.w3.org/TR/html5/single-page.html#attr-script-defer&lt;/a&gt;&lt;/li&gt; &lt;li&gt;使用动态创建的script标签来下载和执行代码。也就是使用document.createElement来创建script标签，注意通常来说新创建的script标签添加到head标签里比body里更保险，尤其是在页面加载还未完成的时候执行这样的操作。&lt;/li&gt; &lt;li&gt;使用XHR对象下载js代码并注入页面中。类似第二点，但通过ajax来异步下载脚本文件。&lt;/li&gt; &lt;/ol&gt; &lt;/li&gt; &lt;li&gt; &lt;h5 id=&quot;简化css选择器和优化js的获取dom方法&quot;&gt;简化css选择器和优化js的获取DOM方法&lt;/h5&gt; &lt;p&gt;css选择器根据优先级是具有不同的效率的，通常id选择器较快，而通用、伪类、属性等选择器就较慢了，因此在编写css代码的时候出了减少嵌套，也需要合理的使用选择器。同样的，在js中，原生的通过id获取，或者jQuery中使用id选择$(‘#id’)执行速度都会相当快，而其他的方法则要略逊一筹。另外值得一提的是，在使用jQuery时应该尽可能少的生成jQuery对象，因为生成这样一个带有需要方法和属性的对象本身就需要消耗的很多的资源，而且很多jQuery方法都有一个供jQuery函数使用的方法，举个例子：&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// not good&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'#text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$ts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//good&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$text&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'#text'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$ts&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;$text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt; &lt;p&gt;后一种方法不通过jQuery对象操作，相对开销就比较小，速度会比较快。&lt;/p&gt; &lt;p&gt;关于jQuery的部分可以参考阮一峰老师的博客：&lt;a href=&quot;http://www.ruanyifeng.com/blog/2011/07/jquery_fundamentals.html&quot;&gt;jQuery设计思想&lt;/a&gt;和&lt;a href=&quot;http://www.ruanyifeng.com/blog/2011/08/jquery_best_practices.html&quot;&gt;jQuery最佳实践&lt;/a&gt;&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;h5 id=&quot;合并修改样式&quot;&gt;合并修改样式&lt;/h5&gt; &lt;p&gt;考虑这个例子：&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre...</description>
+        <pubDate>Sat, 04 Mar 2017 16:22:18 +0800</pubDate>
+        <link>http://shadeofgod.github.io/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AFcss%E5%92%8Cjs%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</link>
+        <guid isPermaLink="true">http://shadeofgod.github.io/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AFcss%E5%92%8Cjs%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</guid>
+        
+        <category>优化</category>
+        
+        
+        <category>javascript</category>
+        
+      </item>
+    
+      <item>
+        <title>css3打造流光色彩特效</title>
+        <description>&lt;h3 id=&quot;关键的几个css属性&quot;&gt;关键的几个CSS属性：&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;background-image&lt;/li&gt;
+  &lt;li&gt;-webkit-background-clip&lt;/li&gt;
+  &lt;li&gt;-webkit-text-fill-color&lt;/li&gt;
+  &lt;li&gt;background-size&lt;/li&gt;
+  &lt;li&gt;animation&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;具体实现&quot;&gt;具体实现&lt;/h3&gt;
+
+&lt;h4 id=&quot;绘制渐变背景图&quot;&gt;绘制渐变背景图&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;background-image: -webkit-linear-gradient(left, blue, red 25%, blue 50%, red 75%, blue 100%);&lt;/code&gt;
+使用CSS3的渐变绘制图像，从左到右。
+需要注意的是颜色是 0到49%的颜色组 = 50%到99%的颜色组，且最后100%的颜色要和开头0的颜色相等
+这是为了能无缝衔接流光效果, 之后有说到&lt;/p&gt;
+
+&lt;h4 id=&quot;裁剪背景图&quot;&gt;裁剪背景图&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-webkit-background-clip: text;&lt;/code&gt;
+使用文字作为裁剪区域向外裁剪，此时文字颜色仍覆盖背景图&lt;/p&gt;
+
+&lt;h4 id=&quot;设置字体颜色&quot;&gt;设置字体颜色&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;-webkit-text-fill-color: transparent;&lt;/code&gt; or &lt;code class=&quot;highlighter-rouge&quot;&gt;color: transparent;&lt;/code&gt;
+将字体颜色设置成透明，这样就能将背景图显示出来了&lt;/p&gt;
+
+&lt;h4 id=&quot;设置背景图长度&quot;&gt;设置背景图长度&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;background-size: 200% 100%;&lt;/code&gt;
+将背景图宽度拉长至两倍，之前设置&lt;code class=&quot;highlighter-rouge&quot;&gt;background-image&lt;/code&gt;的两份相同的颜色组，就是为了能在此拉长后只显示一份颜色组，另外超出的半截颜色组用来实现流光效果&lt;/p&gt;
+
+&lt;h4 id=&quot;开始动画&quot;&gt;开始动画&lt;/h4&gt;
+
+&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;animation: streamer 5s infinite linear;&lt;/code&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;@keyframes streamer {
+    0%  {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: -100% 0;
+    }
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;最后通过动画改变背景图的位置实现流光效果&lt;/p&gt;
+
+&lt;p&gt;demo：&lt;a href=&quot;https://zou.buzz/ife/2017/baidu_nuomi_fe/imageHoverEffect/index.html&quot;&gt;点击这里&lt;/a&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 28 Feb 2017 02:22:18 +0800</pubDate>
+        <link>http://shadeofgod.github.io/css3%E6%89%93%E9%80%A0%E6%B5%81%E5%85%89%E8%89%B2%E5%BD%A9%E7%89%B9%E6%95%88/</link>
+        <guid isPermaLink="true">http://shadeofgod.github.io/css3%E6%89%93%E9%80%A0%E6%B5%81%E5%85%89%E8%89%B2%E5%BD%A9%E7%89%B9%E6%95%88/</guid>
+        
+        <category>css3</category>
+        
+        
+        <category>css</category>
+        
+      </item>
     
       <item>
         <title>关于复杂度大O标记的简介</title>
         <description>&lt;p&gt;原文地址：&lt;a href=&quot;https://rob-bell.net/2009/06/a-beginners-guide-to-big-o-notation/&quot;&gt;https://rob-bell.net/2009/06/a-beginners-guide-to-big-o-notation/&lt;/a&gt;&lt;/p&gt; &lt;p&gt;写在前面：经常看到用O(N)这样类似的标记来表达算法的复杂度，非计算机或数学专业的人可能不会太懂，翻到了一篇浅显易懂的文章来简单介绍一下。里头的例子虽然不是用的Javascript不过理解却并不复杂。需要注意的是我并不会逐字逐句的翻译，主要还是按照意思加入了一些我个人的理解，建议对照着原文阅读。&lt;/p&gt; &lt;h2 id=&quot;a-beginners-guide-to-big-o-notation&quot;&gt;A beginner’s guide to Big O notation&lt;/h2&gt; &lt;p&gt;大写的O标记经常用在计算机科学中来表达一个算法的性能或者复杂度。尤其是它可以用来描述最坏的情况下，算法所需要的时间或者空间（比如内存或者硬盘空间）。&lt;/p&gt; &lt;p&gt;有时候看到O(N logN)之类的复杂标记可能许多人会弄不明白，希望在这篇文章可以帮助到你们。&lt;/p&gt; &lt;p&gt;作为一个程序员和数学家，我觉得最好的解释方法就是用一下实际的代码来帮助理解。下面我就按照从易到难的顺序来一一解释。&lt;/p&gt; &lt;h3 id=&quot;o1&quot;&gt;O(1)&lt;/h3&gt; &lt;p&gt;O(1)用来描述一个算法执行时，不管输入的数据有多少，总是需要同样的时间或空间。&lt;/p&gt; &lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;bool&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;IsFirstElementNull&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;elements&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;elements&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt; &lt;h3 id=&quot;on&quot;&gt;O(N)&lt;/h3&gt; &lt;p&gt;O(N)用来描述一个算法执行时时间（或空间）随着输入的数据量而线性增长，下面这个例子就展示了，这个O标记总是会考虑到最坏的情况。可能在这个函数中的循环最开始就可以找到符合条件的string从而return，但是事件复杂度总会按照上限来记录。&lt;/p&gt; &lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;bool&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;ContainsValue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IList&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;elements&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;string&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;element&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;elements&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;element&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;...</description>
         <pubDate>Wed, 15 Feb 2017 06:22:18 +0800</pubDate>
-        <link>http://localhost:4000/%E5%85%B3%E4%BA%8E%E5%A4%8D%E6%9D%82%E5%BA%A6O%E6%A0%87%E8%AE%B0%E7%9A%84%E7%AE%80%E4%BB%8B/</link>
-        <guid isPermaLink="true">http://localhost:4000/%E5%85%B3%E4%BA%8E%E5%A4%8D%E6%9D%82%E5%BA%A6O%E6%A0%87%E8%AE%B0%E7%9A%84%E7%AE%80%E4%BB%8B/</guid>
+        <link>http://shadeofgod.github.io/%E5%85%B3%E4%BA%8E%E5%A4%8D%E6%9D%82%E5%BA%A6O%E6%A0%87%E8%AE%B0%E7%9A%84%E7%AE%80%E4%BB%8B/</link>
+        <guid isPermaLink="true">http://shadeofgod.github.io/%E5%85%B3%E4%BA%8E%E5%A4%8D%E6%9D%82%E5%BA%A6O%E6%A0%87%E8%AE%B0%E7%9A%84%E7%AE%80%E4%BB%8B/</guid>
         
         <category>algorithm</category>
         
@@ -27,8 +200,8 @@
         <title>Event order</title>
         <description>&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/37assets/svn/845-bubbling.png&quot; /&gt;&lt;/p&gt; &lt;p&gt;一篇详细解释事件顺序的博文，虽然有点老不过感觉写的非常好，决定翻译一下。&lt;/p&gt; &lt;p&gt;原文地址：http://www.quirksmode.org/js/events_order.html#link4&lt;/p&gt; &lt;p&gt;我之前在&lt;a href=&quot;http://www.quirksmode.org/js/introevents.html&quot;&gt;上一篇&lt;/a&gt;事件介绍的博文中问过一个似乎很难理解的问题：如果一个元素和他的上层元素对同一个事件都有着事件处理方法，那么究竟谁应该先启动呢？不出意外，答案取决于何种浏览器。&lt;/p&gt; &lt;p&gt;比如说你有一个元素处于另一个元素之内：&lt;/p&gt; &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;----------------------------------- | element1 | | ------------------------- | | |element2 | | | ------------------------- | | | ----------------------------------- &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt; &lt;p&gt;他们都有一个onClick事件的处理方法，那么当用户点击了element2的时候会同时触发2和1的点击方法，这两个方法谁先被调用呢？换句话说，事件的顺序是怎样的呢？&lt;/p&gt; &lt;h3 id=&quot;两种模型&quot;&gt;两种模型&lt;/h3&gt; &lt;p&gt;不用惊讶，在很久以前，Netscape和Microsoft给出的是两个完全不同的结论。&lt;/p&gt; &lt;ul&gt; &lt;li&gt;Netscape说element1的点击方法先触发，这个叫事件捕获（event capturing）。&lt;/li&gt; &lt;li&gt;Microsoft认为element2的点击方法应该先触发，这个叫事件冒泡（event bubbling）&lt;/li&gt; &lt;/ul&gt; &lt;p&gt;这两种顺序截然相反。&lt;/p&gt; &lt;h4 id=&quot;event-capturing-事件捕获&quot;&gt;Event capturing 事件捕获&lt;/h4&gt; &lt;p&gt;当你使用事件捕获的时候：&lt;/p&gt; &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; | | ---------------| |----------------- | element1 | | | | -----------| |----------- | | |element2 \ / | | | ------------------------- | | Event CAPTURING | ----------------------------------- &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt; &lt;p&gt;事件的方法会先从element1开始，最后到element2。&lt;/p&gt; &lt;h4 id=&quot;event-bubbling-事件冒泡&quot;&gt;Event bubbling 事件冒泡&lt;/h4&gt; &lt;p&gt;当你使用事件冒泡的时侯：&lt;/p&gt; &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; / \ ---------------| |----------------- | element1 | | | | -----------| |----------- | |...</description>
         <pubDate>Mon, 06 Feb 2017 07:03:18 +0800</pubDate>
-        <link>http://localhost:4000/Event-order/</link>
-        <guid isPermaLink="true">http://localhost:4000/Event-order/</guid>
+        <link>http://shadeofgod.github.io/Event-order/</link>
+        <guid isPermaLink="true">http://shadeofgod.github.io/Event-order/</guid>
         
         <category>event</category>
         
@@ -77,111 +250,13 @@
 &lt;p&gt;最后总结，只要你稍微懂一点点css的语法，搭配firefox本身的定制功能，就可以打造自己专属的UI界面了，当然也可以直接去下载其他人提供的样式表或者各种插件。需要提醒的是，stylish也不仅仅是修改UI，你还可以修改对应网页的css样式，更多的功能可以进入stylish的官网自行查看。&lt;/p&gt;
 </description>
         <pubDate>Tue, 10 Jan 2017 01:03:18 +0800</pubDate>
-        <link>http://localhost:4000/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/</link>
-        <guid isPermaLink="true">http://localhost:4000/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/</guid>
+        <link>http://shadeofgod.github.io/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/</link>
+        <guid isPermaLink="true">http://shadeofgod.github.io/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/</guid>
         
         <category>firefox customize</category>
         
         
         <category>Css</category>
-        
-      </item>
-    
-      <item>
-        <title>创建对象的几种模式（二）</title>
-        <description>&lt;ul&gt; &lt;li&gt; &lt;h4 id=&quot;原型模式&quot;&gt;原型模式&lt;/h4&gt; &lt;p&gt;我们创建的每一个函数，都有一个&lt;code class=&quot;highlighter-rouge&quot;&gt;prototype&lt;/code&gt;属性，指向一个对象，而这个对象的用途就是包涵所有可以被实例继承的方法和属性，也就是说，不必在构造函数中定义对象实例的信息，我们可以把那些不变的属性和方法，直接添加到原型对象中，如下面这个例子：&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;job&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;job&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;job&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;prototype&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;sayName&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;alert&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;person1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Person&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;nicolas&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;29&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;software engineer&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;person2&lt;/span&gt; &lt;span...</description>
-        <pubDate>Thu, 05 Jan 2017 04:22:18 +0800</pubDate>
-        <link>http://localhost:4000/%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%87%A0%E7%A7%8D%E6%A8%A1%E5%BC%8F-%E4%BA%8C/</link>
-        <guid isPermaLink="true">http://localhost:4000/%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%87%A0%E7%A7%8D%E6%A8%A1%E5%BC%8F-%E4%BA%8C/</guid>
-        
-        <category>javascript</category>
-        
-        
-        <category>Javascript</category>
-        
-      </item>
-    
-      <item>
-        <title>创建对象的几种模式（一）</title>
-        <description>&lt;ul&gt; &lt;li&gt; &lt;h4 id=&quot;工厂模式&quot;&gt;工厂模式&lt;/h4&gt; &lt;p&gt;我们很多时候会使用对象字面量来创建单个对象，但是这个方式有比较明显的缺点，创建类似对象是会产生很多重复代码，比如：&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;person1&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;nicolas&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;29&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;job&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;software engineer&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;person2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;greg&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;27&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;job&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;doctor&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt; &lt;p&gt;每次创建一个新对象就需要重新输入每一个属性，为了解决这个问题，我们开始使用工厂模式的一种变体，使用一个函数来封装以特定接口创建对象的细节，如下：&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;createPerson&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;age&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;job&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;o&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;o&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt; &lt;span...</description>
-        <pubDate>Wed, 04 Jan 2017 06:27:18 +0800</pubDate>
-        <link>http://localhost:4000/%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%87%A0%E7%A7%8D%E6%A8%A1%E5%BC%8F-%E4%B8%80/</link>
-        <guid isPermaLink="true">http://localhost:4000/%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1%E7%9A%84%E5%87%A0%E7%A7%8D%E6%A8%A1%E5%BC%8F-%E4%B8%80/</guid>
-        
-        <category>javascript</category>
-        
-        
-        <category>Javascript</category>
-        
-      </item>
-    
-      <item>
-        <title>javascript中的类型判断</title>
-        <description>&lt;p&gt;突然想起来好久没写博客了，最近复习了下JavaScript高级程序设计，关于对数据类型的判断方法在这里总结一下，主要就是以下三种。&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;typeof&lt;/code&gt;&lt;/p&gt; &lt;p&gt;最基础的方法，比如：&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;typeof&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// number&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt; &lt;p&gt;结果只能输出string，number，boolean，undefined，function，object，所以如果是对象的话，需要进一步判断详细的类型就不够用了。&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;instanceof&lt;/code&gt;&lt;/p&gt; &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;instanceof&lt;/code&gt;是用来判断是否是某对象的实例的，返回结果为true或者false，比如：&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;false&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;null&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;];&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;instanceof&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// true&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt; &lt;p&gt;这个就需要事先对类型有一个了解，然后再去判断是否属实了。要注意的是，左边必须是一个对象，否则会返回false，比如：&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;instanceof&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;//false&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;Object.prototype.toString.apply()&lt;/code&gt;&lt;/p&gt; &lt;p&gt;最后一种则是对原型对象采用toString方法，可以输出更详细的结果，比如：&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;undefined&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Object&lt;/span&gt;&lt;span...</description>
-        <pubDate>Fri, 30 Dec 2016 06:27:18 +0800</pubDate>
-        <link>http://localhost:4000/javascript%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%9E%8B%E5%88%A4%E6%96%AD/</link>
-        <guid isPermaLink="true">http://localhost:4000/javascript%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%9E%8B%E5%88%A4%E6%96%AD/</guid>
-        
-        <category>javascript</category>
-        
-        
-        <category>Javascript</category>
-        
-      </item>
-    
-      <item>
-        <title>关于Javascript中的this</title>
-        <description>&lt;ul&gt; &lt;li&gt; &lt;h3 id=&quot;全局环境&quot;&gt;全局环境&lt;/h3&gt; &lt;/li&gt; &lt;/ul&gt; &lt;p&gt;浏览器中:&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Window {speechSynthesis: SpeechSynthesis, caches: CacheStorage, localStorage: Storage, sessionStorage: Storage, webkitStorageInfo: DeprecatedStorageInfo…}&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt; &lt;p&gt;nodejs:&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// global&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt; &lt;p&gt;全局环境下this总是指向全局对象，在浏览器环境中即window，node中即global&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;h3 id=&quot;函数中执行&quot;&gt;函数中执行&lt;/h3&gt; &lt;/li&gt; &lt;/ul&gt; &lt;p&gt;函数中直接使用：&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;test&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Window {speechSynthesis: SpeechSynthesis, caches: CacheStorage, localStorage: Storage, sessionStorage: Storage, webkitStorageInfo: DeprecatedStorageInfo…}&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt; &lt;p&gt;严格模式下：&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;s1&quot;&gt;'use strict'&lt;/span&gt;&lt;span...</description>
-        <pubDate>Sat, 10 Dec 2016 04:27:18 +0800</pubDate>
-        <link>http://localhost:4000/%E5%85%B3%E4%BA%8EJavascript%E4%B8%AD%E7%9A%84this/</link>
-        <guid isPermaLink="true">http://localhost:4000/%E5%85%B3%E4%BA%8EJavascript%E4%B8%AD%E7%9A%84this/</guid>
-        
-        <category>this</category>
-        
-        
-        <category>Javascript</category>
-        
-      </item>
-    
-      <item>
-        <title>闭包运用的一个典型例子</title>
-        <description>&lt;p&gt;由于函数内部的私有变量在函数外部是无法直接访问的，所以通过闭包我们可以为内部的私有变量来创建一个接口去读取和修改，下面就是一个典型的例子：&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;secret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'secret'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// “闭包”内的函数可以访问 secret 变量，而 secret 变量对于外部却是隐藏的&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;get_secret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 通过定义的接口来访问 secret&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;secret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;set_secret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;new_secret&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 通过定义的接口来修改 secret&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;secret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;new_secret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;get_secret&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 得到...</description>
-        <pubDate>Mon, 05 Dec 2016 18:27:18 +0800</pubDate>
-        <link>http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/</link>
-        <guid isPermaLink="true">http://localhost:4000/%E9%97%AD%E5%8C%85%E8%BF%90%E7%94%A8%E7%9A%84%E4%B8%80%E4%B8%AA%E5%85%B8%E5%9E%8B%E4%BE%8B%E5%AD%90/</guid>
-        
-        <category>Closure</category>
-        
-        
-        <category>Javascript</category>
-        
-      </item>
-    
-      <item>
-        <title>about DOM extension</title>
-        <description>&lt;h3 id=&quot;不要轻易为dom对象添加自定义属性和方法&quot;&gt;不要轻易为DOM对象添加自定义属性和方法。&lt;/h3&gt; &lt;p&gt;最近在研究js的框架设计，见的比较多的是封装成对象的方法而不是仅仅封装在一个函数里，这样使用的时候更加方便，但针对dom对象的时候鲜少有直接为dom对象的原型添加方法，查了下中文这方面相关的资料很少，但是有篇2010年的英文博客写的很是详细，所以简单翻译一下，不过毕竟是六年前的文章了，有错漏的欢迎指出。&lt;/p&gt; &lt;h4 id=&quot;whats-wrong-with-extending-the-dom&quot;&gt;What’s wrong with extending the DOM&lt;/h4&gt; &lt;p&gt;我最近很惊讶的发现网上关于dom扩展方面的资料非常非常少，难怪如今有些库和插件都会掉到这个陷阱里面。这篇文章我想解释一下为什么扩展dom不是个好主意。&lt;/p&gt; &lt;p&gt;首先来看下什么叫dom扩展（DOM extension），以及它是如何运行的。&lt;/p&gt; &lt;h4 id=&quot;how-dom-extension-works&quot;&gt;How DOM extension works&lt;/h4&gt; &lt;p&gt;所谓dom扩展就是直接为dom对象添加自定义的方法和属性。扩展的时候，就是把定义好的方法或者属性直接添加给dom对象或者dom对象的原型（必须在合适的环境下）。&lt;/p&gt; &lt;p&gt;最常见的被扩展的可能就是dom元素，比如&lt;code class=&quot;highlighter-rouge&quot;&gt;Element&lt;/code&gt;对象，像比较流行的Prototype，Mootools等库，同样的还有&lt;code class=&quot;highlighter-rouge&quot;&gt;Event&lt;/code&gt;和&lt;code class=&quot;highlighter-rouge&quot;&gt;document&lt;/code&gt;对象。&lt;/p&gt; &lt;p&gt;通常的写法就像下面这样：&lt;/p&gt; &lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nx&quot;&gt;Element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;prototype&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hide&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;this&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;display&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'none'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;...&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;element&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;document&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;createElement&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'p'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;display&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// ''&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;hide&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;element&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;display&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// 'none'&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt; &lt;p&gt;你可以看到hide()方法被添加给了&lt;code class=&quot;highlighter-rouge&quot;&gt;Element.prototype&lt;/code&gt;，因此你可以直接让一个dom元素调用这个方法，直接设置它为不可见。&lt;/p&gt; &lt;p&gt;之所以可以这样是因为&lt;code class=&quot;highlighter-rouge&quot;&gt;Element.prototype&lt;/code&gt;就是&lt;code class=&quot;highlighter-rouge&quot;&gt;P&lt;/code&gt;元素的原型链中的一个对象，当调用了hide方法以后，它就沿着原型链一路往上查找，直到发现&lt;code...</description>
-        <pubDate>Sun, 20 Nov 2016 18:33:18 +0800</pubDate>
-        <link>http://localhost:4000/about-DOM-extension/</link>
-        <guid isPermaLink="true">http://localhost:4000/about-DOM-extension/</guid>
-        
-        <category>DOM</category>
-        
-        
-        <category>Javascript</category>
-        
-      </item>
-    
-      <item>
-        <title>css3 flexbox</title>
-        <description>&lt;p&gt;关于css3 flex一些属性的效果详解。&lt;/p&gt; &lt;p&gt;首先设置一个class为container的div容器，并包含了5个class为flex-item的子元素。为了方便查看效果设置了宽高等基础的样式。默认的显示效果如图：&lt;/p&gt; &lt;p&gt;&lt;img src=&quot;http://res.cloudinary.com/dxmlgmzb7/image/upload/v1479038185/blog/Screen_Shot_2016-11-13_at_19.41.37.png&quot; /&gt;&lt;/p&gt; &lt;p&gt;html结构为：&lt;/p&gt; &lt;div class=&quot;language-html highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;container&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;flex-item&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;flex-item&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;flex-item&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;flex-item&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;lt;div&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;flex-item&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;&amp;gt;&amp;lt;/div&amp;gt;&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;&amp;lt;/div&amp;gt;&lt;/span&gt; &lt;/code&gt;&lt;/pre&gt; &lt;/div&gt; &lt;p&gt;给container添加&lt;code class=&quot;highlighter-rouge&quot;&gt;display: flex;&lt;/code&gt;（为了方便查看后续效果，这里给五个子元素设置了不同的高度，并且写上了序号），子元素的div排列发生改变：（&lt;strong&gt;注意，设为Flex布局以后，子元素的float、clear和vertical-align属性将失效。&lt;/strong&gt;）&lt;/p&gt; &lt;p&gt;&lt;img src=&quot;http://res.cloudinary.com/dxmlgmzb7/image/upload/v1479038593/blog/Screen_Shot_2016-11-13_at_20.02.26.png&quot; /&gt;&lt;/p&gt; &lt;p&gt;可以看到五个元素并排排列，并且顶部是对齐的，并且默认的样式是不会随着浏览器宽度变化换行的。为了改变样式就引入了后续几个属性。&lt;/p&gt; &lt;h4 id=&quot;关于父元素容器的设置&quot;&gt;关于父元素容器的设置：&lt;/h4&gt; &lt;p&gt;首先是&lt;code class=&quot;highlighter-rouge&quot;&gt;justify-content&lt;/code&gt;，这个属性定义了浏览器如何分配容器主轴上的子元素之间的空间。&lt;/p&gt; &lt;p&gt;The &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/CSS&quot;&gt;CSS&lt;/a&gt; &lt;strong&gt;justify-content&lt;/strong&gt; property defines how the browser distributes space between and around flex items along the main-axis of their container.&lt;/p&gt; &lt;div class=&quot;language-css highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;/* 从行首起始位置开始排列 (默认值)*/&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;justify-content&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;flex-start&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;c&quot;&gt;/* 从行尾位置开始排列 */&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;justify-content&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;...</description>
-        <pubDate>Mon, 14 Nov 2016 04:38:18 +0800</pubDate>
-        <link>http://localhost:4000/css3-flexbox/</link>
-        <guid isPermaLink="true">http://localhost:4000/css3-flexbox/</guid>
-        
-        <category>flex</category>
-        
-        
-        <category>CSS3</category>
         
       </item>
     

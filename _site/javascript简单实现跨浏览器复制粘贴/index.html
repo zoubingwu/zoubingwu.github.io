@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
 
-    <title>使用css打造自定义firefox界面</title>
+    <title>javascript简单实现跨浏览器复制粘贴</title>
     <meta name="description" content="">
 
     <!-- Google Authorship Markup -->
@@ -14,15 +14,15 @@
     <!-- Social: Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@">
-    <meta name="twitter:title" content="使用css打造自定义firefox界面">
+    <meta name="twitter:title" content="javascript简单实现跨浏览器复制粘贴">
     <meta name="twitter:description" content="">
     
     <meta property="twitter:image:src" content="http://shadeofgod.github.io">
     
 
     <!-- Social: Facebook / Open Graph -->
-    <meta property="og:url" content="http://shadeofgod.github.io/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/">
-    <meta property="og:title" content="使用css打造自定义firefox界面">
+    <meta property="og:url" content="http://shadeofgod.github.io/javascript%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4/">
+    <meta property="og:title" content="javascript简单实现跨浏览器复制粘贴">
     
     <meta property="og:image" content="http://shadeofgod.github.io">
     
@@ -30,7 +30,7 @@
     <meta property="og:site_name" content="ShadeofGod">
 
     <!-- Social: Google+ / Schema.org  -->
-    <meta itemprop="name" content="使用css打造自定义firefox界面"/>
+    <meta itemprop="name" content="javascript简单实现跨浏览器复制粘贴"/>
     <meta itemprop="description" content="">
     <meta itemprop="image" content="http://shadeofgod.github.io/assets/img/blog-image.png"/>
 
@@ -57,7 +57,7 @@
     <meta name="theme-color" content="#5d4d7a">
 
     <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="canonical" href="http://shadeofgod.github.io/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/">
+    <link rel="canonical" href="http://shadeofgod.github.io/javascript%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4/">
     <link rel="alternate" type="application/rss+xml" title="ShadeofGod" href="http://shadeofgod.github.io/feed.xml" />
 </head>
 
@@ -84,7 +84,7 @@
   
     <ul>
       <li><span>1</span></li>
-      <li><span> /%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/</span></li>
+      <li><span> /javascript%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4/</span></li>
       <li><span>⌘  blogspace  </span></li>
       <li><span>  Menu  </span></li>
     </ul>
@@ -350,62 +350,75 @@
         <section class="post" itemscope itemtype="http://schema.org/BlogPosting">
             
                 <div class="time">
-                    <time itemprop="datePublished" datetime="2017-01-09 17:03:18 +0000">10 Jan 2017</time>
+                    <time itemprop="datePublished" datetime="2017-03-31 21:46:18 +0000">01 Apr 2017</time>
                 </div>
             
-            <h1 class="post-title" itemprop="name">使用css打造自定义firefox界面</h1>
+            <h1 class="post-title" itemprop="name">javascript简单实现跨浏览器复制粘贴</h1>
 
             <article role="article" id="scroll" class="post-content" itemprop="articleBody">
-                <p>一直以来都觉得safari、chrome、firefox三款浏览器都各有各的优点，但是又都有那么点儿不尽如人意的地方，比如firefox的标签页顶端总是留出来一截空白，让我这个强迫症真是万分难受。</p>
+                <p>最近写一个小功能，需要点击按钮来把内容复制到剪贴板，虽然有不少插件可以很轻易的实现，不过其实用短短的几行原生js就足够了，代码不需要任何的依赖。</p>
 
-<p><img src="http://res.cloudinary.com/dxmlgmzb7/image/upload/v1483953337/blog/Screen_Shot_2017-01-09_at_17.09.37.png" /></p>
+<p>首先要了解的是<code class="highlighter-rouge">clipboard</code>的相关api，由于这个标准一直在草稿阶段，加上浏览器对权限的限制不一，因此兼容性并不是很好。</p>
 
-<p>不过firefox一直都是以定制化能力强而闻名，所以稍微搜索了一下解决方案，发现可以用stylish插件来直接通过css语法修改UI界面。简单搜了下中文资料有很多现成的代码，但是似乎大都没有讲具体的方法，这里就和大家简单分享一下该如何去操作。</p>
+<p>文档可以看这里：<a href="https://w3c.github.io/clipboard-apis/#widl-ClipboardEvent-clipboardData">https://w3c.github.io/clipboard-apis/#widl-ClipboardEvent-clipboardData</a></p>
 
-<ol>
-  <li>
-    <p>首先，安装stylish插件。</p>
-  </li>
-  <li>
-    <p>然后，点开一个标签页，地址栏中输入：<code class="highlighter-rouge">chrome://browser/content/browser.xul</code>，这样会打开一个包含火狐浏览器UI元素的页面。</p>
+<p>具体的浏览器支持和详细的细节可以看这里：<a href="http://caniuse.com/#search=clipboard">http://caniuse.com/#search=clipboard</a></p>
 
-    <p>（注：我也看到不少人是直接通过firefox配置文件中的userChrome.css来修改的，不过我的mac上找不到这么一个文件，而且通过stylish可以更方便的管理多种样式表，所以如果不太懂这些东西的朋友我个人建议还是不要去修改源文件。）</p>
-  </li>
-  <li>
-    <p>直接在这个页面打开开发者工具，使用查看器就可以查看到你想修改的元素的id或者class名。</p>
-  </li>
-  <li>
-    <p>接下来就可以通过stylish新建一个样式表，修改对应id或者class的css属性就可以了。</p>
-  </li>
-</ol>
+<p>在IE中可以通过getData和setData两个方法就可以实现复制和粘贴了：</p>
 
-<p>比如我只是新建了一个叫firefox UI的样式表，加入代码：</p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">copy</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">clipboardData</span><span class="p">)</span> <span class="p">{</span>
+ 	<span class="nb">window</span><span class="p">.</span><span class="nx">clipBoard</span><span class="p">.</span><span class="nx">setData</span><span class="p">(</span><span class="s1">'Text'</span><span class="p">,</span> <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">)</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 
-<div class="language-css highlighter-rouge"><pre class="highlight"><code><span class="nc">.tabbrowser-arrowscrollbox</span> <span class="p">{</span>
-  <span class="nl">margin-top</span><span class="p">:</span> <span class="m">-8px</span><span class="p">;</span>
+<span class="kd">function</span> <span class="nx">paste</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nb">window</span><span class="p">.</span><span class="nx">clipboardData</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">target</span><span class="p">.</span><span class="nx">innerText</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">clipboardData</span><span class="p">.</span><span class="nx">getData</span><span class="p">(</span><span class="s1">'Text'</span><span class="p">);</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
 </div>
 
-<p>就解决了标签页顶端空出一小截的问题：</p>
+<p>有一个更好的方法，是使用<code class="highlighter-rouge">document.execCommand(‘copy’) </code>来执行复制操作，当然首先你需要先手动来选中需要复制的文本：</p>
 
-<p><img src="http://res.cloudinary.com/dxmlgmzb7/image/upload/v1483953901/blog/Screen_Shot_2017-01-09_at_17.24.40.png" /></p>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">copy</span><span class="p">(</span><span class="nx">target</span><span class="p">){</span>
+  <span class="nx">target</span><span class="p">.</span><span class="nx">select</span><span class="p">();</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">execCommand</span><span class="p">(</span><span class="s1">'copy'</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
 
-<p>最后总结，只要你稍微懂一点点css的语法，搭配firefox本身的定制功能，就可以打造自己专属的UI界面了，当然也可以直接去下载其他人提供的样式表或者各种插件。需要提醒的是，stylish也不仅仅是修改UI，你还可以修改对应网页的css样式，更多的功能可以进入stylish的官网自行查看。</p>
+<p>对于chrome和火狐，因为上面的copy操作必须针对于可修改的目标，因此我们可以稍作修改：</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">copy</span><span class="p">(</span><span class="nx">target</span><span class="p">)</span> <span class="p">{</span>
+  <span class="kd">var</span> <span class="nx">textArea</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">'textarea'</span><span class="p">);</span>
+  <span class="c1">// 由于火狐需要目标必须可见，因此我们可以设置透明度为0</span>
+  <span class="nx">textArea</span><span class="p">.</span><span class="nx">setAttribute</span><span class="p">(</span><span class="s1">'style'</span><span class="p">,</span><span class="s1">'width:1px;border:0;opacity:0;'</span><span class="p">);</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">textArea</span><span class="p">);</span>
+  <span class="nx">textArea</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="nx">target</span><span class="p">.</span><span class="nx">innerHTML</span><span class="p">;</span>
+  <span class="nx">textArea</span><span class="p">.</span><span class="nx">select</span><span class="p">();</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">execCommand</span><span class="p">(</span><span class="s1">'copy'</span><span class="p">);</span>
+  <span class="nb">document</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">removeChild</span><span class="p">(</span><span class="nx">textArea</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
 
             </article>
 
             <!-- <section class="share">
     <h3>Share</h3>
-    <a aria-label="Share on Twitter" href="https://twitter.com/intent/tweet?text=&quot;&quot;%20http://shadeofgod.github.io/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/%20via%20&#64;&hashtags=firefox customize,"
+    <a aria-label="Share on Twitter" href="https://twitter.com/intent/tweet?text=&quot;&quot;%20http://shadeofgod.github.io/javascript%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4/%20via%20&#64;&hashtags=javascript,"
     onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" title="Share on Twitter">
         <svg class="icon icon-twitter"><use xlink:href="#icon-twitter"></use></svg>
     </a>
-    <a aria-label="Share on Facebook"href="https://www.facebook.com/sharer/sharer.php?u=http://shadeofgod.github.io/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/"
+    <a aria-label="Share on Facebook"href="https://www.facebook.com/sharer/sharer.php?u=http://shadeofgod.github.io/javascript%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4/"
     onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" title="Share on Facebook">
         <svg class="icon icon-facebook"><use xlink:href="#icon-facebook"></use></svg>
     </a>
-    <a aria-label="Share on Google Plus" href="https://plus.google.com/share?url=http://shadeofgod.github.io/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/"
+    <a aria-label="Share on Google Plus" href="https://plus.google.com/share?url=http://shadeofgod.github.io/javascript%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4/"
     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" title="Share on Google+">
         <svg class="icon icon-google-plus"><use xlink:href="#icon-google-plus"></use></svg>
     </a>
@@ -414,7 +427,7 @@
     <h3>Comments</h3>
     <!-- <div id="disqus_thread"></div> -->
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="使用css打造自定义firefox界面" data-title='' data-url="/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/"></div>
+    <div class="ds-thread" data-thread-key="javascript简单实现跨浏览器复制粘贴" data-title='' data-url="/javascript%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4/"></div>
     <!-- 多说评论框 end -->
 </section>
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
@@ -439,7 +452,7 @@ var duoshuoQuery = {short_name:"shadeofgod"};
         disqus_loaded = true;
         var disqus_shortname = '';
         var disqus_title = '';
-        var disqus_url = '/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/';
+        var disqus_url = '/javascript%E7%AE%80%E5%8D%95%E5%AE%9E%E7%8E%B0%E8%B7%A8%E6%B5%8F%E8%A7%88%E5%99%A8%E5%A4%8D%E5%88%B6%E7%B2%98%E8%B4%B4/';
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);

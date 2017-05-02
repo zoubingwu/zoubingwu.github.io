@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
 
-    <title>使用css打造自定义firefox界面</title>
+    <title>input标签上传文件的重置问题</title>
     <meta name="description" content="">
 
     <!-- Google Authorship Markup -->
@@ -14,15 +14,15 @@
     <!-- Social: Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@">
-    <meta name="twitter:title" content="使用css打造自定义firefox界面">
+    <meta name="twitter:title" content="input标签上传文件的重置问题">
     <meta name="twitter:description" content="">
     
     <meta property="twitter:image:src" content="http://shadeofgod.github.io">
     
 
     <!-- Social: Facebook / Open Graph -->
-    <meta property="og:url" content="http://shadeofgod.github.io/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/">
-    <meta property="og:title" content="使用css打造自定义firefox界面">
+    <meta property="og:url" content="http://shadeofgod.github.io/input%E6%A0%87%E7%AD%BE%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E9%87%8D%E7%BD%AE%E9%97%AE%E9%A2%98/">
+    <meta property="og:title" content="input标签上传文件的重置问题">
     
     <meta property="og:image" content="http://shadeofgod.github.io">
     
@@ -30,7 +30,7 @@
     <meta property="og:site_name" content="ShadeofGod">
 
     <!-- Social: Google+ / Schema.org  -->
-    <meta itemprop="name" content="使用css打造自定义firefox界面"/>
+    <meta itemprop="name" content="input标签上传文件的重置问题"/>
     <meta itemprop="description" content="">
     <meta itemprop="image" content="http://shadeofgod.github.io/assets/img/blog-image.png"/>
 
@@ -57,7 +57,7 @@
     <meta name="theme-color" content="#5d4d7a">
 
     <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="canonical" href="http://shadeofgod.github.io/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/">
+    <link rel="canonical" href="http://shadeofgod.github.io/input%E6%A0%87%E7%AD%BE%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E9%87%8D%E7%BD%AE%E9%97%AE%E9%A2%98/">
     <link rel="alternate" type="application/rss+xml" title="ShadeofGod" href="http://shadeofgod.github.io/feed.xml" />
 </head>
 
@@ -84,7 +84,7 @@
   
     <ul>
       <li><span>1</span></li>
-      <li><span> /%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/</span></li>
+      <li><span> /input%E6%A0%87%E7%AD%BE%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E9%87%8D%E7%BD%AE%E9%97%AE%E9%A2%98/</span></li>
       <li><span>⌘  blogspace  </span></li>
       <li><span>  Menu  </span></li>
     </ul>
@@ -350,62 +350,55 @@
         <section class="post" itemscope itemtype="http://schema.org/BlogPosting">
             
                 <div class="time">
-                    <time itemprop="datePublished" datetime="2017-01-09 17:03:18 +0000">10 Jan 2017</time>
+                    <time itemprop="datePublished" datetime="2017-04-21 16:46:18 +0000">22 Apr 2017</time>
                 </div>
             
-            <h1 class="post-title" itemprop="name">使用css打造自定义firefox界面</h1>
+            <h1 class="post-title" itemprop="name">input标签上传文件的重置问题</h1>
 
             <article role="article" id="scroll" class="post-content" itemprop="articleBody">
-                <p>一直以来都觉得safari、chrome、firefox三款浏览器都各有各的优点，但是又都有那么点儿不尽如人意的地方，比如firefox的标签页顶端总是留出来一截空白，让我这个强迫症真是万分难受。</p>
+                <p>因为最近需要做一个功能，使用input上传图片，成功后为图片右上角添加一个删除的按钮，点击按钮则将图片去除并把input内容置空，这个过程中还有一点小坑。</p>
 
-<p><img src="http://res.cloudinary.com/dxmlgmzb7/image/upload/v1483953337/blog/Screen_Shot_2017-01-09_at_17.09.37.png" /></p>
+<p>因为是在vue的框架中，因此用一个变量来保存图片的地址，而按钮的显示就根据这个图片地址是否为空字符串来显示，点击删除就直接把这个变量赋值为空字符串就好了。但是需要注意的是清空的input的这个步骤，网络上有不少方法都会引起input标签上绑定事件的丢失，这样下一次上传图片的时候就无法触发change事件了。</p>
 
-<p>不过firefox一直都是以定制化能力强而闻名，所以稍微搜索了一下解决方案，发现可以用stylish插件来直接通过css语法修改UI界面。简单搜了下中文资料有很多现成的代码，但是似乎大都没有讲具体的方法，这里就和大家简单分享一下该如何去操作。</p>
+<p>总结了一下常用的方法有三种：</p>
 
 <ol>
-  <li>
-    <p>首先，安装stylish插件。</p>
-  </li>
-  <li>
-    <p>然后，点开一个标签页，地址栏中输入：<code class="highlighter-rouge">chrome://browser/content/browser.xul</code>，这样会打开一个包含火狐浏览器UI元素的页面。</p>
-
-    <p>（注：我也看到不少人是直接通过firefox配置文件中的userChrome.css来修改的，不过我的mac上找不到这么一个文件，而且通过stylish可以更方便的管理多种样式表，所以如果不太懂这些东西的朋友我个人建议还是不要去修改源文件。）</p>
-  </li>
-  <li>
-    <p>直接在这个页面打开开发者工具，使用查看器就可以查看到你想修改的元素的id或者class名。</p>
-  </li>
-  <li>
-    <p>接下来就可以通过stylish新建一个样式表，修改对应id或者class的css属性就可以了。</p>
-  </li>
+  <li>设置input的value为空，实际上因为类型为file的input标签的value值并不想文本输入框一样是可以随便设置的，因为安全性的问题这个value实际上是只读的，但是IE11+以上以及chrome等比较新的浏览器是可以把这个value设置为空的。</li>
+  <li>创建一个新的input标签，来取代之前的。这种方式就会丢失绑定的事件和一些扩展的属性了。</li>
+  <li>通过form.reset()方法来重置表单。对于没有使用表单提交而是ajax提交，或者为了不影响同一表单内其他的表单控件，可以创建一个form元素，用这个form元素来包裹住目标input，从而实现重置。</li>
 </ol>
 
-<p>比如我只是新建了一个叫firefox UI的样式表，加入代码：</p>
-
-<div class="language-css highlighter-rouge"><pre class="highlight"><code><span class="nc">.tabbrowser-arrowscrollbox</span> <span class="p">{</span>
-  <span class="nl">margin-top</span><span class="p">:</span> <span class="m">-8px</span><span class="p">;</span>
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">clearInputFile</span><span class="p">(</span><span class="nx">f</span><span class="p">){</span>
+  <span class="k">if</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">value</span><span class="p">){</span>
+    <span class="k">try</span><span class="p">{</span>
+      <span class="nx">f</span><span class="p">.</span><span class="nx">value</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span> <span class="c1">//IE11, latest Chrome/Firefox/Opera...</span>
+    <span class="p">}</span> <span class="k">catch</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span> <span class="p">}</span>
+    <span class="k">if</span><span class="p">(</span><span class="nx">f</span><span class="p">.</span><span class="nx">value</span><span class="p">){</span> <span class="c1">//IE5 ~ IE10</span>
+      <span class="kd">var</span> <span class="nx">form</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">createElement</span><span class="p">(</span><span class="s1">'form'</span><span class="p">);</span>
+      <span class="kd">var</span> <span class="nx">parentNode</span> <span class="o">=</span> <span class="nx">f</span><span class="p">.</span><span class="nx">parentNode</span><span class="p">;</span>
+      <span class="kd">var</span> <span class="nx">ref</span> <span class="o">=</span> <span class="nx">f</span><span class="p">.</span><span class="nx">nextSibling</span><span class="p">;</span>
+      <span class="nx">form</span><span class="p">.</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">f</span><span class="p">);</span>
+      <span class="nx">form</span><span class="p">.</span><span class="nx">reset</span><span class="p">();</span>
+      <span class="nx">parentNode</span><span class="p">.</span><span class="nx">insertBefore</span><span class="p">(</span><span class="nx">f</span><span class="p">,</span><span class="nx">ref</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
 <span class="p">}</span>
 </code></pre>
 </div>
-
-<p>就解决了标签页顶端空出一小截的问题：</p>
-
-<p><img src="http://res.cloudinary.com/dxmlgmzb7/image/upload/v1483953901/blog/Screen_Shot_2017-01-09_at_17.24.40.png" /></p>
-
-<p>最后总结，只要你稍微懂一点点css的语法，搭配firefox本身的定制功能，就可以打造自己专属的UI界面了，当然也可以直接去下载其他人提供的样式表或者各种插件。需要提醒的是，stylish也不仅仅是修改UI，你还可以修改对应网页的css样式，更多的功能可以进入stylish的官网自行查看。</p>
 
             </article>
 
             <!-- <section class="share">
     <h3>Share</h3>
-    <a aria-label="Share on Twitter" href="https://twitter.com/intent/tweet?text=&quot;&quot;%20http://shadeofgod.github.io/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/%20via%20&#64;&hashtags=firefox customize,"
+    <a aria-label="Share on Twitter" href="https://twitter.com/intent/tweet?text=&quot;&quot;%20http://shadeofgod.github.io/input%E6%A0%87%E7%AD%BE%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E9%87%8D%E7%BD%AE%E9%97%AE%E9%A2%98/%20via%20&#64;&hashtags=javascript,"
     onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" title="Share on Twitter">
         <svg class="icon icon-twitter"><use xlink:href="#icon-twitter"></use></svg>
     </a>
-    <a aria-label="Share on Facebook"href="https://www.facebook.com/sharer/sharer.php?u=http://shadeofgod.github.io/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/"
+    <a aria-label="Share on Facebook"href="https://www.facebook.com/sharer/sharer.php?u=http://shadeofgod.github.io/input%E6%A0%87%E7%AD%BE%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E9%87%8D%E7%BD%AE%E9%97%AE%E9%A2%98/"
     onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" title="Share on Facebook">
         <svg class="icon icon-facebook"><use xlink:href="#icon-facebook"></use></svg>
     </a>
-    <a aria-label="Share on Google Plus" href="https://plus.google.com/share?url=http://shadeofgod.github.io/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/"
+    <a aria-label="Share on Google Plus" href="https://plus.google.com/share?url=http://shadeofgod.github.io/input%E6%A0%87%E7%AD%BE%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E9%87%8D%E7%BD%AE%E9%97%AE%E9%A2%98/"
     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" title="Share on Google+">
         <svg class="icon icon-google-plus"><use xlink:href="#icon-google-plus"></use></svg>
     </a>
@@ -414,7 +407,7 @@
     <h3>Comments</h3>
     <!-- <div id="disqus_thread"></div> -->
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="使用css打造自定义firefox界面" data-title='' data-url="/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/"></div>
+    <div class="ds-thread" data-thread-key="input标签上传文件的重置问题" data-title='' data-url="/input%E6%A0%87%E7%AD%BE%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E9%87%8D%E7%BD%AE%E9%97%AE%E9%A2%98/"></div>
     <!-- 多说评论框 end -->
 </section>
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
@@ -439,7 +432,7 @@ var duoshuoQuery = {short_name:"shadeofgod"};
         disqus_loaded = true;
         var disqus_shortname = '';
         var disqus_title = '';
-        var disqus_url = '/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/';
+        var disqus_url = '/input%E6%A0%87%E7%AD%BE%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6%E7%9A%84%E9%87%8D%E7%BD%AE%E9%97%AE%E9%A2%98/';
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);

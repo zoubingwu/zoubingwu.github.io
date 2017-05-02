@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=0">
 
-    <title>使用css打造自定义firefox界面</title>
+    <title>浏览器端css和js的性能优化</title>
     <meta name="description" content="">
 
     <!-- Google Authorship Markup -->
@@ -14,15 +14,15 @@
     <!-- Social: Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:site" content="@">
-    <meta name="twitter:title" content="使用css打造自定义firefox界面">
+    <meta name="twitter:title" content="浏览器端css和js的性能优化">
     <meta name="twitter:description" content="">
     
     <meta property="twitter:image:src" content="http://shadeofgod.github.io">
     
 
     <!-- Social: Facebook / Open Graph -->
-    <meta property="og:url" content="http://shadeofgod.github.io/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/">
-    <meta property="og:title" content="使用css打造自定义firefox界面">
+    <meta property="og:url" content="http://shadeofgod.github.io/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AFcss%E5%92%8Cjs%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
+    <meta property="og:title" content="浏览器端css和js的性能优化">
     
     <meta property="og:image" content="http://shadeofgod.github.io">
     
@@ -30,7 +30,7 @@
     <meta property="og:site_name" content="ShadeofGod">
 
     <!-- Social: Google+ / Schema.org  -->
-    <meta itemprop="name" content="使用css打造自定义firefox界面"/>
+    <meta itemprop="name" content="浏览器端css和js的性能优化"/>
     <meta itemprop="description" content="">
     <meta itemprop="image" content="http://shadeofgod.github.io/assets/img/blog-image.png"/>
 
@@ -57,7 +57,7 @@
     <meta name="theme-color" content="#5d4d7a">
 
     <link rel="stylesheet" href="/assets/css/main.css">
-    <link rel="canonical" href="http://shadeofgod.github.io/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/">
+    <link rel="canonical" href="http://shadeofgod.github.io/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AFcss%E5%92%8Cjs%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">
     <link rel="alternate" type="application/rss+xml" title="ShadeofGod" href="http://shadeofgod.github.io/feed.xml" />
 </head>
 
@@ -84,7 +84,7 @@
   
     <ul>
       <li><span>1</span></li>
-      <li><span> /%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/</span></li>
+      <li><span> /%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AFcss%E5%92%8Cjs%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/</span></li>
       <li><span>⌘  blogspace  </span></li>
       <li><span>  Menu  </span></li>
     </ul>
@@ -350,62 +350,223 @@
         <section class="post" itemscope itemtype="http://schema.org/BlogPosting">
             
                 <div class="time">
-                    <time itemprop="datePublished" datetime="2017-01-09 17:03:18 +0000">10 Jan 2017</time>
+                    <time itemprop="datePublished" datetime="2017-03-04 08:22:18 +0000">04 Mar 2017</time>
                 </div>
             
-            <h1 class="post-title" itemprop="name">使用css打造自定义firefox界面</h1>
+            <h1 class="post-title" itemprop="name">浏览器端css和js的性能优化</h1>
 
             <article role="article" id="scroll" class="post-content" itemprop="articleBody">
-                <p>一直以来都觉得safari、chrome、firefox三款浏览器都各有各的优点，但是又都有那么点儿不尽如人意的地方，比如firefox的标签页顶端总是留出来一截空白，让我这个强迫症真是万分难受。</p>
+                <p>先说清楚两个概念：</p>
 
-<p><img src="http://res.cloudinary.com/dxmlgmzb7/image/upload/v1483953337/blog/Screen_Shot_2017-01-09_at_17.09.37.png" /></p>
+<p><strong>重绘Repaint</strong> 和<strong>重排Reflow</strong></p>
 
-<p>不过firefox一直都是以定制化能力强而闻名，所以稍微搜索了一下解决方案，发现可以用stylish插件来直接通过css语法修改UI界面。简单搜了下中文资料有很多现成的代码，但是似乎大都没有讲具体的方法，这里就和大家简单分享一下该如何去操作。</p>
+<p>浏览器下载完毕所有的页面组件–包括html标记，js，css，图片后，会解析并生成两个内部的数据结构：</p>
 
-<ol>
+<ul>
+  <li>DOM树</li>
+  <li>渲染树</li>
+</ul>
+
+<p>DOM树都很熟悉了，而渲染树就是DOM树中每一个节点所对应的frame或者box所组成的（不包括隐藏的DOM元素）。DOM的变化影响了元素的几何属性的时候，比如大小宽高，从而影响了其他元素的几何属性和位置，这个时候浏览器就需要重新构造渲染树，这个过程就叫做重排，完成重排以后，浏览器再重新绘制受影响的部分到屏幕中，这个就叫做重绘。有的的变化不会影响几何属性的，比如改变背景色，就只会发生重绘，而不需要重排，因为元素的布局并没有发生改变，但这两种操作都是代价昂贵的，虽然浏览器本身会进行优化，但是在编写代码的时候仍然需要最少的去进行这样的操作。</p>
+
+<p>因为详细说性能优化的足够可以写一本书了，所以本文只是在前文基础之上总结一些常见的方法：</p>
+
+<ul>
   <li>
-    <p>首先，安装stylish插件。</p>
+    <h4 id="合理的html结构和脚本的加载">合理的html结构和脚本的加载</h4>
+
+    <p>由于浏览器往往使用单一进程来处理界面刷新和js脚本执行，意味着script标签会很霸道的让页面等待解析和执行完毕后才继续之后的下载和渲染，因此很典型的做法就是把脚本文件放在body的后部，把样式文件放在head标签中。如果把脚本放在页面顶部会导致明显的延迟，通常表现为白屏，用户看不到任何内容也无法进行任何的交互。</p>
+
+    <p>另外由于htttp请求会带来额外的性能开销，比如下载单个100kb的文件比下载4个25kb的文件要快，因此减少script和link标签的数量也是非常有必要的。关于这一点现在也有很多方便的打包压缩工具来实现了，就不赘述了。</p>
+
+    <p>值的一提的是因为web app的流行，现在的业务需求往往导致js代码量越来越多，所以精简代码和减少http请求往往只是优化的第一步，很多时候这是有极限并且远远不够的，因此我们在加载脚本文件时应该追求无阻塞的加载，比如：</p>
+
+    <ol>
+      <li>对于不会修改DOM的脚本使用script标签的defer(HTML 4)或者async(HTML 5)属性来延迟执行。这两个属性相同点在于都是采用并行下载，不回造成阻塞，但是执行的时机不同，async是加载完成后自动执行，而defer需要等待页面完成后执行，详细的可以参考这里：<a href="https://www.w3.org/TR/html5/single-page.html#attr-script-defer">https://www.w3.org/TR/html5/single-page.html#attr-script-defer</a></li>
+      <li>使用动态创建的script标签来下载和执行代码。也就是使用document.createElement来创建script标签，注意通常来说新创建的script标签添加到head标签里比body里更保险，尤其是在页面加载还未完成的时候执行这样的操作。</li>
+      <li>使用XHR对象下载js代码并注入页面中。类似第二点，但通过ajax来异步下载脚本文件。</li>
+    </ol>
   </li>
   <li>
-    <p>然后，点开一个标签页，地址栏中输入：<code class="highlighter-rouge">chrome://browser/content/browser.xul</code>，这样会打开一个包含火狐浏览器UI元素的页面。</p>
+    <h5 id="简化css选择器和优化js的获取dom方法">简化css选择器和优化js的获取DOM方法</h5>
 
-    <p>（注：我也看到不少人是直接通过firefox配置文件中的userChrome.css来修改的，不过我的mac上找不到这么一个文件，而且通过stylish可以更方便的管理多种样式表，所以如果不太懂这些东西的朋友我个人建议还是不要去修改源文件。）</p>
+    <p>css选择器根据优先级是具有不同的效率的，通常id选择器较快，而通用、伪类、属性等选择器就较慢了，因此在编写css代码的时候出了减少嵌套，也需要合理的使用选择器。同样的，在js中，原生的通过id获取，或者jQuery中使用id选择$(‘#id’)执行速度都会相当快，而其他的方法则要略逊一筹。另外值得一提的是，在使用jQuery时应该尽可能少的生成jQuery对象，因为生成这样一个带有需要方法和属性的对象本身就需要消耗的很多的资源，而且很多jQuery方法都有一个供jQuery函数使用的方法，举个例子：</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// not good</span>
+<span class="kd">var</span> <span class="nx">$text</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'#text'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">$ts</span> <span class="o">=</span> <span class="nx">$text</span><span class="p">.</span><span class="nx">text</span><span class="p">();</span>
+
+<span class="c1">//good</span>
+<span class="kd">var</span> <span class="nx">$text</span> <span class="o">=</span> <span class="nx">$</span><span class="p">(</span><span class="s1">'#text'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">$ts</span> <span class="o">=</span> <span class="nx">$</span><span class="p">.</span><span class="nx">text</span><span class="p">(</span><span class="nx">$text</span><span class="p">);</span>
+</code></pre>
+    </div>
+
+    <p>后一种方法不通过jQuery对象操作，相对开销就比较小，速度会比较快。</p>
+
+    <p>关于jQuery的部分可以参考阮一峰老师的博客：<a href="http://www.ruanyifeng.com/blog/2011/07/jquery_fundamentals.html">jQuery设计思想</a>和<a href="http://www.ruanyifeng.com/blog/2011/08/jquery_best_practices.html">jQuery最佳实践</a></p>
   </li>
   <li>
-    <p>直接在这个页面打开开发者工具，使用查看器就可以查看到你想修改的元素的id或者class名。</p>
+    <h5 id="合并修改样式">合并修改样式</h5>
+
+    <p>考虑这个例子：</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'mydiv'</span><span class="p">);</span>
+
+<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">borderLeft</span> <span class="o">=</span> <span class="s1">'1px'</span><span class="p">;</span>
+<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">borderRight</span> <span class="o">=</span> <span class="s1">'2px'</span><span class="p">;</span>
+<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">padding</span> <span class="o">=</span> <span class="s1">'5px'</span><span class="p">;</span>
+</code></pre>
+    </div>
+
+    <p>在最糟糕的情况下，这三次样式属性的修改可能会导致浏览器发生三次重排，当然如今的浏览器都会对此作出优化，只会触发一次重排，但是在旧的浏览器中依然效率低下，而且这段代码只有四行，但是访问了四次DOM，因此我们可以对此作出优化，合并所有的改变并且一次访问就能实现显然是效率更高的做法，我们有两种方法可以去实现，第一种就是使用cssText属性：</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'mydiv'</span><span class="p">);</span>
+<span class="c1">// 修改并覆盖了已经存在的样式信息</span>
+<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">cssText</span> <span class="o">=</span> <span class="s1">'border-left: 1px;border-right: 2px;padding: 5px;'</span><span class="p">;</span>
+
+<span class="c1">//注意如果你需要保留现有的样式，你可以把它附件在cssText字符串之后：</span>
+<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">cssText</span> <span class="o">+=</span> <span class="s1">'border-left: 1px;border-right: 2px;padding: 5px;'</span><span class="p">;</span>
+</code></pre>
+    </div>
+
+    <p>另外一种就是通过绑定class名而不是修改内联样式，这种方法适用于那些不依赖计算的固定样式变化，在逻辑上更清晰，也更易于维护：</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">el</span> <span class="o">=</span> <span class="nb">document</span><span class="p">.</span><span class="nx">getElementById</span><span class="p">(</span><span class="s1">'mydiv'</span><span class="p">);</span>
+<span class="nx">el</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="s1">'active'</span><span class="p">;</span>
+</code></pre>
+    </div>
   </li>
   <li>
-    <p>接下来就可以通过stylish新建一个样式表，修改对应id或者class的css属性就可以了。</p>
+    <h5 id="批量修改dom">批量修改DOM</h5>
+
+    <p>当我们需要对DOM元素进行一系列操作时，可以通过下面三个步骤来减少重绘和重排：</p>
+
+    <ol>
+      <li>使元素脱离文档流。</li>
+      <li>对其应用多重改变。</li>
+      <li>把元素放回文档流。</li>
+    </ol>
+
+    <p>这样我们只在第一步和第三步触发了重排，不这么做的话，你会在第二步的每一次修改可能都会触发一次重排。</p>
+
+    <p>要让元素脱离文档流，我们一般又有三种方法：</p>
+
+    <ol>
+      <li>
+        <p>隐藏元素，应用修改，显示元素。</p>
+
+        <p>即 el.style.display=’none’，修改，应用，el.style.display=’block’</p>
+      </li>
+      <li>
+        <p>使用文档片段（document fragment）在当前DOM外构建一个子树，再把它拷贝回文档。</p>
+
+        <p>即通过createDocumentFragment创建一个fragment，对其进行修改然后再利用appendChild等api使其加入文档中，</p>
+      </li>
+      <li>
+        <p>把原始元素拷贝到一个脱离文档的节点中，修改副本，然后再替换原始元素。</p>
+
+        <p>即通过cloneNode，对复制的node来修改，然后使用replaceChild来替换。</p>
+      </li>
+    </ol>
   </li>
-</ol>
+  <li>
+    <h5 id="缓存信息">缓存信息</h5>
 
-<p>比如我只是新建了一个叫firefox UI的样式表，加入代码：</p>
+    <p>创建一个局部变量来保存信息而减少浏览器对此信息的查询次数。举个例子，在一个setTimeout的循环中，我们需要把一个元素按对角线从0，0，移动到500，500的位置：</p>
 
-<div class="language-css highlighter-rouge"><pre class="highlight"><code><span class="nc">.tabbrowser-arrowscrollbox</span> <span class="p">{</span>
-  <span class="nl">margin-top</span><span class="p">:</span> <span class="m">-8px</span><span class="p">;</span>
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// bad</span>
+<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">left</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nx">el</span><span class="p">.</span><span class="nx">offsetLeft</span> <span class="o">+</span> <span class="s1">'px'</span><span class="p">;</span>
+<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">top</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="nx">el</span><span class="p">.</span><span class="nx">offsetTop</span> <span class="o">+</span> <span class="s1">'px'</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">el</span><span class="p">.</span><span class="nx">offsetLeft</span> <span class="o">&gt;=</span> <span class="mi">500</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">stopAnimation</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="c1">// good</span>
+<span class="kd">var</span> <span class="nx">current</span> <span class="o">=</span> <span class="nx">el</span><span class="p">.</span><span class="nx">offsetLeft</span><span class="p">;</span>
+<span class="nx">current</span><span class="o">++</span><span class="p">;</span>
+<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">left</span> <span class="o">=</span> <span class="nx">current</span> <span class="o">+</span> <span class="s1">'px'</span><span class="p">;</span>
+<span class="nx">el</span><span class="p">.</span><span class="nx">style</span><span class="p">.</span><span class="nx">top</span> <span class="o">=</span> <span class="nx">current</span> <span class="o">+</span> <span class="s1">'px'</span><span class="p">;</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">current</span> <span class="o">&gt;=</span> <span class="mi">500</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">stopAnimation</span><span class="p">();</span>
 <span class="p">}</span>
 </code></pre>
-</div>
+    </div>
 
-<p>就解决了标签页顶端空出一小截的问题：</p>
+    <p>第二种方法浏览器不需要每次都去查询偏移量而可以直接使用一个变量，效率会大大提高。</p>
+  </li>
+  <li>
+    <h5 id="处理动画时使元素脱离文档流">处理动画时使元素脱离文档流</h5>
 
-<p><img src="http://res.cloudinary.com/dxmlgmzb7/image/upload/v1483953901/blog/Screen_Shot_2017-01-09_at_17.24.40.png" /></p>
+    <p>重排发生时渲染树中需要重新计算的节点越多，性能越低效，情况也越糟糕，因此在页面顶部的一个动画效果发生的时候如果推移了整个页面余下的部分时，可能会导致一次代价昂贵的大规模重排，让用户感觉页面一顿一顿的，我们可以按照以下步骤来避免页面其余部分的重拍：</p>
 
-<p>最后总结，只要你稍微懂一点点css的语法，搭配firefox本身的定制功能，就可以打造自己专属的UI界面了，当然也可以直接去下载其他人提供的样式表或者各种插件。需要提醒的是，stylish也不仅仅是修改UI，你还可以修改对应网页的css样式，更多的功能可以进入stylish的官网自行查看。</p>
+    <ol>
+      <li>使用绝对位置来定位页面上的动画元素，使其脱离文档流。</li>
+      <li>让元素动起来，它扩大时可能会覆盖部分页面但这只是页面一小部分的重绘，不回产生重排并重绘页面的大部分内容。</li>
+      <li>当动画结束后恢复定位，从而只会下移一次文档的其他元素。</li>
+    </ol>
+  </li>
+  <li>
+    <h5 id="减少hover">减少hover</h5>
+
+    <p>由于从IE7开始任何元素都可以使用:hover这个伪类，然而如果有大量元素使用时，会降低响应速度，这一点尤其在表格中表现的更为明显。比如有一个几百行的表格，使用了tr:hover来改变背景色，那么鼠标在表格上移动时，性能会明显降低，所以在元素很多的时候应该避免使用这种效果。</p>
+  </li>
+  <li>
+    <h5 id="事件委托">事件委托</h5>
+
+    <p>关于事件流可以参考我之前的博客，在大量元素都需要绑定事件的时候，如果直接给每一个元素都绑定事件，这个代价往往是非常昂贵的。事件绑定占用了处理事件，而且浏览器需要跟踪每一个事件处理器，这也占用了更多的内存。而事件委托就是一个简单而优雅的方式来处理DOM事件。它的原理是很简单的：事件逐层冒泡并能被父元素捕获，因此只需要给一个上层元素绑定一个事件处理器，内部通过对目标元素的判断来实现响应子元素上触发的事件。比如一个列表中的每一个li都有一个点击事件，我们只需要给最外层的ul标签绑定一个点击监听就可以了。它的步骤是非常简单的：</p>
+
+    <ol>
+      <li>访问事件对象，判断事件源头(target或者srcElement)；</li>
+      <li>处理事件</li>
+      <li>取消文档树中的冒泡（可选）</li>
+      <li>阻止默认动作（可选）</li>
+    </ol>
+  </li>
+  <li>
+    <h5 id="选择作用域链最短的方法">选择作用域链最短的方法</h5>
+
+    <p>我们知道js采用链式作用域，读取一个变量的时候会先在当前作用域寻找该变量，如果找不到的话，就往上一层作用域去寻找。这样的设计之下，很明显读取局部变量就要比去读取上一级的全局变量快很多。同理，在调用对象方法的时候，使用prototype也要比闭包模式慢：</p>
+
+    <div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="c1">// prototype</span>
+<span class="kd">var</span> <span class="nx">X</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">){</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span> <span class="o">=</span> <span class="nx">name</span><span class="p">;</span> <span class="p">}</span>
+<span class="nx">X</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">get_name</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span> <span class="p">};</span>
+
+<span class="c1">// closure</span>
+<span class="kd">var</span> <span class="nx">Y</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+	<span class="kd">var</span> <span class="nx">y</span> <span class="o">=</span> <span class="p">{</span> <span class="na">name</span><span class="p">:</span> <span class="nx">name</span> <span class="p">};</span>
+	<span class="k">return</span> <span class="p">{</span> <span class="s1">'get_name'</span><span class="p">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="k">return</span> <span class="nx">y</span><span class="p">.</span><span class="nx">name</span><span class="p">;</span> <span class="p">}</span> <span class="p">};</span>
+<span class="p">};</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<h3 id="小结">小结：</h3>
+
+<ul>
+  <li>最小化DOM访问次数，如果需要多次访问某个DOM节点，使用变量来保存引用。</li>
+  <li>使用速度快的api，比如getElementById。</li>
+  <li>小心处理HTML集合，需要迭代操作时把长度缓存到变量中。</li>
+  <li>留意重绘和重排，批量修改样式，“离线”操作DOM树，使用缓存，并减少访问布局信息的次数。</li>
+  <li>动画中使用绝对定位，使用拖放代理。</li>
+  <li>使用事件委托来减少事件处理的次数。</li>
+</ul>
+
 
             </article>
 
             <!-- <section class="share">
     <h3>Share</h3>
-    <a aria-label="Share on Twitter" href="https://twitter.com/intent/tweet?text=&quot;&quot;%20http://shadeofgod.github.io/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/%20via%20&#64;&hashtags=firefox customize,"
+    <a aria-label="Share on Twitter" href="https://twitter.com/intent/tweet?text=&quot;&quot;%20http://shadeofgod.github.io/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AFcss%E5%92%8Cjs%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/%20via%20&#64;&hashtags=优化,"
     onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;" title="Share on Twitter">
         <svg class="icon icon-twitter"><use xlink:href="#icon-twitter"></use></svg>
     </a>
-    <a aria-label="Share on Facebook"href="https://www.facebook.com/sharer/sharer.php?u=http://shadeofgod.github.io/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/"
+    <a aria-label="Share on Facebook"href="https://www.facebook.com/sharer/sharer.php?u=http://shadeofgod.github.io/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AFcss%E5%92%8Cjs%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"
     onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;" title="Share on Facebook">
         <svg class="icon icon-facebook"><use xlink:href="#icon-facebook"></use></svg>
     </a>
-    <a aria-label="Share on Google Plus" href="https://plus.google.com/share?url=http://shadeofgod.github.io/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/"
+    <a aria-label="Share on Google Plus" href="https://plus.google.com/share?url=http://shadeofgod.github.io/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AFcss%E5%92%8Cjs%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"
     onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;" title="Share on Google+">
         <svg class="icon icon-google-plus"><use xlink:href="#icon-google-plus"></use></svg>
     </a>
@@ -414,7 +575,7 @@
     <h3>Comments</h3>
     <!-- <div id="disqus_thread"></div> -->
     <!-- 多说评论框 start -->
-    <div class="ds-thread" data-thread-key="使用css打造自定义firefox界面" data-title='' data-url="/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/"></div>
+    <div class="ds-thread" data-thread-key="浏览器端css和js的性能优化" data-title='' data-url="/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AFcss%E5%92%8Cjs%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/"></div>
     <!-- 多说评论框 end -->
 </section>
 <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
@@ -439,7 +600,7 @@ var duoshuoQuery = {short_name:"shadeofgod"};
         disqus_loaded = true;
         var disqus_shortname = '';
         var disqus_title = '';
-        var disqus_url = '/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/';
+        var disqus_url = '/%E6%B5%8F%E8%A7%88%E5%99%A8%E7%AB%AFcss%E5%92%8Cjs%E7%9A%84%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/';
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
         dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
         (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
