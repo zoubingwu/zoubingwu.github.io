@@ -1,6 +1,6 @@
 # Site settings
 title: ShadeofGod
-description: "bing's blogsite about coding ..."
+description: "bing's blog about coding ..."
 baseurl: "" # the subpath of your site
 url: "http://shadeofgod.github.io"
 
