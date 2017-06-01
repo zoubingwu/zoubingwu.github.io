@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>使用css打造自定义firefox界面</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css" type="text/css">
+
+  <!-- Font -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">
+
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed for Shadeofgod" href="/feed.xml" /
+  <!-- Begin Jekyll SEO tag v2.2.3 -->
+<title>使用css打造自定义firefox界面 | Shadeofgod</title>
+<meta property="og:title" content="使用css打造自定义firefox界面" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="http://localhost:4000/2017-01-09/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/" />
+<meta property="og:url" content="http://localhost:4000/2017-01-09/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/" />
+<meta property="og:site_name" content="Shadeofgod" />
+<meta property="og:image" content="http://localhost:4000/" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2017-01-09T17:03:18+00:00" />
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BlogPosting","headline":"使用css打造自定义firefox界面","author":{"@type":"Person","name":null},"image":"http://localhost:4000/","datePublished":"2017-01-09T17:03:18+00:00","dateModified":"2017-01-09T17:03:18+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017-01-09/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/"},"url":"http://localhost:4000/2017-01-09/%E4%BD%BF%E7%94%A8css%E6%89%93%E9%80%A0%E8%87%AA%E5%AE%9A%E4%B9%89firefox%E7%95%8C%E9%9D%A2/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <!-- Google Analytics -->
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', '', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+</head>
+
+<body>
+  <div class="content-container">
+    <header>
+  <div class="header-small">
+    <a href="http://localhost:4000">Shadeofgod</a>
+  </div>
+</header>
+<div class="post">
+  <div class="post-title">使用css打造自定义firefox界面</div>
+  <span class="post-date">
+    <time>09 Jan 2017</time>
+  </span>
+  <div class="post-tag">
+    <ul>
+      
+      <li>
+        <a href="http://localhost:4000/tags#firefox customize">
+          <span>firefox customize</span>
+        </a>
+      </li>
+      
+      
+    </ul>
+  </div>
+
+  <p>一直以来都觉得safari、chrome、firefox三款浏览器都各有各的优点，但是又都有那么点儿不尽如人意的地方，比如firefox的标签页顶端总是留出来一截空白，让我这个强迫症真是万分难受。</p>
+
+<p><img src="http://res.cloudinary.com/dxmlgmzb7/image/upload/v1483953337/blog/Screen_Shot_2017-01-09_at_17.09.37.png" /></p>
+
+<p>不过firefox一直都是以定制化能力强而闻名，所以稍微搜索了一下解决方案，发现可以用stylish插件来直接通过css语法修改UI界面。简单搜了下中文资料有很多现成的代码，但是似乎大都没有讲具体的方法，这里就和大家简单分享一下该如何去操作。</p>
+
+<ol>
+  <li>
+    <p>首先，安装stylish插件。</p>
+  </li>
+  <li>
+    <p>然后，点开一个标签页，地址栏中输入：<code class="highlighter-rouge">chrome://browser/content/browser.xul</code>，这样会打开一个包含火狐浏览器UI元素的页面。</p>
+
+    <p>（注：我也看到不少人是直接通过firefox配置文件中的userChrome.css来修改的，不过我的mac上找不到这么一个文件，而且通过stylish可以更方便的管理多种样式表，所以如果不太懂这些东西的朋友我个人建议还是不要去修改源文件。）</p>
+  </li>
+  <li>
+    <p>直接在这个页面打开开发者工具，使用查看器就可以查看到你想修改的元素的id或者class名。</p>
+  </li>
+  <li>
+    <p>接下来就可以通过stylish新建一个样式表，修改对应id或者class的css属性就可以了。</p>
+  </li>
+</ol>
+
+<p>比如我只是新建了一个叫firefox UI的样式表，加入代码：</p>
+
+<div class="language-css highlighter-rouge"><pre class="highlight"><code><span class="nc">.tabbrowser-arrowscrollbox</span> <span class="p">{</span>
+  <span class="nl">margin-top</span><span class="p">:</span> <span class="m">-8px</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>就解决了标签页顶端空出一小截的问题：</p>
+
+<p><img src="http://res.cloudinary.com/dxmlgmzb7/image/upload/v1483953901/blog/Screen_Shot_2017-01-09_at_17.24.40.png" /></p>
+
+<p>最后总结，只要你稍微懂一点点css的语法，搭配firefox本身的定制功能，就可以打造自己专属的UI界面了，当然也可以直接去下载其他人提供的样式表或者各种插件。需要提醒的是，stylish也不仅仅是修改UI，你还可以修改对应网页的css样式，更多的功能可以进入stylish的官网自行查看。</p>
+
+
+  <!-- Disqus -->
+  
+  <div class="post-disqus">
+      <section id="disqus_thread"></section>
+      <script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  </div>
+  
+
+</div>
+
+
+    <!-- Documents about icons are here: http://fontawesome.io/icons/ -->
+<div class="footer">
+  <hr />
+  <div class="footer-link">
+    
+	
+	
+	
+	
+
+    
+
+    
+    <a href="https://github.com/shadeofgod"><i class="fa fa-github" aria-hidden="true"></i></a>
+    
+	
+	
+    <a href="http://stackoverflow.com/users/shadeofgod"><i class="fa fa-stack-overflow" aria-hidden="true"></i></a>
+    
+	
+	
+    <a href="https://www.quora.com/profile/shadeofgod"><i class="fa fa-quora" aria-hidden="true"></i></a>
+    
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+
+    
+
+    
+
+    
+    <a href="mailto:zoubingwu@gmail.com"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+    
+
+  </div>
+  © 2017 shadeofgod. All rights reserved.
+</div>
+
+  </div>
+</body>
+</html>

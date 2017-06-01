@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Closure for dummies(translated)</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/main.css" type="text/css">
+
+  <!-- Font -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">
+
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed for Shadeofgod" href="/feed.xml" /
+  <!-- Begin Jekyll SEO tag v2.2.3 -->
+<title>Closure for dummies(translated) | Shadeofgod</title>
+<meta property="og:title" content="Closure for dummies(translated)" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="http://localhost:4000/2016-10-15/Closure/" />
+<meta property="og:url" content="http://localhost:4000/2016-10-15/Closure/" />
+<meta property="og:site_name" content="Shadeofgod" />
+<meta property="og:image" content="http://localhost:4000/" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2016-10-15T22:22:31+00:00" />
+<script type="application/ld+json">
+{"@context":"http://schema.org","@type":"BlogPosting","headline":"Closure for dummies(translated)","author":{"@type":"Person","name":null},"image":"http://localhost:4000/","datePublished":"2016-10-15T22:22:31+00:00","dateModified":"2016-10-15T22:22:31+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2016-10-15/Closure/"},"url":"http://localhost:4000/2016-10-15/Closure/"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  <!-- Google Analytics -->
+
+<script>
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', '', 'auto');
+ga('send', 'pageview');
+
+</script>
+
+
+
+</head>
+
+<body>
+  <div class="content-container">
+    <header>
+  <div class="header-small">
+    <a href="http://localhost:4000">Shadeofgod</a>
+  </div>
+</header>
+<div class="post">
+  <div class="post-title">Closure for dummies(translated)</div>
+  <span class="post-date">
+    <time>15 Oct 2016</time>
+  </span>
+  <div class="post-tag">
+    <ul>
+      
+      <li>
+        <a href="http://localhost:4000/tags#Closure">
+          <span>Closure</span>
+        </a>
+      </li>
+      
+      
+    </ul>
+  </div>
+
+  <p>originally posted on <a href="http://stackoverflow.com/questions/111102/how-do-javascript-closures-work">stackoverflow</a> by Morris.</p>
+
+<p>这是一篇在stackoverflow上关于Javascript闭包的解释，因为大部分中文或者英文官方资料都写的都非常晦涩难懂，在这里尽量用中文化的习惯翻译并解释，不同于英文的部分加入的是自己的理解，欢迎对错误的地方进行指正！希望本文让自己能有更深刻的理解，也可以帮到初学者。以下并附上英文部分的原文。</p>
+
+<p>This page explains closures so that a programmer can understand them — using working JavaScript code. It is not for gurus or functional programmers.</p>
+
+<p>以下通过Javascript代码为大家简单解释一下闭包的概念，大牛可以选择跳过。</p>
+
+<p>Closures are <em>not hard</em> to understand once the core concept is grokked. However, they are impossible to understand by reading any academic papers or academically oriented information about them!</p>
+
+<p>只要核心的概念理解了以后，闭包其实就很好懂了，但是在学术性质比较浓的专业文档中读起来却会感觉非常难以理解。</p>
+
+<p>This article is intended for programmers with some programming experience in a mainstream language, and who can read the following JavaScript function:</p>
+
+<p>此文主要是为一些有基础编程经验的，了解一门主流编程语言，并且可以看懂以下简单Javascript代码的程序员所写的：</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">sayHello</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">text</span> <span class="o">=</span> <span class="s1">'Hello '</span> <span class="o">+</span> <span class="nx">name</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">say</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">text</span><span class="p">);</span> <span class="p">}</span>
+    <span class="nx">say</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="an-example-of-a-closure-一个闭包的例子">An Example of a Closure 一个闭包的例子</h2>
+
+<p>Two one sentence summaries:</p>
+
+<ul>
+  <li>a closure is one way of supporting <a href="https://en.wikipedia.org/wiki/First-class_function">first-class functions</a>; it is an expression that can reference variables within its scope (when it was first declared), assigned to a variable, passed as an argument to a function, or returned as a function result. Or</li>
+  <li>a closure is a stack frame which is allocated when a function starts its execution, and <em>not freed</em> after the function returns (as if a ‘stack frame’ were allocated on the heap rather than the stack!).</li>
+</ul>
+
+<p>两句话总结：</p>
+
+<ul>
+  <li>闭包是一种支持头等函数的方式；是一种可以在变量初次声明时的作用域内引用变量，赋值给另外一个变量，作为参数传递给一个函数或者作为一个函数的返回值的表达方式。</li>
+  <li>闭包是当一个函数开始执行时分配到堆栈中的一系列数据，并且在函数返回时并不会被释放。</li>
+</ul>
+
+<p>（注：对以上的翻译并不满意，建议阅读英文资料，但看不懂也没有关系，可以继续看下面的例子。）</p>
+
+<p>The following code returns a reference to a function:</p>
+
+<p>下面的代码返回了一个函数引用值：</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">sayHello2</span><span class="p">(</span><span class="nx">name</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">text</span> <span class="o">=</span> <span class="s1">'Hello '</span> <span class="o">+</span> <span class="nx">name</span><span class="p">;</span> <span class="c1">// Local variable</span>
+    <span class="kd">var</span> <span class="nx">say</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">text</span><span class="p">);</span> <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">say</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">say2</span> <span class="o">=</span> <span class="nx">sayHello2</span><span class="p">(</span><span class="s1">'Bob'</span><span class="p">);</span>
+<span class="nx">say2</span><span class="p">();</span> <span class="c1">// logs "Hello Bob"</span>
+</code></pre>
+</div>
+
+<p>Most JavaScript programmers will understand how a reference to a function is returned to a variable (<code class="highlighter-rouge">say2</code>) in the above code. If you don’t, then you need to before you can learn closures. A C programmer would think of the function as returning a pointer to a function, and that the variables<code class="highlighter-rouge">say</code> and <code class="highlighter-rouge">say2</code> were each a pointer to a function.</p>
+
+<p>大部分JavaScript开发者都会明白上面的代码中函数返回给变量<code class="highlighter-rouge">say2</code>的是函数的引用值，即<code class="highlighter-rouge">say2</code>=<code class="highlighter-rouge">say</code>,而不是<code class="highlighter-rouge">say()</code>,没有带括号意味着函数并没有被调用，而C语言的开发者会理解为函数返回的是一个函数的指针（即指向的某一个函数，而非立刻调用某函数），而<code class="highlighter-rouge">say</code>和<code class="highlighter-rouge">say2</code>两者都是同一个函数的指针。</p>
+
+<p>There is a critical difference between a C pointer to a function and a JavaScript reference to a function. In JavaScript, you can think of a function reference variable as having both a pointer to a function <em>as well</em> as a hidden pointer to a closure.</p>
+
+<p>而C语言中的函数指针和JavaScript中的函数引用值有一个很关键的区别。你可以理解为在JS中，一个函数的引用变量既包含了一个函数的指针，也包含了一个指向闭包的隐藏指针。</p>
+
+<p>The above code has a closure because the anonymous function <code class="highlighter-rouge">function() { console.log(text); }</code> is declared <em>inside</em> another function, <code class="highlighter-rouge">sayHello2()</code> in this example. In JavaScript, if you use the <code class="highlighter-rouge">function</code> keyword inside another function, you are creating a closure.</p>
+
+<p>上面的代码中含有闭包是因为 <code class="highlighter-rouge">function() { console.log(text); }</code> 这个匿名函数在一个函数内部被声明，并且在外部被使用，在JavaScript如果你在一个函数内部使用了<code class="highlighter-rouge">function</code> 关键字来定义一个新的函数，你其实就是创建了一个闭包。</p>
+
+<p>In C and most other common languages, <em>after</em> a function returns, all the local variables are no longer accessible because the stack-frame is destroyed.</p>
+
+<p>在c语言和大部分主流语言中，在一个函数结束返回了值以后，所有的内部局部变量都再也无法访问，因为堆栈中的数据已经被释放摧毁了。</p>
+
+<p>In JavaScript, if you declare a function within another function, then the local variables can remain accessible after returning from the function you called. This is demonstrated above, because we call the function <code class="highlighter-rouge">say2()</code> after we have returned from <code class="highlighter-rouge">sayHello2()</code>. Notice that the code that we call references the variable <code class="highlighter-rouge">text</code>, which was a <em>local variable</em> of the function <code class="highlighter-rouge">sayHello2()</code>.</p>
+
+<p>在js中，如果你在一个函数内部定义了一个新的函数，那么内部的局部变量在通过你返回的这个新的函数被调用的时候还是可以被访问的。上面的例子里面，因为我们从<code class="highlighter-rouge">sayHello2()</code>返回了在它内部定义的函数给<code class="highlighter-rouge">say2</code>，这样在调用<code class="highlighter-rouge">say2()</code>的时候，实际上变量<code class="highlighter-rouge">text</code>作为 <code class="highlighter-rouge">sayHello2()</code>的内部的局部变量还是可以被我们访问到。</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">text</span><span class="p">);</span> <span class="p">}</span> <span class="c1">// Output of say2.toString();</span>
+</code></pre>
+</div>
+
+<p>Looking at the output of <code class="highlighter-rouge">say2.toString()</code>, we can see that the code refers to the variable <code class="highlighter-rouge">text</code>. The anonymous function can reference <code class="highlighter-rouge">text</code> which holds the value <code class="highlighter-rouge">'Hello Bob'</code> because the local variables of <code class="highlighter-rouge">sayHello2()</code> are kept in a closure.</p>
+
+<p>你可以看到把变量<code class="highlighter-rouge">say2</code>转换为字符串的结果，其实的代码就需要使用到变量<code class="highlighter-rouge">text</code>。这个匿名函数中的变量<code class="highlighter-rouge">text</code>其实就保存了<code class="highlighter-rouge">Hello Bob</code>这样一个值，因为这个函数 <code class="highlighter-rouge">sayHello2()</code>的内部的局部变量处于一个闭包之中。</p>
+
+<p>The magic is that in JavaScript a function reference also has a secret reference to the closure it was created in — similar to how delegates are a method pointer plus a secret reference to an object.</p>
+
+<p>神奇的地方在于，js中一个函数的引用值也包含了闭包被创建的时候的秘密引用值，就好像其他编程语言中的委托，是一个方法的指针，也是一个对象的秘密引用值。</p>
+
+<h2 id="more-examples-更多例子">More examples 更多例子</h2>
+
+<p>For some reason, closures seem really hard to understand when you read about them, but when you see some examples you can click to how they work (it took me a while). I recommend working through the examples carefully until you understand how they work. If you start using closures without fully understanding how they work, you would soon create some very weird bugs!</p>
+
+<p>闭包通常在你读这些解释文字的时候会感到非常难以理解，但是结合具体例子的话就好多了。强烈建议你详细阅读下面的例子并且搞清楚他们到底是如何工作的。如果你没有彻底搞清楚闭包的机制，在使用的时候非常容易造成一些奇怪的bug！</p>
+
+<h3 id="example-3">Example 3</h3>
+
+<p>This example shows that the local variables are not copied — they are kept by reference. It is kind of like keeping a stack-frame in memory when the outer function exits!</p>
+
+<p>下面的例子展示了，局部变量并不是被复制的，而是直接引用的，就好像在函数执行完成后数据仍然被保存在堆栈中。</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">say667</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Local variable that ends up within closure</span>
+    <span class="kd">var</span> <span class="nx">num</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">say</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">num</span><span class="p">);</span> <span class="p">}</span>
+    <span class="nx">num</span><span class="o">++</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">say</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="kd">var</span> <span class="nx">sayNumber</span> <span class="o">=</span> <span class="nx">say667</span><span class="p">();</span>
+<span class="nx">sayNumber</span><span class="p">();</span> <span class="c1">// logs 43</span>
+</code></pre>
+</div>
+
+<h3 id="example-4">Example 4</h3>
+
+<p>All three global functions have a common reference to the <em>same</em> closure because they are all declared within a single call to <code class="highlighter-rouge">setupSomeGlobals()</code>.</p>
+
+<p>所有的三个全局函数都有一个指向同一个闭包的相同引用值，因为他们都是通过 <code class="highlighter-rouge">setupSomeGlobals()</code>这同一个函数被声明的。</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">var</span> <span class="nx">gLogNumber</span><span class="p">,</span> <span class="nx">gIncreaseNumber</span><span class="p">,</span> <span class="nx">gSetNumber</span><span class="p">;</span>
+<span class="kd">function</span> <span class="nx">setupSomeGlobals</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Local variable that ends up within closure</span>
+    <span class="kd">var</span> <span class="nx">num</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+    <span class="c1">// Store some references to functions as global variables</span>
+    <span class="nx">gLogNumber</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">num</span><span class="p">);</span> <span class="p">}</span>
+    <span class="nx">gIncreaseNumber</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">num</span><span class="o">++</span><span class="p">;</span> <span class="p">}</span>
+    <span class="nx">gSetNumber</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span> <span class="nx">num</span> <span class="o">=</span> <span class="nx">x</span><span class="p">;</span> <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="nx">setupSomeGlobals</span><span class="p">();</span>
+<span class="nx">gIncreaseNumber</span><span class="p">();</span>
+<span class="nx">gLogNumber</span><span class="p">();</span> <span class="c1">// 43</span>
+<span class="nx">gSetNumber</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="nx">gLogNumber</span><span class="p">();</span> <span class="c1">// 5</span>
+
+<span class="kd">var</span> <span class="nx">oldLog</span> <span class="o">=</span> <span class="nx">gLogNumber</span><span class="p">;</span>
+
+<span class="nx">setupSomeGlobals</span><span class="p">();</span>
+<span class="nx">gLogNumber</span><span class="p">();</span> <span class="c1">// 42</span>
+
+<span class="nx">oldLog</span><span class="p">()</span> <span class="c1">// 5</span>
+</code></pre>
+</div>
+
+<p>The three functions have shared access to the same closure — the local variables of <code class="highlighter-rouge">setupSomeGlobals()</code> when the three functions were defined.</p>
+
+<p>当这三个函数被定义时都共享了同一个闭包 - 即函数 <code class="highlighter-rouge">setupSomeGlobals()</code> 内部的局部变量。</p>
+
+<p>Note that in the above example, if you call <code class="highlighter-rouge">setupSomeGlobals()</code> again, then a new closure (stack-frame!) is created. The old <code class="highlighter-rouge">gLogNumber</code>, <code class="highlighter-rouge">gIncreaseNumber</code>, <code class="highlighter-rouge">gSetNumber</code> variables are overwritten with <em>new</em> functions that have the new closure. (In JavaScript, whenever you declare a function inside another function, the inside function(s) is/are recreated again <em>each</em> time the outside function is called.)</p>
+
+<p>注意到上面的例子里，如果你再次调用 <code class="highlighter-rouge">setupSomeGlobals()</code>，一个新的闭包又形成了，旧的<code class="highlighter-rouge">gLogNumber</code>, <code class="highlighter-rouge">gIncreaseNumber</code>, <code class="highlighter-rouge">gSetNumber</code> 这些变量都被新的值覆盖了。（在js中，当你在一个函数内部声明了另外一个函数，那么当外部这个函数被调用的时候，内部的函数总会被重新创建。）</p>
+
+<h3 id="example-5">Example 5</h3>
+
+<p>This one is a real gotcha for many people, so you need to understand it. Be very careful if you are defining a function within a loop: the local variables from the closure do not act as you might first think.</p>
+
+<p>这一个例子让很多人茅塞顿开，所以你一定要理解它！要注意当你在一个循环中定义一个函数的时候，闭包里的局部变量并不会像你想的那样运作。</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">buildList</span><span class="p">(</span><span class="nx">list</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">result</span> <span class="o">=</span> <span class="p">[];</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">i</span> <span class="o">&lt;</span> <span class="nx">list</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="kd">var</span> <span class="nx">item</span> <span class="o">=</span> <span class="s1">'item'</span> <span class="o">+</span> <span class="nx">i</span><span class="p">;</span>
+        <span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">item</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">+</span> <span class="nx">list</span><span class="p">[</span><span class="nx">i</span><span class="p">])}</span> <span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="nx">result</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">function</span> <span class="nx">testList</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">fnlist</span> <span class="o">=</span> <span class="nx">buildList</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]);</span>
+    <span class="c1">// Using j only to help prevent confusion -- could use i.</span>
+    <span class="k">for</span> <span class="p">(</span><span class="kd">var</span> <span class="nx">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nx">j</span> <span class="o">&lt;</span> <span class="nx">fnlist</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span> <span class="nx">j</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">fnlist</span><span class="p">[</span><span class="nx">j</span><span class="p">]();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+ <span class="nx">testList</span><span class="p">()</span> <span class="c1">//logs "item2 undefined" 3 times</span>
+</code></pre>
+</div>
+
+<p>The line <code class="highlighter-rouge">result.push( function() {console.log(item + ' ' + list[i])}</code> adds a reference to an anonymous function three times to the result array. If you are not so familiar with anonymous functions think of it like:</p>
+
+<p> <code class="highlighter-rouge">result.push( function() {console.log(item + ' ' + list[i])}</code> 这一行把里面这个匿名函数的引用值三次添加到了结果的数组里。如果你对匿名函数不是很熟悉，可以这么想：</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="nx">pointer</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">item</span> <span class="o">+</span> <span class="s1">' '</span> <span class="o">+</span> <span class="nx">list</span><span class="p">[</span><span class="nx">i</span><span class="p">])};</span>
+<span class="nx">result</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">pointer</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>Note that when you run the example, <code class="highlighter-rouge">"item2 undefined"</code> is alerted three times! This is because just like previous examples, there is only one closure for the local variables for <code class="highlighter-rouge">buildList</code>. When the anonymous functions are called on the line <code class="highlighter-rouge">fnlist[j]()</code>; they all use the same single closure, and they use the current value for <code class="highlighter-rouge">i</code> and <code class="highlighter-rouge">item</code> within that one closure (where <code class="highlighter-rouge">i</code> has a value of <code class="highlighter-rouge">3</code> because the loop had completed, and <code class="highlighter-rouge">item</code> has a value of <code class="highlighter-rouge">'item2'</code>). Note we are indexing from 0 hence <code class="highlighter-rouge">item</code> has a value of <code class="highlighter-rouge">item2</code>. And the i++ will increment <code class="highlighter-rouge">i</code> to the value <code class="highlighter-rouge">3</code>.</p>
+
+<p>注意当你运行这个例子的时候，出来的结果是打印三次 <code class="highlighter-rouge">"item2 undefined"</code> 。这是因为同之前的例子一样，对于 <code class="highlighter-rouge">buildList</code>中的局部变量，他们都处于唯一的闭包中。当匿名函数在 <code class="highlighter-rouge">fnlist[j]()</code>这里被调用的时候，他们都是用同一个唯一的闭包，使用同一个目前的<code class="highlighter-rouge">i</code>和<code class="highlighter-rouge">item</code>的值，而循环已经结束，此时的<code class="highlighter-rouge">i</code>的值为3，而<code class="highlighter-rouge">item</code>的值为<code class="highlighter-rouge">item2</code>。注意，<code class="highlighter-rouge">i</code>从0开始计算，循环结束的时候通过<code class="highlighter-rouge">i++</code>变成了3，而没有满足循环条件再次进入循环，因此<code class="highlighter-rouge">item</code>的值还是为<code class="highlighter-rouge">item2</code>。</p>
+
+<h3 id="example-6">Example 6</h3>
+
+<p>This example shows that the closure contains any local variables that were declared inside the outer function before it exited. Note that the variable <code class="highlighter-rouge">alice</code> is actually declared after the anonymous function. The anonymous function is declared first; and when that function is called it can access the <code class="highlighter-rouge">alice</code> variable because <code class="highlighter-rouge">alice</code> is in the same scope (JavaScript does <a href="http://stackoverflow.com/a/3725763/1269037">variable hoisting</a>). Also <code class="highlighter-rouge">sayAlice()()</code> just directly calls the function reference returned from <code class="highlighter-rouge">sayAlice()</code>— it is exactly the same as what was done previously, but without the temporary variable.</p>
+
+<p>这个例子展示了闭包包含了在外部函数结束前声明的所有局部变量。注意，变量<code class="highlighter-rouge">alice</code>实际上是在匿名函数之后声明的，匿名函数首先被定义，当这个函数被调用时它依然可以访问到<code class="highlighter-rouge">alice</code>这个变量，因为<code class="highlighter-rouge">alice</code>在同样的作用域内。同样的，<code class="highlighter-rouge">sayAlice()()</code>直接通过<code class="highlighter-rouge">sayAlice()</code>返回的函数引用值调用了指向的函数，而省略了我们之前先把函数引用值保存在一个临时的变量这一步骤。</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">sayAlice</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">var</span> <span class="nx">say</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">alice</span><span class="p">);</span> <span class="p">}</span>
+    <span class="c1">// Local variable that ends up within closure</span>
+    <span class="kd">var</span> <span class="nx">alice</span> <span class="o">=</span> <span class="s1">'Hello Alice'</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nx">say</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">sayAlice</span><span class="p">()();</span><span class="c1">// logs "Hello Alice"</span>
+</code></pre>
+</div>
+
+<p>Tricky: note also that the <code class="highlighter-rouge">say</code> variable is also inside the closure, and could be accessed by any other function that might be declared within <code class="highlighter-rouge">sayAlice()</code>, or it could be accessed recursively within the inside function.</p>
+
+<p>注意，变量<code class="highlighter-rouge">say</code>同样也在闭包之中，并且可以被其他可能在<code class="highlighter-rouge">sayAlice()</code>内部的函数所访问，意味着可以在内部通过递归函数来访问。</p>
+
+<h3 id="example-7">Example 7</h3>
+
+<p>This final example shows that each call creates a separate closure for the local variables. There is <em>not</em> a single closure per function declaration. There is a closure for <em>each call</em> to a function.</p>
+
+<p>最后一个例子展示了每次调用都为局部变量创造了一个分开的闭包。并不是每次函数声明都有一个单独的闭包，而是函数调用的时候！</p>
+
+<div class="language-javascript highlighter-rouge"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">newClosure</span><span class="p">(</span><span class="nx">someNum</span><span class="p">,</span> <span class="nx">someRef</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Local variables that end up within closure</span>
+    <span class="kd">var</span> <span class="nx">num</span> <span class="o">=</span> <span class="nx">someNum</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">anArray</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">];</span>
+    <span class="kd">var</span> <span class="nx">ref</span> <span class="o">=</span> <span class="nx">someRef</span><span class="p">;</span>
+    <span class="k">return</span> <span class="kd">function</span><span class="p">(</span><span class="nx">x</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">num</span> <span class="o">+=</span> <span class="nx">x</span><span class="p">;</span>
+        <span class="nx">anArray</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">num</span><span class="p">);</span>
+        <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">'num: '</span> <span class="o">+</span> <span class="nx">num</span> <span class="o">+</span>
+            <span class="s1">'\nanArray '</span> <span class="o">+</span> <span class="nx">anArray</span><span class="p">.</span><span class="nx">toString</span><span class="p">()</span> <span class="o">+</span>
+            <span class="s1">'\nref.someVar '</span> <span class="o">+</span> <span class="nx">ref</span><span class="p">.</span><span class="nx">someVar</span><span class="p">);</span>
+      <span class="p">}</span>
+<span class="p">}</span>
+<span class="nx">obj</span> <span class="o">=</span> <span class="p">{</span><span class="na">someVar</span><span class="p">:</span> <span class="mi">4</span><span class="p">};</span>
+<span class="nx">fn1</span> <span class="o">=</span> <span class="nx">newClosure</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="nx">obj</span><span class="p">);</span>
+<span class="nx">fn2</span> <span class="o">=</span> <span class="nx">newClosure</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="nx">obj</span><span class="p">);</span>
+<span class="nx">fn1</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// num: 5; anArray: 1,2,3,5; ref.someVar: 4;</span>
+<span class="nx">fn2</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">// num: 6; anArray: 1,2,3,6; ref.someVar: 4;</span>
+<span class="nx">obj</span><span class="p">.</span><span class="nx">someVar</span><span class="o">++</span><span class="p">;</span>
+<span class="nx">fn1</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span> <span class="c1">// num: 7; anArray: 1,2,3,5,7; ref.someVar: 5;</span>
+<span class="nx">fn2</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span> <span class="c1">// num: 8; anArray: 1,2,3,6,8; ref.someVar: 5;</span>
+</code></pre>
+</div>
+
+<h2 id="summary-总结">Summary 总结</h2>
+
+<p>If everything seems completely unclear then the best thing to do is to play with the examples. Reading an explanation is much harder than understanding examples. My explanations of closures and stack-frames, etc. are not technically correct — they are gross simplifications intended to help understanding. Once the basic idea is grokked, you can pick up the details later.</p>
+
+<p>如果完全不懂的话最好从具体的例子入手，只是阅读一些解释的文字通常很难理解。我的关于闭包和堆栈的解释实际上并非绝对准确，他们只是为了简单的帮助你理解，在最基础的概念弄懂以后，你可以多查阅学习一些具体的细节。</p>
+
+<h2 id="final-points-最后几点">Final points: 最后几点：</h2>
+
+<ul>
+  <li>
+    <p>Whenever you use <code class="highlighter-rouge">function</code> inside another function, a closure is used.</p>
+
+    <p>当你在一个函数内部定义一个函数的时候，你就使用了闭包。</p>
+  </li>
+  <li>
+    <p>Whenever you use <code class="highlighter-rouge">eval()</code> inside a function, a closure is used. The text you <code class="highlighter-rouge">eval</code> can reference local variables of the function, and within <code class="highlighter-rouge">eval</code> you can even create new local variables by using <code class="highlighter-rouge">eval('var foo = …')</code></p>
+
+    <p>不管你什么时候在函数内部使用<code class="highlighter-rouge">eval()</code>函数，你就使用了闭包。你可以<code class="highlighter-rouge">eval</code>来引用函数的局部变量，也可以通过在<code class="highlighter-rouge">eval</code>的参数内来创建新的局部变量。</p>
+  </li>
+  <li>
+    <p>When you use <code class="highlighter-rouge">new Function(…)</code> (the <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function">Function constructor</a>) inside a function, it does not create a closure. (The new function cannot reference the local variables of the outer function.)</p>
+
+    <p>当你在函数内部使用构造函数的时候，并不会创建闭包。</p>
+  </li>
+  <li>
+    <p>A closure in JavaScript is like keeping a copy of all the local variables, just as they were when a function exited.</p>
+
+    <p>js中的闭包就好像在函数执行完毕后依然保留着所有局部变量。</p>
+  </li>
+  <li>
+    <p>It is probably best to think that a closure is always created just on entry to a function, and the local variables are added to that closure.</p>
+
+    <p>最好总是在函数刚进入的时候就考虑闭包的建立并且把所有局部变量加入到闭包中。</p>
+  </li>
+  <li>
+    <p>A new set of local variables is kept every time a function with a closure is called (given that the function contains a function declaration inside it, and a reference to that inside function is either returned or an external reference is kept for it in some way).</p>
+
+    <p>在每次函数被调用的时候，闭包中的局部变量的值都会重新调整。（前提是这个函数内部包含了函数声明，并且这个内部函数的引用值作为返回值或者保存到了外部的引用。）</p>
+  </li>
+  <li>
+    <p>Two functions might look like they have the same source text, but have completely different behaviour because of their ‘hidden’ closure. I don’t think JavaScript code can actually find out if a function reference has a closure or not.</p>
+
+    <p>两个函数可能看上去他们有同样的来源，但是由于隐藏的闭包所以有着完全不同的行为。</p>
+  </li>
+  <li>
+    <p>If you are trying to do any dynamic source code modifications (for example: <code class="highlighter-rouge">myFunction = Function(myFunction.toString().replace(/Hello/,'Hola'));</code>), it won’t work if <code class="highlighter-rouge">myFunction</code> is a closure (of course, you would never even think of doing source code string substitution at runtime, but…).</p>
+  </li>
+  <li>
+    <p>It is possible to get function declarations within function declarations within functions — and you can get closures at more than one level.</p>
+
+    <p>在函数内部的函数声明中再次声明新的函数也是可能的，而且你可以超过一个层级的闭包。</p>
+  </li>
+  <li>
+    <p>I think normally a closure is the term for both the function along with the variables that are captured. Note that I do not use that definition in this article!</p>
+  </li>
+  <li>
+    <p>I suspect that closures in JavaScript differ from those normally found in functional languages.</p>
+  </li>
+</ul>
+
+<h2 id="links">Links</h2>
+
+<p>另附阮一峰老师关于闭包的解释，写的非常好！<a href="http://www.ruanyifeng.com/blog/2009/08/learning_javascript_closures.html">学习Javascript闭包（Closure）</a>。</p>
+
+
+  <!-- Disqus -->
+  
+  <div class="post-disqus">
+      <section id="disqus_thread"></section>
+      <script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables */
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = '//.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+  </div>
+  
+
+</div>
+
+
+    <!-- Documents about icons are here: http://fontawesome.io/icons/ -->
+<div class="footer">
+  <hr />
+  <div class="footer-link">
+    
+	
+	
+	
+	
+
+    
+
+    
+    <a href="https://github.com/shadeofgod"><i class="fa fa-github" aria-hidden="true"></i></a>
+    
+	
+	
+    <a href="http://stackoverflow.com/users/shadeofgod"><i class="fa fa-stack-overflow" aria-hidden="true"></i></a>
+    
+	
+	
+    <a href="https://www.quora.com/profile/shadeofgod"><i class="fa fa-quora" aria-hidden="true"></i></a>
+    
+
+    
+	
+	
+	
+	
+	
+	
+	
+	
+
+    
+
+    
+
+    
+    <a href="mailto:zoubingwu@gmail.com"><i class="fa fa-envelope" aria-hidden="true"></i></a>
+    
+
+  </div>
+  © 2017 shadeofgod. All rights reserved.
+</div>
+
+  </div>
+</body>
+</html>
