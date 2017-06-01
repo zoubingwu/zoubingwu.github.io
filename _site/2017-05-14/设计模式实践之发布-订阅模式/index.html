@@ -4,28 +4,32 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>设计模式实践之发布-订阅模式</title>
-
+  <meta name="keywords" content="blog,html,css,javascript,react,vue,nodejs,博客,前端开发,程序员" />
+  <meta name="description" content="shadeofgod的个人博客,shadeofgod's dev blog" />
+  <link href="/assets/images/favicon.ico" rel="bookmark" type="image/x-icon" />
+  <link href="/assets/images/favicon.ico" rel="icon" type="image/x-icon" />
+  <link href="/assets/images/favicon.ico" rel="shortcut icon" type="image/x-icon" />
   <!-- CSS -->
   <link rel="stylesheet" href="/assets/css/main.css" type="text/css">
 
   <!-- Font -->
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link href='//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
-  <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">
+  <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-  <link rel="alternate" type="application/rss+xml" title="RSS Feed for Shadeofgod" href="/feed.xml" /
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed for ShadeofGod's dev blog" href="/feed.xml" /
   <!-- Begin Jekyll SEO tag v2.2.3 -->
-<title>设计模式实践之发布-订阅模式 | Shadeofgod</title>
+<title>设计模式实践之发布-订阅模式 | ShadeofGod’s dev blog</title>
 <meta property="og:title" content="设计模式实践之发布-订阅模式" />
 <meta property="og:locale" content="en_US" />
+<meta name="description" content="发布-订阅模式又叫观察者模式，在平时的javascript程序编写里其实这种模式是非常常见的，比如我们曾经给DOM节点绑定过事件，就是典型的发布-订阅模式…" />
+<meta property="og:description" content="发布-订阅模式又叫观察者模式，在平时的javascript程序编写里其实这种模式是非常常见的，比如我们曾经给DOM节点绑定过事件，就是典型的发布-订阅模式…" />
 <link rel="canonical" href="http://localhost:4000/2017-05-14/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AE%9E%E8%B7%B5%E4%B9%8B%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/" />
 <meta property="og:url" content="http://localhost:4000/2017-05-14/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AE%9E%E8%B7%B5%E4%B9%8B%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/" />
-<meta property="og:site_name" content="Shadeofgod" />
+<meta property="og:site_name" content="ShadeofGod’s dev blog" />
 <meta property="og:image" content="http://localhost:4000/" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2017-05-14T19:38:27+00:00" />
 <script type="application/ld+json">
-{"@context":"http://schema.org","@type":"BlogPosting","headline":"设计模式实践之发布-订阅模式","author":{"@type":"Person","name":null},"image":"http://localhost:4000/","datePublished":"2017-05-14T19:38:27+00:00","dateModified":"2017-05-14T19:38:27+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017-05-14/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AE%9E%E8%B7%B5%E4%B9%8B%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/"},"url":"http://localhost:4000/2017-05-14/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AE%9E%E8%B7%B5%E4%B9%8B%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/"}</script>
+{"@context":"http://schema.org","@type":"BlogPosting","headline":"设计模式实践之发布-订阅模式","author":{"@type":"Person","name":null},"image":"http://localhost:4000/","datePublished":"2017-05-14T19:38:27+00:00","dateModified":"2017-05-14T19:38:27+00:00","description":"发布-订阅模式又叫观察者模式，在平时的javascript程序编写里其实这种模式是非常常见的，比如我们曾经给DOM节点绑定过事件，就是典型的发布-订阅模式…","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2017-05-14/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AE%9E%E8%B7%B5%E4%B9%8B%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/"},"url":"http://localhost:4000/2017-05-14/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E5%AE%9E%E8%B7%B5%E4%B9%8B%E5%8F%91%E5%B8%83-%E8%AE%A2%E9%98%85%E6%A8%A1%E5%BC%8F/"}</script>
 <!-- End Jekyll SEO tag -->
 
 
@@ -37,7 +41,7 @@
   m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-ga('create', '', 'auto');
+ga('create', 'UA-100363260-1', 'auto');
 ga('send', 'pageview');
 
 </script>
@@ -50,7 +54,7 @@ ga('send', 'pageview');
   <div class="content-container">
     <header>
   <div class="header-small">
-    <a href="http://localhost:4000">Shadeofgod</a>
+    <a href="http://localhost:4000">ShadeofGod's dev blog</a>
   </div>
 </header>
 <div class="post">

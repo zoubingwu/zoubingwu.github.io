@@ -5,7 +5,7 @@ image: ''
 date: 2017-05-23 17:38:27
 tags:
 - javascript
-description: ''
+description: '最近研究了一下lodash和underscore的部分源码，其中关于debounce和throttle感觉是比较值得说一说的...'
 categories:
 - javascript
 serie: learn

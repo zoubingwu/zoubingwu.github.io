@@ -3,7 +3,7 @@
 # # # # # # # # # # # # #
 
 # Basic
-name:               "Shadeofgod"
+name:               "ShadeofGod's dev blog"
 
 author:
   # facebook:         your-id
@@ -28,7 +28,7 @@ copyright:
 
 # Google-analytics
 google-analytics:
-  id:               ""
+  id:               "UA-100363260-1"
 
 # Disqus
 disqus:
