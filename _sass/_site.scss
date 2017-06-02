@@ -109,6 +109,8 @@ body {
   Post
   -------------- */
 .post {
+  word-break: break-word;
+  word-wrap: break-word;
 
   &-title {
     margin-top: 0rem;
