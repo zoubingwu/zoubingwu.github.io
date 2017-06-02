@@ -182,6 +182,8 @@ body {
 .list {
   &-post {
     padding: 4% 2%;
+    word-break: break-word;
+    word-wrap: break-word;
     
     &:hover {
       background-color: $background-over-color;
