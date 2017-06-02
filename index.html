@@ -50,7 +50,7 @@ layout: default
     <span class="list-pagination-previous">
       {% if paginator.previous_page %}
         <a href="{{ paginator.previous_page_path | prepend: site.baseurl }}" class="previous">
-          &#xE000; previous
+          <i class="fa fa-angle-left" aria-hidden="true"></i> previous
         </a>
       {% else %}
 
@@ -60,7 +60,7 @@ layout: default
     <span class="list-pagination-next">
       {% if paginator.next_page %}
         <a href="{{ paginator.next_page_path | prepend: site.baseurl }}" class="next">
-          next &#xE001;
+          next <i class="fa fa-angle-right" aria-hidden="true"></i>
         </a>
       {% else %}
 
