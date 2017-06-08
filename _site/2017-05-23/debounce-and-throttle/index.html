@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
   <title>debounce and throttle</title>
   <meta name="keywords" content="blog,html,css,javascript,react,vue,nodejs,博客,前端开发,程序员" />
   <meta name="description" content="shadeofgod的个人博客,shadeofgod's dev blog" />
@@ -15,16 +15,16 @@
   <!-- Font -->
   <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
-  <link rel="alternate" type="application/rss+xml" title="RSS Feed for ShadeofGod's dev blog" href="/feed.xml" /
+  <link rel="alternate" type="application/rss+xml" title="RSS Feed for ShadeofGod's Devblog" href="/feed.xml" /
   <!-- Begin Jekyll SEO tag v2.2.3 -->
-<title>debounce and throttle | ShadeofGod’s dev blog</title>
+<title>debounce and throttle | ShadeofGod’s Devblog</title>
 <meta property="og:title" content="debounce and throttle" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="看了一点lodash和underscore的部分源码，其中关于debounce和throttle感觉比较值得写一写…" />
 <meta property="og:description" content="看了一点lodash和underscore的部分源码，其中关于debounce和throttle感觉比较值得写一写…" />
 <link rel="canonical" href="http://localhost:4000/2017-05-23/debounce-and-throttle/" />
 <meta property="og:url" content="http://localhost:4000/2017-05-23/debounce-and-throttle/" />
-<meta property="og:site_name" content="ShadeofGod’s dev blog" />
+<meta property="og:site_name" content="ShadeofGod’s Devblog" />
 <meta property="og:image" content="http://localhost:4000/" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2017-05-23T17:38:27+00:00" />
@@ -54,7 +54,7 @@ ga('send', 'pageview');
   <div class="content-container">
     <header>
   <div class="header-small">
-    <a href="http://localhost:4000">ShadeofGod's dev blog</a>
+    <a href="http://localhost:4000">ShadeofGod's Devblog</a>
   </div>
 </header>
 <div class="post">
@@ -67,7 +67,7 @@ ga('send', 'pageview');
       
       <li>
         <a href="http://localhost:4000/tags#javascript">
-          <span>javascript</span>
+          <span><i class="fa fa-paperclip" aria-hidden="true"></i>javascript</span>
         </a>
       </li>
       
@@ -179,14 +179,14 @@ this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL va
 this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
 };
 */
-(function() { // DON'T EDIT BELOW THIS LINE
-var d = document, s = d.createElement('script');
-s.src = '//.disqus.com/embed.js';
-s.setAttribute('data-timestamp', +new Date());
-(d.head || d.body).appendChild(s);
-})();
+// (function() { // DON'T EDIT BELOW THIS LINE
+// var d = document, s = d.createElement('script');
+// s.src = '//.disqus.com/embed.js';
+// s.setAttribute('data-timestamp', +new Date());
+// (d.head || d.body).appendChild(s);
+// })();
 </script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<!--<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>-->
 
   </div>
   

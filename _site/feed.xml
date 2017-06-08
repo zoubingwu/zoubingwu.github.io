@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
-    <title>ShadeofGod's dev blog</title>
+    <title>ShadeofGod's Devblog</title>
     <link>http://localhost:4000</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
+    
+      <item>
+        <title>Vue源码学习-监听数组的变化</title>
+        <description>&lt;p&gt;监听数组的变化比起监听对象的属性变化麻烦了不少，因为在JS里数组这一数据结构的有着很多的修改方法，既可以通过&lt;code class=&quot;highlighter-rouge&quot;&gt;push&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;pop&lt;/code&gt;,&lt;code class=&quot;highlighter-rouge&quot;&gt;shift&lt;/code&gt;等原生的方法来修改，也可以直接通过指定下标来直接赋值，&lt;/p&gt;
+</description>
+        <pubDate>Fri, 02 Jun 2017 11:15:27 +0000</pubDate>
+        <link>http://localhost:4000/2017-06-02/Vue%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0-%E7%9B%91%E5%90%AC%E6%95%B0%E7%BB%84%E7%9A%84%E5%8F%98%E5%8C%96-copy/</link>
+        <guid isPermaLink="true">http://localhost:4000/2017-06-02/Vue%E6%BA%90%E7%A0%81%E5%AD%A6%E4%B9%A0-%E7%9B%91%E5%90%AC%E6%95%B0%E7%BB%84%E7%9A%84%E5%8F%98%E5%8C%96-copy/</guid>
+      </item>
     
       <item>
         <title>Vue源码学习-监听对象的变化</title>
@@ -15,7 +24,7 @@
 
 &lt;ol&gt;
   &lt;li&gt;[[configurable]] 可配置&lt;/li&gt;
-  &lt;li&gt;[[enumerable]] 可迭代&lt;/li&gt;
+  &lt;li&gt;[[enumerable]] 可枚举&lt;/li&gt;
   &lt;li&gt;[[writable]] 可写&lt;/li&gt;
   &lt;li&gt;[[value]] 值&lt;/li&gt;
 &lt;/ol&gt;

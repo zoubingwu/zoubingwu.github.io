@@ -16,7 +16,7 @@ layout: default
       {% for tag in page.tags %}
       <li>
         <a href="{{ site.url }}{{ site.baseurl }}/tags#{{ tag }}">
-          <span>{{ tag }}</span>
+          <span><i class="fa fa-paperclip" aria-hidden="true"></i>{{ tag }}</span>
         </a>
       </li>
       {% unless forloop.last %}{% endunless %}
