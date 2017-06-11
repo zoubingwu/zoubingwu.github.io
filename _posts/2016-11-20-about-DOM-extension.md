@@ -1,10 +1,12 @@
 ---
 layout: post
 title: "about DOM extension"
-image: ''
+image: '不要轻易为DOM对象添加自定义属性和方法。'
 date:   2016-11-20 10:33:18
 tags:
 - DOM
+- html
+- javascript
 description: ''
 categories:
 - Javascript

@@ -5,6 +5,7 @@ image: ''
 date:   2017-01-09 17:03:18
 tags:
 - firefox customize
+- browser
 description: ''
 categories:
 - Css

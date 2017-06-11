@@ -5,6 +5,7 @@ image: ''
 date:   2017-03-31 21:46:18
 tags:
 - javascript
+- clipboard
 description: ''
 categories:
 - javascript
