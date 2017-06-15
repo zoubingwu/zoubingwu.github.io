@@ -26,16 +26,18 @@ description: '在web端通过url scheme和universal link来呼出iOS app或跳�
 
 相关的内容可以参考苹果的[官方文档](https://developer.apple.com/library/content/documentation/AppleApplications/Reference/SafariWebContent/PromotingAppswithAppBanners/PromotingAppswithAppBanners.html)。
 
+#### 逻辑和代码
+
 在点击这两个入口的时候需要判断两种情况：
 
 1. 如果用户安装了app，则跳转到app内相对应的页面。
 2. 如果用户没有安装app，则跳转到app store对应的下载页面。
 
-顶部的banner由于是苹果系统所提供的，可以自动判断，此处不再赘述。
+顶部的banner由于是苹果系统所提供的，可以自动判断，就不再赘述。
 
-仅通过浏览器是无法直接判断用户是否安装了app的，所以在这里引入两个概念，一个是`URL Scheme`，一个是通用链接`Universal Link`。
+仅通过浏览器并没有API去判断用户是否安装了app，所以在这里引入两个概念，一个是`URL Scheme`，一个是通用链接`Universal Link`。，由于是iOS开发的内容，所以关于这两者的具体使用和配置可以查看相关的文档，不在这里详细解释了。
 
-`URL Scheme`在这里不做详细的解释，简单来说，类似我们web端熟悉的URL，通常使用的`http`或`https`协议，比如：
+`URL Scheme`简单来说，类似我们web端熟悉的通常使用`http`或`https`协议的URL，比如：
 
 ```xml
 首页：https://www.apple.com
@@ -61,7 +63,7 @@ window.location.href = url
 
 因此我们可以将这条链接制作为一个中转的欢迎页面，比如通用链接为`https://ios.xxx.com`，在`https://xxx.com`下的悬浮按钮上绑定点击事件，点击后直接设置`location.href`为`https://ios.xxx.com`，那么安装了app就可以直接跳转到app，否则跳转到中转页面，在中转页面我们可以在载入后马上设置`location.href`为iTunes的链接，那么用户进入中转页面后马上会提示是否跳转到iTunes的对应app下载链接。同样的，通过在链接中带上参数就可以确保跳转到对应的子页面。
 
-值得提醒的是，通用链接仅支持iOS9以上的用户，因此iOS9以下我们还是只能使用`URL Scheme`，下面是代码：
+由于通用链接仅支持iOS9以上的用户，因此对于iOS9以下的用户我们还是只能使用`URL Scheme`，下面是代码：
 
 ```javascript
 function openInApp() {
