@@ -5,7 +5,6 @@ image: ''
 date: 2017-05-23 17:38:27
 tags:
 - javascript
-- debounce/throttle
 description: '看了一点lodash和underscore的部分源码，其中关于debounce和throttle感觉比较值得写一写...'
 categories:
 - javascript
