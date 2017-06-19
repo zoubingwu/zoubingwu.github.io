@@ -4,7 +4,7 @@ title: "Event order"
 image: ''
 date:   2017-02-05 23:03:18
 tags:
-- event
+- javascript
 description: ''
 categories:
 - javascript

@@ -5,7 +5,7 @@ image: ''
 date:   2016-10-18 23:28:11
 tags:
 - Array
-description: ''
+description: '关于JS中数组的常用方法'
 categories:
 - Javascript
 serie: learn

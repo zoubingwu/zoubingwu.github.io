@@ -5,8 +5,7 @@ image: ''
 date:   2016-10-26 00:48:21
 tags:
 - javascript
-- css
-description: ''
+description: '总结JS一些常用的修改css样式的方式。'
 categories:
 - javascript
 serie: learn
