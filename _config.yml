@@ -63,6 +63,8 @@ nav:
     url:            "/tags"
   - name:           "Github"
     url:            "https://github.com/shadeofgod"
+  - name:           "Resume"
+    url:            "/resume"
 
 # Sass
 sass:
