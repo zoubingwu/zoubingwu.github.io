@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "聊聊好的Git work flow"
-date: 2017-06-22 20:15:27
+date: 2017-06-28 20:15:27
 tags:
 - Git 
 description: '大部分人常用的Git命令无外乎git status, git add, git commit, git push等，但培养好的Git的使用习惯和work flow可以在多人协作的过程中获益匪浅。'
