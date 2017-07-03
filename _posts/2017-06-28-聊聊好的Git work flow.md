@@ -104,4 +104,11 @@ hard是把改动全部都丢弃，而soft则柔软一些，仅仅是把所做的
 
 记住，这里演示的工作流只是可能用法的例子，而不是在实际工作中使用Git不可违逆的条例。所以不要畏惧按自己需要对工作流的用法做取舍。不变的目标就是让Git为你所用。
 
+#### ref
+
+[你们仍未掌握那天所学的 git 知识](https://www.v2ex.com/t/368083)
+
+[使用 "5W1H" 写出高可读的 Git Commit Message](https://zhuanlan.zhihu.com/p/26791124)
+
+[Git工作流指南：Gitflow工作流](https://www.atlassian.com/git/tutorials/comparing-workflows)
 
