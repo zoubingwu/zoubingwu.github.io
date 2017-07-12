@@ -5,6 +5,7 @@ date: 2017-07-08 20:15:27
 tags:
 - chrome
 - iOS 
+- devtools
 description: '对于iOS开发时需要使用的webview调试通常只能使用safari，但是早已习惯了chrome强大的dev tool，该如何是好呢？'
 ---
 
