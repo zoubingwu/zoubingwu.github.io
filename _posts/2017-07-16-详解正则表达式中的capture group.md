@@ -64,5 +64,5 @@ str = str.replace(/(https?:\/\/\S+?)/, '<a href="$1">$1</a>')
 
 #### ref
 
-- https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions
-- http://regexr.com/
+- [https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions)
+- [http://regexr.com/](http://regexr.com/)
