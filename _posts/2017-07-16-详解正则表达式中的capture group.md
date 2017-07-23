@@ -4,7 +4,7 @@ title: "详解正则表达式中的capture group"
 date: 2017-07-16 14:53:27
 tags:
 - regular expression
-description: '说说如何利用正则表达式中的capture group来匹配重复项和进行特定的替换'
+description: '说说如何利用正则表达式中的capture group来匹配重复项和进行特定的替换。'
 ---
 
 ## 前言
