@@ -56,7 +56,33 @@ str = str.replace(/(https?:\/\/\S+?)/, '<a href="$1">$1</a>')
 /president\s(?=jiang|mao)/
 ```
 
-`x(?=y)`这种形式就是仅仅匹配x后面跟着y，这叫做正向肯定查找(positive lookahead)，有正向就有反向，对于仅匹配x后面不跟着y的，它的形式就是`x(?!y)`这样的(negative lookahead)。
+`x(?=y)` 这种形式就是仅仅匹配x后面跟着y，这叫做positive lookahead，对于仅匹配x后面不跟着y的，它的形式就是 `x(?!y)` 这样的(negative lookahead)。
+
+### Named Capture Groups(proposal)
+
+之前说的匹配组有一个问题是，只能用数字来作为序号引用，每一组的匹配含义也不容易看出来。因此有了[具名匹配组](https://github.com/tc39/proposal-regexp-named-groups)这样一个提案，可以为每一组指定一个具体的名字，这样便于阅读和引用。
+
+```javascript
+const RE_DATE = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/;
+
+const matchObj = RE_DATE.exec('1999-12-31');
+const year = matchObj.groups.year; // 1999
+const month = matchObj.groups.month; // 12
+const day = matchObj.groups.day; // 31
+```
+
+可以看到，使用 `?<xxx>` 这样的形式可以为一个组确定一个组名，并在返回对象的groups属性使用组名来引用。
+
+### lookbehind(proposal)
+
+同样的，由于 `lookahead` 只能根据后半部分来匹配，因此有了与其相反的一个[提案](https://github.com/goyakin/es-regexp-lookbehind)，可以根据前面部分的内容来匹配。
+
+比如，只匹配美元符号之后的数字，可以写成 `/(?<=\$)\d+/`，只匹配不在美元符号之后的数字，可以写成 `/(?<!\$)\d+/`：
+
+```javascript
+/(?<=\$)\d+/.exec('Benjamin Franklin is on the $100 bill')  // ["100"]
+/(?<!\$)\d+/.exec('it’s is worth about €90')                // ["90"]
+```
 
 ### 总结
 
@@ -66,3 +92,4 @@ str = str.replace(/(https?:\/\/\S+?)/, '<a href="$1">$1</a>')
 
 - [https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Regular_Expressions)
 - [http://regexr.com/](http://regexr.com/)
+- [http://es6.ruanyifeng.com](http://es6.ruanyifeng.com/#docs/regex)
