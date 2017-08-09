@@ -21,6 +21,14 @@
     {% if site.author.github %}
     <a href="https://github.com/{{ site.author.github }}"><i class="fa fa-github" aria-hidden="true"></i></a>
     {% endif %}
+
+    {% if site.author.zhihu %}
+    <a href="https://www.zhihu.com/people/{{ site.author.zhihu }}/activities"><i class="fa fa-zhihu" aria-hidden="true"></i></a>
+    {% endif %}
+
+    {% if site.author.steam %}
+    <a href="http://steamcommunity.com/profiles/{{ site.author.steam }}/"><i class="fa fa-steam-square" aria-hidden="true"></i></a>
+    {% endif %}
 	
 	{% if site.author.stackoverflow %}
     <a href="http://stackoverflow.com/users/{{ site.author.stackoverflow }}"><i class="fa fa-stack-overflow" aria-hidden="true"></i></a>
