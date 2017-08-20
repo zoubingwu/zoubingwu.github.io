@@ -47,7 +47,7 @@ timezone:           Asia/Beijing
 permalink:          /:year-:month-:day/:title/
 
 # Pagination
-paginate:           10
+paginate:           5
 paginate_path:      /page:num/
 
 # Markdown
