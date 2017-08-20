@@ -76,14 +76,14 @@ return '<p>Hello, my name is ' + data.name + ', and I\'m ' + data.info.age + ' y
 ```js
 var template = 
 'My skills:' + 
-'<%for(var index in this.skills) {%>' + 
+'<% for(var index in this.skills) { %>' +
 '<a href=""><%this.skills[index]%></a>' +
-'<%}%>';
+'<% } %>';
 
 // 如果继续采用上面的方式，得到的结果会报错：
-return 'My skills:' + 
+return 'My skills:' +
 for(var index in this.skills) { +
-'<a href="">' + 
+'<a href="">' +
 this.skills[index] +
 '</a>' +
 }
@@ -136,9 +136,9 @@ var data = {
 }
 var reg = /<%([^%>]+)?%>/g
 var tpl = '<p>Hello, my name is <% data.name %>. I\'m <% data.age %> years old.</p>' + 
-'<p>My skills are <% for (var index in data.skills) {%>' +
+'<p>My skills are <% for (var index in data.skills) { %>' +
 '<a href="#"><% data.skills[index] %></a>' +
-'<%}%></p>'
+'<% } %></p>'
 var match
 var code = 'var r = [];\n'
 var cursor = 0
@@ -230,9 +230,9 @@ var data = {
   skills: ["js", "html", "css"]
 }
 var tpl = '<p>Hello, my name is <% this.name %>. I\'m <% this.age %> years old.</p>' +
-  '<p>My skills are <% for (var index in this.skills) {%>' +
+  '<p>My skills are <% for (var index in this.skills) { %>' +
   '<a href="#"><% this.skills[index] %></a>' +
-  '<%}%></p>'
+  '<% } %></p>'
 
 TemplateEngine(tpl, data)
 // 结果
