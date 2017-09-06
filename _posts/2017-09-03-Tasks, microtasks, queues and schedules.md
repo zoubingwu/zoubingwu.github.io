@@ -4,7 +4,7 @@ title: "Tasks, microtasks, queues and schedules"
 date: 2017-09-03 21:02:33
 tags:
 - javascript
-description: "浏览器端event loop中的microtask queueing and execution"
+description: "讲讲浏览器端 event loop 中的 task 和 microtask..."
 ---
 
 ### 前言
@@ -41,9 +41,9 @@ setTimeout
 
 ### But why?
 
-要搞清楚其中的原理，首先需要明白 event loop 是如何处理 tasks 和 microtasks的。
+要搞清楚其中的原理，首先需要明白 event loop 是如何处理 tasks 和 microtasks 的。
 
-我们都知道 js 是单线程运行，一个线程内都有各自的 event loop，web worker也都有自己单独的 event loop，以使得他们可以独立运行(关于web worker的内容可以参见文末的MDN链接)，而在同一个域内的 window 将共享一个event loop。
+我们都知道 js 是单线程运行，一个线程内都有各自的 event loop，web worker 也都有自己单独的 event loop，以使得他们可以独立运行(关于 web worker 的内容可以参见文末的MDN链接)，而在同一个域内的 window 将共享一个event loop。
 
 event loop 不断循环，只要栈中的同步代码完成后就会去执行其队列中的任务。那么他们这些任务的执行顺序又是怎么样的呢？按照进入队列时间的先后的顺序来执行吗？
 
@@ -51,7 +51,7 @@ nah，实际上浏览器出于优化的目的，对他们的执行顺序也是�
 
 > **Tasks** are scheduled so the browser can get from its internals into JavaScript/DOM land and ensures these actions happen sequentially. Between tasks, the browser may render updates. Getting from a mouse click to an event callback requires scheduling a task, as does parsing HTML, and in the above example, setTimeout.
 
-在上面的例子里，从脚本开始运行`console.log('script start')`开始到结束语句 `congole.log('script end')` 都是我们的第一个 task，而setTimeout 会在一个给定的延迟后，并且要等到上一个 task 结束以后，再开始一个新的 task，所以很明显我们在 setTimeout 中传入的第二个参数时间并不意味着准确的时间，实际上应该是最小时间，因为哪怕时间到了，上一个 task 如果还没有结束，那么依然需要继续等待。
+在上面的例子里，从脚本开始运行`console.log('script start')`开始到结束语句 `console.log('script end')` 都是我们的第一个 task，而 setTimeout 会在一个给定的延迟后，并且要等到上一个 task 结束以后，再开始一个新的 task，所以很明显我们在 setTimeout 中传入的第二个参数时间并不意味着准确的时间，实际上应该是最小时间，因为哪怕时间到了，上一个 task 如果还没有结束，那么依然需要继续等待。
 
 > **Microtasks** are usually scheduled for things that should happen straight after the currently executing script, such as reacting to a batch of actions, or to make something async without taking the penalty of a whole new task. The microtask queue is processed after callbacks as long as no other JavaScript is mid-execution, and at the end of each task. Any additional microtasks queued during microtasks are added to the end of the queue and also processed. Microtasks include mutation observer callbacks, and as in the above example, promise callbacks.
 
@@ -59,19 +59,19 @@ nah，实际上浏览器出于优化的目的，对他们的执行顺序也是�
 
 我们用栈中运行的内容来说，可以这么想象
 
-1. 首先开始了第一个 task A
-2. 打印 'script start'
-3. 创建了第二个 task B 放入队列里，内容是打印 'setTimeout'
-4. 继续我们未完成的 task A，创建一个 promise并且马上 resolve
-5. 把resolve后的任务打印 'promise1' 作为 microtask 放入队列，既然是 microtask，那么他必须仍然是 task A 中的任务，因此在队列中会在 task B 之前。
-6. 同样的，下一个 then 又继续将打印 'promise2' 作为 microtask 来push进队列，在队列中紧跟在 5 之后，而在 3 之后。
-7. 打印'script end'
-8. task A 结束了吗？木有，此时我们来运行 队列中属于 task A中的 microtasks
-9. 打印 'promise1'
-10. 打印 'promise2'
-11. 终于 task A 结束了
-12. 开始 task B，打印 'setTimeout'
-13. 全部 task 结束
+1. 首先开始了第一个 task A;
+2. 打印 'script start';
+3. 创建了第二个 task B 放入队列里，内容是打印 'setTimeout';
+4. 继续我们未完成的 task A，创建一个 promise并且马上 resolve;
+5. 把resolve后的任务打印 'promise1' 作为 microtask 放入队列，既然是 microtask，那么他必须仍然是 task A 中的任务，因此在队列中会在 task B 之前;
+6. 同样的，下一个 then 又继续将打印 'promise2' 作为 microtask 来push进队列，在队列中紧跟在 5 之后，而在 3 之后;
+7. 打印'script end';
+8. task A 结束了吗？木有，此时我们来运行 队列中属于 task A 中的microtasks;
+9. 打印 'promise1';
+10. 打印 'promise2';
+11. 终于 task A 结束了;
+12. 开始 task B，打印 'setTimeout';
+13. 全部 task 结束;
 
 ### 浏览器的区别
 
