@@ -59,7 +59,7 @@ nah，实际上浏览器出于优化的目的，对他们的执行顺序也是�
 
 典型的 MacroTask 包含了 setTimeout, setInterval, setImmediate, requestAnimationFrame, I/O, UI rendering 等，MicroTask 包含了 process.nextTick, Promises, Object.observe, MutationObserver 等。 二者的关系可以图示如下：
 
-![]({{site.url}}/assets/images/2017-09-03/1.jpg)
+![]({{site.url}}/assets/images/2017-09-03/1.png)
 
 一个事件循环(Event Loop)会有一个或多个任务队列(Task Queue，又称 Task Source)，这里的 Task Queue 就是 MacroTask Queue，而 Event Loop 仅有一个 MicroTask Queue。每个 Task Queue 都保证自己按照回调入队的顺序依次执行，所以浏览器可以从内部到JS/DOM，保证动作按序发生。而在 Task 的执行之间则会清空已有的 MicroTask 队列，在 MacroTask 或者 MicroTask 中产生的 MicroTask 同样会被压入到 MicroTask 队列中并执行
 
@@ -85,6 +85,8 @@ nah，实际上浏览器出于优化的目的，对他们的执行顺序也是�
 
 > Treating promises as tasks leads to performance problems, as callbacks may be unnecessarily delayed by task-related things such as rendering. It also causes non-determinism due to interaction with other task sources, and can break interactions with other APIs, but more on that later.
 
+根据 HTML Standard，在每个 task 运行完以后，UI 都会重渲染，那么在 microtask 中就完成数据更新，当前 task 结束就可以得到最新的 UI 了。反之如果新建一个 task 来做数据更新，那么渲染就会进行两次。根据我们上面提到的事件循环进程模型，每一次执行 task 后，然后执行 microtasks queue，最后进行页面更新。如果我们使用 task 来设置 DOM 更新，那么效率会更低。而 microtask 则会在页面更新之前完成数据更新，会得到更高的效率。
+
 ### 如何分辨到底是 task 还是 microtask呢
 
 其实和处理大部分问题一样，就两个方法：
@@ -98,3 +100,5 @@ nah，实际上浏览器出于优化的目的，对他们的执行顺序也是�
 - [https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers)
 
 - [https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/](https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/)
+
+- [https://www.zhihu.com/question/23028843](https://www.zhihu.com/question/23028843)
