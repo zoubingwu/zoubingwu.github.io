@@ -61,7 +61,7 @@ nah，实际上浏览器出于优化的目的，对他们的执行顺序也是�
 
 ![]({{site.url}}/assets/images/2017-09-03/1.png)
 
-一个事件循环(Event Loop)会有一个或多个任务队列(Task Queue，又称 Task Source)，这里的 Task Queue 就是 MacroTask Queue，而 Event Loop 仅有一个 MicroTask Queue。每个 Task Queue 都保证自己按照回调入队的顺序依次执行，所以浏览器可以从内部到JS/DOM，保证动作按序发生。而在 Task 的执行之间则会清空已有的 MicroTask 队列，在 MacroTask 或者 MicroTask 中产生的 MicroTask 同样会被压入到 MicroTask 队列中并执行
+一个事件循环(Event Loop)会有一个或多个任务队列(Task Queue，又称 Task Source)，这里的 Task Queue 就是 MacroTask Queue，而 Event Loop 仅有一个 MicroTask Queue。每个 Task Queue 都保证自己按照回调入队的顺序依次执行，所以浏览器可以从内部到JS/DOM，保证动作按序发生。而在 Task 的执行之间则会清空已有的 MicroTask 队列，在 MacroTask 或者 MicroTask 中产生的 MicroTask 同样会被压入到 MicroTask 队列中并执行。
 
 我们按顺序一步一步详细解释这个例子：
 
@@ -70,9 +70,9 @@ nah，实际上浏览器出于优化的目的，对他们的执行顺序也是�
 3. 创建了第二个 task B 放入队列里，内容是打印 'setTimeout';
 4. 继续我们未完成的 task A，创建一个 promise并且马上 resolve;
 5. 把resolve后的任务打印 'promise1' 作为 microtask 放入队列，既然是 microtask，那么他必须仍然是 task A 中的任务，因此在队列中会在 task B 之前;
-6. 同样的，下一个 then 又继续将打印 'promise2' 作为 microtask 来push进队列，在队列中紧跟在 5 之后，而在 3 之后;
+6. 同样的，下一个 then 又继续将打印 'promise2' 作为 microtask 来push进队列，在队列中紧跟在 5 之后，而在 3 之前;
 7. 打印'script end';
-8. task A 结束了吗？木有，此时我们来运行 队列中属于 task A 中的microtasks;
+8. task A 结束了吗？木有，此时我们来运行队列中属于 task A 中的microtasks;
 9. 打印 'promise1';
 10. 打印 'promise2';
 11. 终于 task A 结束了;
@@ -81,7 +81,7 @@ nah，实际上浏览器出于优化的目的，对他们的执行顺序也是�
 
 ### 浏览器的区别
 
-有某些浏览器，它们会将 promise 的异步作为新的task，而不是 microtask，此时就会出现先打印 setTimeout，然后才打印 promise1 和 promise1。
+某些浏览器，它们会将 promise 的异步作为新的task，而不是 microtask，此时就会出现先打印 setTimeout，然后才打印 promise1 和 promise2。
 
 > Treating promises as tasks leads to performance problems, as callbacks may be unnecessarily delayed by task-related things such as rendering. It also causes non-determinism due to interaction with other task sources, and can break interactions with other APIs, but more on that later.
 
