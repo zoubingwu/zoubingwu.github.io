@@ -109,7 +109,7 @@ outer.addEventListener('click', onClick);
 现在我们换一种方式来触发，我们在 JS 代码中最后加上一句：
 
 ```js
-inner. click();
+inner.click();
 ```
 
 结果会是什么呢？
