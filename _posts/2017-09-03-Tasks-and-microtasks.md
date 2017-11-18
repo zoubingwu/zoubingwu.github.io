@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Tasks, microtasks, queues and schedules"
+title: "Tasks and microtasks"
 date: 2017-09-03 21:02:33
 tags:
 - javascript
