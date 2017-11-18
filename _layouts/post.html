@@ -26,11 +26,11 @@ layout: default
 
   {{ content }}
 
-  <!-- Disqus -->
-  {% if page.comments != false and site.disqus.id %}
-  <div class="post-disqus">
+  <!-- comment -->
+  {% if page.comments != false %}
+  <div class="post-comment">
       <section id="comment_thread"></section>
-      {% include disqus.html %}
+      {% include comment.html %}
   </div>
   {% endif %}
 

@@ -1,0 +1,15 @@
+<script src="https://unpkg.com/gitalk/dist/gitalk.min.js"></script>
+<script>
+  var gitalk = new Gitalk({
+    clientID: '38e807fd1a5b4c609ef3',
+    clientSecret: 'acaa1d89301d12f8de17e6e33d86c8c88c467935',
+    repo: 'blog-comments',
+    owner: 'shadeofgod',
+    admin: ['shadeofgod'],
+    // facebook-like distraction free mode
+    distractionFreeMode: false
+  })
+
+  gitalk.render('comment_thread')
+</script>
+<noscript>Please enable JavaScript to view the comments.</noscript>
