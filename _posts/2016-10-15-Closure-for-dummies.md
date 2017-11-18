@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Closure for dummies(translated)"
+title:  "Closure for dummies"
 image: ''
 date:   2016-10-15 22:22:31
 tags:
