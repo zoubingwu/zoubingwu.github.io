@@ -100,10 +100,11 @@ google-analytics:
   id:               "your-id"
 ```
 
-### ~~Disqus~~ Gitment
+### ~~Disqus~~ ~~Gitment~~ Gitalk
 
 - ~~Change this to your Disqus short name.~~
-- see [Gitment documentation](https://github.com/imsun/gitment)
+- ~~see [Gitment documentation](https://github.com/imsun/gitment)~~
+- see [Gitalk documentation](https://github.com/gitalk/gitalk)
 
 ### URL
 
