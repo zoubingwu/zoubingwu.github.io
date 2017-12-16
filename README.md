@@ -2,51 +2,12 @@
 
 ## Content
 
-Check [https://shadeofgod.github.io/](https://shadeofgod.github.io/) for details.
-
-- JavaScript模板引擎的实现原理 | 14 AUG 2017
-- 漫谈从文本到数据结构 | 06 AUG 2017
-- JSON解析器的简单实现 | 31 JUL 2017
-- 编写shell脚本的一些简单概念 | 27 JUL 2017
-- 移动端click事件的延迟处理 | 23 JUL 2017
-- 详解正则表达式中的capture group | 16 JUL 2017
-- 使用chrome开发者工具调试iOS webview | 08 JUL 2017
-- 聊聊好的Git work flow | 28 JUN 2017
-- Vue源码学习-番外篇-proxy实现数据监听 | 22 JUN 2017
-- 利用通用链接从web端引流到iOS app | 15 JUN 2017
-- Vue源码学习-监听数组的变化 | 10 JUN 2017
-- Vue源码学习-监听对象的变化 | 02 JUN 2017
-- debounce and throttle | 23 MAY 2017
-- 设计模式实践之发布-订阅模式 | 14 MAY 2017
-- 设计模式实践之单例模式 | 11 MAY 2017
-- 从promise说说异步编程 | 29 APR 2017
-- input标签上传文件的重置问题 | 21 APR 2017
-- 关于最近的一点想法和领悟 | 20 APR 2017
-- javascript简单实现跨浏览器复制粘贴 | 31 MAR 2017
-- 工作一周小结 | 11 MAR 2017
-- 浏览器端css和js的性能优化 | 04 MAR 2017
-- css3打造流光色彩特效 | 27 FEB 2017
-- 关于复杂度大O标记的简介 | 14 FEB 2017
-- Event order | 05 FEB 2017
-- 使用css打造自定义firefox界面 | 09 JAN 2017
-- 创建对象的几种模式（二） | 04 JAN 2017
-- 创建对象的几种模式（一） | 03 JAN 2017
-- javascript中的类型判断 | 29 DEC 2016
-- 关于Javascript中的this | 09 DEC 2016
-- 闭包运用的一个典型例子 | 05 DEC 2016
-- about DOM extension | 20 NOV 2016
-- css3 flexbox | 13 NOV 2016
-- 优秀和糟糕前端工程师的区别 | 11 NOV 2016
-- 对HTML5中section标签的一点理解 | 31 OCT 2016
-- Airbnb js代码规范（译） | 28 OCT 2016
-- 通过javascript修改css样式的常用方式 | 26 OCT 2016
-- Javascript中操作数组的一些常用方法总结 | 18 OCT 2016
-- Closure for dummies(translated) | 15 OCT 2016
+Check [https://shadeofgod.github.io/archive/](https://shadeofgod.github.io/archive/) for details.
 
 ## Features
 
 - Markdown
-- Gitment comment system
+- Gitalk comment system
 - Google analytics
 - Pagination support
 - Custom tag
