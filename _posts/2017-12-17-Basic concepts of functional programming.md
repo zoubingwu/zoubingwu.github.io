@@ -78,4 +78,54 @@ React 相关的第三方工具库中就有 [Recompose](https://github.com/acdlit
 
 ### Point Free
 
+函数无须提及将要操作的数据是什么样的，我们需要尽可能的减少中间变量。
 
+```javascript
+// not point free
+var f = str => str.toUpperCase().split(' ');
+
+
+// point free
+var toUpperCase = word => word.toUpperCase();
+var split = x => (str => str.split(x));
+
+var f = compose(split(' '), toUpperCase);
+```
+
+这种风格能够帮助我们减少不必要的命名，让代码保持简洁和通用。当然，为了在一些函数中写出 Point Free 的风格，在代码的其它地方必然是不那么 Point Free 的，这个需要自己取舍。
+
+### Declarative vs Imperative
+
+命令式代码通过编写一条又一条指令去让计算机执行一些动作，这其中一般都会涉及到很多繁杂的细节，是典型的面向过程式。
+
+而声明式则通过表达式的方式来声明我们想干什么，而不是通过一步一步的指示。
+
+for 循环和 map 函数是典型的对比：
+
+```javascript
+// 命令式
+var makes = [];
+for (i = 0; i < cars.length; i++) {
+  makes.push(cars[i].make);
+}
+// 声明式
+var makes = cars.map((car) => car.make);
+```
+
+再看一个例子：
+
+```javascript
+// 命令式
+var authenticate = function(form) {
+  var user = toUser(form);
+  return logIn(user);
+};
+// 声明式
+var authenticate = compose(logIn, toUser);
+```
+
+虽然命令式的版本并不一定就是错的，但还是硬编码了那种一步接一步的执行方式。而 compose 表达式只是简单地指出了这样一个事实：用户验证是 `toUser`和 `logIn` 两个行为的组合。
+
+## 总结
+
+在实际的工作中经常会接触到ajax、DOM操作，NodeJS环境中读写文件、网络操作这些对于外部环境强依赖，有明显副作用的脏活，不可能完全遵循函数式的范式去书写日常的应用程序，但学习这种每一部分都能完美接合的理论，尝试去践行以一种通用的、可组合的组件来表示我们的特定问题，然后利用这些组件的特性来解决这些问题对于我们的代码能力会有很大的提升。
