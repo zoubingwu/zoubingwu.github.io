@@ -7,13 +7,11 @@ You can see live demo [here](https://aweekj.github.io/Kiko-plus). This theme is 
 
 ## Features
 
-- ~~Disqus comment system~~
-- Gitment comment system
+- Gitalk comment system
 - Google analytics
 - Pagination support
 - Custom tags
 - SEO support
-
 
 ## Installation
 
