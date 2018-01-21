@@ -135,6 +135,6 @@ const ListItem = connect(
 
 这一点其实在[ Redux 文档](https://redux.js.org/docs/recipes/reducers/NormalizingStateShape.html)中有比较详细的说明。
 
-####ref
+#### ref
 
 - [https://reactrocket.com/post/react-redux-optimization/](https://reactrocket.com/post/react-redux-optimization/)
