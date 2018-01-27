@@ -137,4 +137,6 @@ const ListItem = connect(
 
 #### ref
 
+- [https://redux.js.org/](https://redux.js.org/)
+
 - [https://reactrocket.com/post/react-redux-optimization/](https://reactrocket.com/post/react-redux-optimization/)
