@@ -13,7 +13,7 @@ description: "Introduction about the iterator pattern."
 
 其实我们以前编写的代码就有很多迭代器模式的运用，迭代这个概念只要是刚开始学习循环的时候就会接触到。而迭代器模式就是不暴露一个对象的内部表示，而使用其提供的一个方法来顺序的访问这个对象中的各个元素。在高级的编程语言中，基本都有内置的迭代器实现。
 
-## 简单实现和内部迭代器、外部迭代器
+## 简介
 
 jQeury 就提供了一个基本的 each 函数，来循环访问聚合对象中的各个元素。我们可以自己很容易就简单的实现一个这样的函数，它接受两个参数，第一个是被循环的数组，第二个就是每一次循环触发的回调函数。
 
@@ -68,12 +68,14 @@ function *iterator(array) {
 
 function compare(a, b) {
   let result = true;
-
-  while(!(a.next().done) && !(b.next().done)) {
-    let v1 = a.next()
-    if (a.value !== b.value) {
+  let i1 = a.next();
+  let i2 = b.next();
+  while(!i1.done && !i2.done) {
+    if (i1.value !== i2.value) {
       result = false;
     }
+    i1 = a.next();
+    i2 = b.next();
   }
   return result;
 }
@@ -81,9 +83,11 @@ function compare(a, b) {
 const iterator1 = iterator([1,2,3,4,5]);
 const iterator2 = iterator([1,3,4,2,5]);
 
-const res = compare(iterator1, iterator2);
+compare(iterator1, iterator2);
 ```
 
+迭代器模式不止可以迭代数组，还可以迭代很多的类数组对象，实际上只需要这个对象拥有 length 属性而且可以用下标访问，那就可以被迭代。
 
+在 javascript 中因为语言本身的特性，我们还可以轻松的实现倒序迭代和中止迭代。
 
-
+迭代器模式是一种相对来说比较简单的模式，简单到我们其实天天在使用而根本意识不到它是一种设计模式。
