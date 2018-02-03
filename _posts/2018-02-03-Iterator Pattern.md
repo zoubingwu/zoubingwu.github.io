@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Design Pattern - Iterator"
+title: "Iterator Pattern"
 date: 2018-02-03 22:12:21
 tags:
 - patterns
