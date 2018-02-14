@@ -36,3 +36,7 @@ description: "Program lifecycle phases are the stages a computer program undergo
 就是运行时了，虽然这个翻译看上去不是很好。这个阶段就是 cpu 执行程序的机器码指令了。像 Nodejs 的介绍就是:
 
 > a JavaScript **runtime** built on Chrome's V8 JavaScript engine.
+
+#### ref
+
+- [https://en.wikipedia.org/wiki/Program_lifecycle_phase](https://en.wikipedia.org/wiki/Program_lifecycle_phase)
