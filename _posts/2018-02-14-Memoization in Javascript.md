@@ -117,5 +117,3 @@ factorial(10) // we found it in cache!
 - 最合适的使用时机，应该是针对需要大量计算的 heavy computational function, 可以极大的提高性能。
 
 如果对 React 相关生态的比较熟悉的话，就知道有一个 Reselect 的工具库，来帮助优化从 state 树提取数据映射到相关组件这一过程。它的源码也非常短小精悍，值得一读。
-
-下一篇文章，我们就来写写 Reselect 的使用和源码解析。
