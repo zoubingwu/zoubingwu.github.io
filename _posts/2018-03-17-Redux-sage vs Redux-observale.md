@@ -52,7 +52,7 @@ const Epic = action$ =>
 
 我们可以从一些最简单的场景开始。
 
-- ### Fetch User from `/api/users/1`
+### Fetch User from `/api/users/1`
 
 #### Saga:
 
@@ -88,7 +88,7 @@ const fetchUserEpic = action$ =>
         .map(user=>({type:'fetch_user_done', user}))
 ```
 
-- ### Fetch User from `/api/users/1` (cancelable)
+### Fetch User from `/api/users/1` (cancelable)
 
 #### Saga:
 
@@ -127,7 +127,7 @@ const fetchUserEpic = action$ =>
         })
 ```
 
-- ### 连续执行序列
+### 连续执行序列
 
 #### Saga:
 
@@ -180,7 +180,7 @@ const score2Epic = action$ =>
         .map(score=>({type:'show_score', score}))
 ```
 
-- ### Login, token, Logout, Cancel 
+### Login, token, Logout, Cancel 
 
 #### with redux
 
@@ -261,7 +261,7 @@ const authEpic = action$ =>
                 .catch(error => Rx.Observable.of({type:'login_error', error}))
 ```
 
-- ### logger
+### logger
 
 ```js
 // ----- Saga ----- \\
@@ -276,7 +276,7 @@ console.log('state:', state)
 .do(value=>console.log(value))
 ```
 
-- ### Take latest request
+### Take latest request
 
 ```js
 // ----- Saga ----- \\
@@ -286,7 +286,7 @@ takeLatest()
 .switchMap()
 ```
 
-- ### Retry with delay (1000ms)
+### Retry with delay (1000ms)
 
 ```js
 // ----- Saga ----- \\
@@ -304,7 +304,7 @@ takeLatest()
 })
 ```
 
-- ### Error Handling
+### Error Handling
 
 ```js
 // ----- Saga ----- \\
@@ -318,7 +318,7 @@ try {
 .catch(error => Observable.of({ type:'fetch_user_error', error }))
 ```
 
-- ### 并发执行
+### 并发执行
 
 ```js
 // ----- Saga ----- \\
@@ -336,7 +336,7 @@ const [users, repos]  = yield [
 })
 ```
 
-- ### Throttling, Debouncing, Retrying
+### Throttling, Debouncing, Retrying
 
 #### Saga
 
