@@ -28,7 +28,7 @@ Observer 模式是一种广泛使用的软件设计模式，由一个对象来�
 
 在 Rxjs 的[文档](http://reactivex.io/rxjs/manual/overview.html)中提到了这个 Pull 和 Push 系统。
 
-![Push vs Pull]({{site.url}}/assets/images/2018-03-25/1.jpg)
+![Push vs Pull]({{site.url}}/assets/images/2018-03-25/1.png)
 
 我们举一个生活中常见的例子，智能手机大家都知道，其中的 push notification 动作，就是一个典型的推送系统，用户（Consumer）来接受服务端（Producer）的消息推送，这个场景中，用户是被动的，他不知道什么时候会接受到消息，而是由服务端来决定什么时候，发送什么样的信息给用户。
 
