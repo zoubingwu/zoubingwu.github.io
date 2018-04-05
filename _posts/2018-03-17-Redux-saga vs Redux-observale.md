@@ -1,16 +1,16 @@
 ---
 layout: post
-title: "Redux-sage vs Redux-observale"
+title: "Redux-saga vs Redux-observale"
 date: 2018-03-17 22:38:31
 tags:
 - rxjs
-- observable 
-description: "Redux-sage vs Redux-observale side by side comparison."
+- observable
+description: "Redux-saga vs Redux-observale side by side comparison."
 ---
 
 ## 前言
 
-之前工作中一直使用的 redux-sage 来处理非常复杂的异步场景, 在接触到 Rxjs 后马上就被这种编程方式所吸引。它通过使用 observable 序列搭配强大的多种操作符来处理各种异步和事件。
+之前工作中一直使用的 redux-saga 来处理非常复杂的异步场景, 在接触到 Rxjs 后马上就被这种编程方式所吸引。它通过使用 observable 序列搭配强大的多种操作符来处理各种异步和事件。
 
 > Think of RxJS as Lodash for events.
 
@@ -29,7 +29,7 @@ function* Watcher(){
     yield takeEvery('do_thing', Worker)
 }
 
-function* Worker() { 
+function* Worker() {
     const users = yield API.get('/api/users')
     yield put({type:'done', users})
 }
@@ -40,7 +40,7 @@ function* Worker() {
 ```js
 import API from '...'
 
-const Epic = action$ => 
+const Epic = action$ =>
     action$
         .ofType('do_thing')
         .flatMap(()=>API.get('/api/users'))
@@ -57,7 +57,7 @@ const Epic = action$ =>
 #### Saga:
 
 ```js
-import axios from 'axios' 
+import axios from 'axios'
 
 function* watchSaga(){
   yield takeEvery('fetch_user', fetchUser) // waiting for action (fetch_user)
@@ -79,7 +79,7 @@ function* fetchUser(action){
 ```js
 import axios from 'axios'
 
-const fetchUserEpic = action$ => 
+const fetchUserEpic = action$ =>
     action$
         .ofType('fetch_user')
         .map(()=>({type:'fetch_user_ing'}))
@@ -99,13 +99,13 @@ import API from '...'
 function* fetchUser() {
     yield put({type:'fetch_user_ing'})
     const user = yield call(API)
-    yield put({type:'fetch_user_done', user})  
+    yield put({type:'fetch_user_done', user})
 }
 
 function* Watcher() {
     while(yield take('fetch_user')){
         const bgSyncTask = yield fork(fetchUser)
-        yield take('fetch_user_cancel')        
+        yield take('fetch_user_cancel')
         yield cancel(bgSyncTask)
     }
 }
@@ -180,7 +180,7 @@ const score2Epic = action$ =>
         .map(score=>({type:'show_score', score}))
 ```
 
-### Login, token, Logout, Cancel 
+### Login, token, Logout, Cancel
 
 #### with redux
 
@@ -228,12 +228,12 @@ function* loginWatcher() {
     const { user, password } = yield take('login_request')
         , task = yield fork(authorize, user, password)
         , action = yield take(['logout', 'login_error'])
-    
+
     if (action.type === 'logout') {
         yield cancel(task)
         yield put({type:'login_cancel'})
     }
-  
+
 }
 
 function* authorize(user, password) {
@@ -249,7 +249,7 @@ function* authorize(user, password) {
 #### Rxjs
 
 ```js
-const authEpic = action$ => 
+const authEpic = action$ =>
     action$
         .ofType('login_request')
         .flatMap(({payload:{user,password}}) =>
@@ -299,7 +299,7 @@ takeLatest()
 .retryWhen(errors=>{
     return errors.delay(1000).scan((errorCount, err)=>{
         if(errorCount < 3) return errorCount + 1
-        throw err              
+        throw err
     }, 0)
 })
 ```
@@ -309,7 +309,7 @@ takeLatest()
 ```js
 // ----- Saga ----- \\
 try {
-    // ... do things 
+    // ... do things
 } catch (error) {
     yield put({ type:'fetch_user_error',error })
 }
