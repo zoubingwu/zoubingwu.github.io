@@ -4,7 +4,7 @@ title: "Git commands in common usage"
 date: 2018-04-14 21:59:13
 tags:
 - git
-description: "Learning then most common git commands in daily usage."
+description: "Learning the most common git commands in daily usage."
 ---
 
 ## Config
