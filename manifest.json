@@ -1,0 +1,12 @@
+{
+  "name": "shadeofgod's blod",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#fff",
+  "description": "A minimalistic blog site of shadeofgod<zoubingwu@gmail.com>",
+  "icons": [{
+    "src": "assets/images/favicon.ico",
+    "sizes": "48x48",
+    "type": "image/png"
+  }]
+}
