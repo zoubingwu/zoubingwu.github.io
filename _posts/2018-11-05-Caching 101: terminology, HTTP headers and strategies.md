@@ -1,0 +1,91 @@
+---
+layout: post
+title: "Caching 101: terminology, HTTP headers and strategies"
+date: 2018-11-05 19:53:23
+tags:
+- http
+- cache
+description: "Fetching something over the network is slow and expensive. Content caching is one of the most effective ways to improve."
+---
+
+# What Is Caching?
+
+Caching is the term for storing reusable data in order to make subsequent requests faster. There are many different types of caching available, each of which has its own characteristics. Application caches and memory caches are both popular for their ability to speed up certain responses. Browsers like Chrome have already done a lot for us actually on caching content in memory and disk. In this article we will be discussing Web caching - a core design feature of the HTTP protocol meant to minimize network traffic while improving the perceived responsiveness of the system as a whole.
+
+# Benefits
+
+- Decreased network costs.
+
+- Improved responsiveness.
+
+- Increased performance on the same hardware.
+
+- Availability of content during network interruptions.
+
+# Terminology
+
+- Origin server: The origin server is the original location of the content. For example the  web server you control.
+
+- Cache hit ratio: A ratio of the requests able to be retrieved from a cache to the total requests made. A high cache hit ratio means that a high percentage of the content was able to be retrieved from the cache.
+
+- Freshness: A term used to describe whether an item within a cache is still considered a candidate to serve to a client.
+
+- Stale content: Items in the cache expire according to the cache freshness settings in the caching policy. Expired content is "stale". In general, expired content cannot be used to respond to client requests. The origin server must be re-contacted to retrieve the new content or at least verify that the cached content is still accurate.
+
+- Validation: Stale items in the cache can be validated by checking in with origin server in order to refresh their expiration time.
+
+- Invalidation: The process of removing content from the cache before its specified expiration date.
+
+# Locations Where Web Content Is Cached
+
+- Browser cache: Web browsers themselves maintain a small cache. .
+
+- Intermediary caching proxies: Any server in between the client and your infrastructure like CDNs can cache certain content as desired.
+
+- Reverse Cache: Your server infrastructure can implement its own cache for backend services. This way, content can be served from the point-of-contact instead of hitting backend servers on each request.
+
+# Validating cached responses with ETags
+
+- The server uses the ETag HTTP header to communicate a validation token.
+
+- The validation token enables efficient resource update checks: no data is transferred if the resource has not changed.
+
+![]({{site.url}}/assets/images/2018-11-05/http-cache-control.png)
+
+# Cache-Control
+
+- Each resource can define its caching policy via the Cache-Control HTTP header.
+
+- Cache-Control directives control who can cache the response, under which conditions, and for how long.
+
+![]({{site.url}}/assets/images/2018-11-05/http-cache-control-highlight.png)
+
+# How Cache-Control Flags Impact Caching
+
+- no-cache: Specifies that any cached content must be re-validated on each request before being served to a client. This, in effect, marks the content as stale immediately, but allows it to use revalidation techniques to avoid re-downloading the entire item again.
+
+- no-store: Indicates that the content cannot be cached in any way. This is appropriate to set if the response represents sensitive data.
+
+- public: This marks the content as public, which means that it can be cached by the browser and any intermediate caches. For requests that utilized HTTP authentication, responses are marked private by default. This header overrides that setting.
+
+- private: This marks the content as private. Private content may be stored by the user's browser, but must not be cached by any intermediate parties. This is often used for user-specific data.
+
+- max-age: This setting configures the maximum age that the content may be cached before it must revalidate or re-download the content from the origin server. In essence, this replaces the Expires header for modern browsing and is the basis for determining a piece of content's freshness. This option takes its value in seconds with a maximum valid freshness time of one year (31536000 seconds).
+
+- s-maxage: This is very similar to the max-age settin. The difference is that this option is applied only to intermediary caches.
+
+- must-revalidate: Indicates that the freshness information indicated by max-age, s-maxage or the Expires header must be obeyed strictly. Stale content cannot be served under any circumstance. This prevents cached content from being used in case of network interruptions and similar scenarios.
+
+- proxy-revalidate: This operates the same as the above setting, but only applies to intermediary proxies. In this case, the user's browser can potentially be used to serve stale content in the event of a network interruption, but intermediate caches cannot be used for this purpose.
+
+- no-transform: This option tells caches that they are not allowed to modify the received content for performance reasons under any circumstances. This means, for instance, that the cache is not able to send compressed versions of content it did not receive from the origin server compressed and is not allowed.
+
+# Defining optimal Cache-Control policy
+
+![]({{site.url}}/assets/images/2018-11-05/http-cache-decision-tree.png)
+
+# refs
+
+- [https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching](https://developers.google.com/web/fundamentals/performance/optimizing-content-efficiency/http-caching)
+
+- [https://www.digitalocean.com/community/tutorials/web-caching-basics-terminology-http-headers-and-caching-strategies](https://www.digitalocean.com/community/tutorials/web-caching-basics-terminology-http-headers-and-caching-strategies)
