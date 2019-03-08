@@ -190,12 +190,6 @@ body {
     word-break: break-word;
     word-wrap: break-word;
     transition: background-color .2s ease-in-out;
-    
-    &:hover {
-      background-color: $background-over-color;
-      border-color: transparent;
-      border-radius: 10px;
-    }
 
     a {
       color: $base-color;
