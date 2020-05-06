@@ -22,7 +22,7 @@ npx get-google-fonts -i https://fonts.googleapis.com/css\?family\=Noto+Serif+SC\
 
 然后把相关引用的资源替换成 `https://cdn.jsdelivr.net/gh/shadeofgod/shadeofgod.github.io@master/fonts/googlefont.css` 就可以了
 
-另外字体文件通常比较大，有些浏览器下载完成之前可能会先隐藏文字的显示，这样会导致 [a flash of invisible text (FOIT)](https://web.dev/avoid-invisible-text)。可以通过设置 `font-display: swap` 来先显示默认字体，完成下载后再替换，实际上 google font 本身就提供了这种设置，直接在在 google font URL 的末尾添加一个 `&display=swap` 的参数就可以了。
+另外字体文件通常比较大，有些浏览器下载完成之前可能会先隐藏文字的显示，这样会导致 [a flash of invisible text (FOIT)](https://web.dev/avoid-invisible-text)。可以通过设置 `font-display: swap` 来先显示默认字体，完成下载后再替换，实际上 google font 本身就提供了这种设置，直接在 google font URL 的末尾添加一个 `&display=swap` 的参数就可以了。
 
 ### reference
 
