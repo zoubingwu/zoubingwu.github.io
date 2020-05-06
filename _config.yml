@@ -41,6 +41,7 @@ url:                "https://zoubingwu.com" # the base hostname & protocol for y
 # url:                "http://localhost:4000" # use this url when you develop
 baseurl:            "" # the subpath of your site, e.g. /blog
 
+jsDeliverCDN:       "https://cdn.jsdelivr.net/gh/shadeofgod/shadeofgod.github.io@master"
 
 # http://en.wikipedia.org/wiki/List_of_tz_database_time_zones
 timezone:           Asia/Beijing
