@@ -108,7 +108,7 @@ ul {
     &:before {
       position: absolute;
       width: $li-bullets-width;
-      margin-left: -$li-bullets-width;
+      margin-left: $li-bullets-margin-left;
       display: inline-block;
       box-sizing: border-box;
       text-align: right;
