@@ -59,7 +59,7 @@ description: "some fundamental concepts in cryptography."
 0 XOR 0 = 0
 0 XOR 1 = 1
 1 XOR 0 = 1
-1 XOR 1 = 1
+1 XOR 1 = 0
 ```
 
 可以将其理解为类似黑白棋的翻转，翻转 0 次和 2 次的结果一定是和初始状态一样的。而对比特序列的 XOR 运算就是对每一个相应的比特进行 XOR 运算，和加法不同，XOR 运算中不存在进位。由于两个相同的数进行 XOR 运算的结果一定为 0，因此如果将 A 和 B 的 XOR 运算结果再同 B 进行一次 XOR 运算那么结果就会变回 A，也就是说 A XOR B XOR B 中的两个 B 互相抵消了。
