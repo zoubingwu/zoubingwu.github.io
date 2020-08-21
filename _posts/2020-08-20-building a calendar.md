@@ -84,13 +84,13 @@ body 必须包含 `PRODID` 和 `VERSION` 属性，另外必须包含至少一个
 
 有多种不同的日历组件，其中一部分组件可以嵌套其他组件：
 
-**Events （VEVENT）**
-**To-do (VTODO)**
-**Journal entry (VJOURNAL)**
-**Free/busy time (VFREEBUSY)**
-**availability（VAVAILABILITY）**
-**time zones（VTIMEZONE）**
-**alarms（VALARM）**
+- **Events （VEVENT）**
+- **To-do (VTODO)**
+- **Journal entry (VJOURNAL)**
+- **Free/busy time (VFREEBUSY)**
+- **availability（VAVAILABILITY）**
+- **time zones（VTIMEZONE）**
+- **alarms（VALARM）**
 
 iCalendar 和 vCalendar 都支持一些私有的扩展属性，使用 X- 这一前缀开头，其中比较常见的有：
 
