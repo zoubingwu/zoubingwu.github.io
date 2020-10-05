@@ -412,7 +412,7 @@ If-Match: "2134-314"
 
 对于上面的 CalDAV 协议制定的流程，不难发现同步数据是一件非常麻烦的事情，因此后来又有了 [RFC6578](https://tools.ietf.org/html/rfc6578) 来简化同步的流程：
 
-1. 首先客户端向服务端请求一个 sync-token
+1 _首先客户端向服务端请求一个 sync-token_
 
 ```xml
 PROPFIND /calendars/johndoe/home/ HTTP/1.1
@@ -428,7 +428,7 @@ Content-Type: application/xml; charset=utf-8
 </d:propfind>
 ```
 
-2. 服务端返回了 sync-token （下面的例子里 sync token 是一个 URL，但这个 URL 不代表任何意义，也可以使用使用一个随机的字符串）
+2 _服务端返回了 sync-token （下面的例子里 sync token 是一个 URL，但这个 URL 不代表任何意义，也可以使用使用一个随机的字符串）_
 
 ```xml
 <d:multistatus xmlns:d="DAV:" xmlns:cs="http://calendarserver.org/ns/">
@@ -446,9 +446,9 @@ Content-Type: application/xml; charset=utf-8
 </d:multistatus>
 ```
 
-3. 一段时间过去了
+3 _一段时间过去了_
 
-4. 客户端向服务器发起一个希望同步数据的请求，并把这个 sync-token 提交上去
+4 _客户端向服务器发起一个希望同步数据的请求，并把这个 sync-token 提交上去_
 
 ```xml
 REPORT /calendars/johndoe/home/ HTTP/1.1
@@ -465,7 +465,7 @@ Content-Type: application/xml; charset="utf-8"
 </d:sync-collection>
 ```
 
-5. 服务端返回从这个 sync-token 到现在所有变化过的数据，和一个新的 sync-token 交给客户端
+5 _服务端返回从这个 sync-token 到现在所有变化过的数据，和一个新的 sync-token 交给客户端_
 
 ```xml
 HTTP/1.1 207 Multi-Status
