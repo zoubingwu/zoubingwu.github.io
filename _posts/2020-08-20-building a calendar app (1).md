@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "building a calendar"
+title: "building a calendar app (1)"
 date: 2020-08-20 13:43:22
 tags:
   - calendar
   - webdav
   - caldav
-description: "things you should know to build a calendar in 2020."
+description: "some concepts you should know to build a calendar app."
 ---
 
 日历，待办，通讯录等是在互联网诞生之前就已经存在的工具，随着互联网的诞生，跨越距离限制的远程协作使得多人间分享和同步这些数据信息成为了一大需求。这篇文章主要介绍一些开发日历这样的协作工具的相关概念。
@@ -289,10 +289,6 @@ Todo与事件不同，拥有两个时间：计划时间和实际时间，而且�
 对于数据层的设计参考相关的协议栈。服务端需要提供相应的 HTTP 接口以供客户端或其他服务节点对数据进行增删改查，同时取决于对实时性的要求不同，可能需要考虑使用长链接的能力进行实时推送或者由客户端进行轮询。
 
 标准日历的协议栈中不包括身份验证部分，因此需要开发者自行实现。
-
-## 相关开源工具
-
-TODO
 
 ## Reference
 
