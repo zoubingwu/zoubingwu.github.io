@@ -6,7 +6,7 @@ tags:
   - calendar
   - webdav
   - caldav
-description: "some concepts you should know to build a calendar app."
+description: "some concepts you should know when building a calendar app."
 ---
 
 日历，待办，通讯录等是在互联网诞生之前就已经存在的工具，随着互联网的诞生，跨越距离限制的远程协作使得多人间分享和同步这些数据信息成为了一大需求。这篇文章主要介绍一些开发日历这样的协作工具的相关概念。
