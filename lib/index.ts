@@ -11,7 +11,7 @@ import { rm, readFile, getPostUrl } from './utils';
 import config from './config';
 import { renderArchivePage, renderIndexPage } from './renderer';
 
-const pool = workerpool.pool(path.resolve(process.cwd(), 'lib/worker.js'));
+const pool = workerpool.pool(path.resolve(process.cwd(), 'scripts/worker.js'));
 
 async function readPostList() {
   const files = await fs.readdir('_posts');
