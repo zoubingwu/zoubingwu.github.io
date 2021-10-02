@@ -4,9 +4,8 @@
   "description": "a minimalistic blog generator",
   "main": "scripts/index.js",
   "scripts": {
-    "build": "node scripts/index.js",
+    "build": "npm run build:css && tsc && node scripts/index.js",
     "build:css": "sass _sass/main.scss assets/css/main.css --no-source-map --style compressed",
-    "assets": "ncp assets dist/assets",
     "fmt": "prettier lib/*.ts --write",
     "serve": "serve dist"
   },
