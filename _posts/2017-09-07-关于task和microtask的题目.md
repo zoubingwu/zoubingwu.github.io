@@ -60,15 +60,15 @@ outer.addEventListener('click', onClick);
 
 - 首先是 chrome Version 60.0.3112.113 (Official Build) (64-bit)
 
-![]({{site.url}}/assets/images/2017-09-07/chrome.png)
+![](/assets/images/2017-09-07/chrome.png)
 
 - safari Version 10.1.2 (12603.3.8)
 
-![]({{site.url}}/assets/images/2017-09-07/safari.png)
+![](/assets/images/2017-09-07/safari.png)
 
 - But... in firefox 53.0.3 (64 位)
 
-![]({{site.url}}/assets/images/2017-09-07/firefox.png)
+![](/assets/images/2017-09-07/firefox.png)
 
 我们来一步一步具体分析一下：
 

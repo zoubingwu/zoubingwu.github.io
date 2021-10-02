@@ -4,7 +4,7 @@ title: "利用通用链接从web端引流到iOS app"
 image: ''
 date: 2017-06-15 10:15:27
 tags:
-- iOS 
+- iOS
 description: '在web端通过url scheme和universal link来呼出iOS app或跳转到app store，实现对app的引流。'
 ---
 
@@ -14,7 +14,7 @@ description: '在web端通过url scheme和universal link来呼出iOS app或跳�
 
 通常从web端引流到app有两处入口，一个是浏览器顶部的banner：
 
-![smartbanner]({{site.url}}/assets/images/2017-06-15-利用通用链接从web端引流到iOS app/smartbanner_2x.png)
+![smartbanner](/assets/images/2017-06-15-利用通用链接从web端引流到iOS app/smartbanner_2x.png)
 
 一个是底部可以随滚动控制显示和隐藏的悬浮按钮。
 
@@ -72,10 +72,10 @@ function openInApp() {
     window.location.href = 'https://ios.xxx.com?parameter=xxxx'
     return;
   }
-  
+
   //iOS9以下，使用URL Scheme
-  window.location.href = 'app://xxxxxxxx' 
-  
+  window.location.href = 'app://xxxxxxxx'
+
   // 设置一个计时器，若安装了app则上一步就成功跳转，以下代码不会执行，
   // 若未安装则无法识别上一个抛出的链接，我们则继续抛出app在iTune的下载地址
   var loadDateTime = Date.now()

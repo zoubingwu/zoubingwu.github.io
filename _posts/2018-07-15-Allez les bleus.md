@@ -12,4 +12,4 @@ description: "Bravo les Bleus! En route vers les étoiles!"
 
 # ALLEZ WE ARE READY
 
-![allez]({{site.url}}/assets/images/2018-07-15/1.jpg)
+![allez](/assets/images/2018-07-15/1.jpg)
