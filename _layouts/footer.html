@@ -1,0 +1,74 @@
+<!-- Documents about icons are here: http://fontawesome.io/icons/ -->
+<div class="footer">
+  <hr />
+  <div class="footer-link">
+    <a href="/archive"><i class="fa fa-archive" aria-hidden="true"></i></a>
+    <!-- <a href="/tags"><i class="fa fa-tags" aria-hidden="true"></i></a> -->
+
+    <% if (site.author.facebook) { %>
+    <a
+      target="_blank"
+      href="https://www.facebook.com/<%- site.author.facebook %>"
+    ><i class="fa fa-facebook" aria-hidden="true"></i></a>
+    <% } %>
+
+    <% if (site.author.youtubeUser) { %>
+    <a
+      target="_blank"
+      href="https://www.youtube.com/user/<%- site.author.youtubeUser %>"
+    ><i class="fa fa-youtube" aria-hidden="true"></i></a>
+    <% } %>
+
+    <% if (site.author.youtubeChannel) { %>
+    <a
+      target="_blank"
+      href="https://www.youtube.com/channel/<%- site.author.youtubeChannel %>"
+    ><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+    <% } %>
+
+    <% if (site.author.twitter) { %>
+    <a target="_blank" href="https://twitter.com/<%- site.author.twitter %>"><i
+        class="fa fa-twitter"
+        aria-hidden="true"
+      ></i></a>
+    <% } %>
+
+    <% if (site.author.github) { %>
+    <a target="_blank" href="https://github.com/<%- site.author.github %>"><i
+        class="fa fa-github"
+        aria-hidden="true"
+      ></i></a>
+    <% } %>
+
+    <% if (site.author.zhihu) { %>
+    <a
+      target="_blank"
+      href="https://www.zhihu.com/people/<%- site.author.zhihu %>/activities"
+    ><i class="fa fa-zhihu" aria-hidden="true"></i></a>
+    <% } %>
+
+    <% if (site.author.steam) { %>
+    <a
+      target="_blank"
+      href="http://steamcommunity.com/profiles/<%- site.author.steam %>/"
+    ><i class="fa fa-steam-square" aria-hidden="true"></i></a>
+    <% } %>
+
+    <% if (site.author.linkedin) { %>
+    <a
+      target="_blank"
+      href="https://www.linkedin.com/in/<%- site.author.linkedin %>"
+    ><i class="fa fa-linkedin" aria-hidden="true"></i></a>
+    <% } %>
+
+    <% if (site.author.email) { %>
+    <a target="_blank" href="mailto:<%- site.author.email %>"><i
+        class="fa fa-envelope"
+        aria-hidden="true"
+      ></i></a>
+    <% } %>
+  </div>
+  ©
+  <%- site.copyright.year %>
+  <%- site.copyright.name %>. All rights reserved.
+</div>

@@ -1,0 +1,24 @@
+<div class='page'>
+  <div class='page-title'><%- page.title %></div>
+  <div class="archive">
+    <div class="archive-list">
+    <% if (posts.length === 0) { %>
+      <h2>No post found</h2>
+    <% } else { %>
+      <% for (const post of posts) { %>
+        <div class="archive-list-post">
+          <a href="<%- post.url %>">
+            <span class="archive-list-post-title">
+              <%- post.title %>
+            </span>
+            <span class="archive-list-post-date">
+              <time>| <%- post.date %></time>
+            </span>
+          </a>
+        </div>
+      <% } %>
+    <% } %>
+    </div>
+  </div>
+</div>
+

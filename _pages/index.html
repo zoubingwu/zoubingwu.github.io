@@ -1,0 +1,45 @@
+ <div class="list">
+  <% if (paginator.posts.length === 0) { %>
+    <h2>No post found</h2>
+  <% } else { %>
+  <!-- This loops through the paginated posts -->
+  <% for (const post of paginator.posts) { %>
+    <div class="list-post">
+        <a href="<%- post.url %>">
+
+        <div class="list-post-date">
+          <time><%- post.date %></time>
+        </div>
+        <div class="list-post-title">
+          <%- post.title %>
+        </div>
+        <% if (post.description) { %>
+        <div class="list-post-desc">
+          <%- post.description %>
+        </div>
+        <% } %>
+      </a>
+    </div>
+  <% } %>
+
+    <!-- Pagination links -->
+    <div class="list-pagination">
+      <span class="list-pagination-previous">
+        <% if (paginator.previousPagePath) { %>
+          <a href="<%- paginator.previousPagePath %>" class="previous">
+            <i class="fa fa-angle-left" aria-hidden="true"></i> previous
+          </a>
+        <% } %>
+      </span>
+
+      <span class="list-pagination-next">
+        <% if (paginator.nextPagePath) { %>
+          <a href="<%- paginator.nextPagePath %>" class="next">
+            next <i class="fa fa-angle-right" aria-hidden="true"></i>
+          </a>
+        <% } %>
+      </span>
+
+    </div>
+  <% } %>
+  </div>
