@@ -1,0 +1,212 @@
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"><meta name=keywords content=blog,html,css,javascript,react,vue,nodejs><meta name=description content="zoubingwu 个人博客, zoubingwu's blog"><link href=/assets/images/favicon.ico rel=bookmark type=image/x-icon><link href=/assets/images/favicon.ico rel=icon type=image/x-icon><link href=/assets/images/favicon.ico rel="shortcut icon" type=image/x-icon><link rel=stylesheet href=/assets/css/main.css type=text/css><link rel=preload href=/assets/fonts/googlefont.css as=style><link rel=preload href=https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css as=style><link rel=stylesheet href=/assets/fonts/googlefont.css as=style><link rel=stylesheet href=https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css as=style><link rel=alternate type=application/rss+xml title="RSS Feed for zoubingwu's blog" href=/feed.xml><title>编写shell脚本的一些简单概念 | https://zoubingwu.com</title><meta property=og:title content="编写shell脚本的一些简单概念 | https://zoubingwu.com"><meta property=og:locale content=en_US><meta name=description content=记录一些学习编写shell脚本的重要的基本概念和常用命令...><meta property=og:description content=记录一些学习编写shell脚本的重要的基本概念和常用命令...><link rel=canonical href=https://zoubingwu.com/2017-07-27/编写shell脚本的一些简单概念><meta property=og:url content=https://zoubingwu.com/2017-07-27/编写shell脚本的一些简单概念><meta property=og:site_name content="zoubingwu's blog"><meta property=og:type content=article><meta property=article:published_time content=2017-07-27T17:05:41.000Z><meta name=twitter:card content=summary><meta property=twitter:title content="编写shell脚本的一些简单概念 | https://zoubingwu.com"><script>(function (i, s, o, g, r, a, m) { i['GoogleAnalyticsObject'] = r; (i[r] = i[r]
+  || function () { (i[r].q = i[r].q || []).push(arguments); }), (i[r].l = 1 *
+  new Date()); (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+  a.async = 1; a.src = g; m.parentNode.insertBefore(a, m); })( window, document,
+  'script', 'https://www.google-analytics.com/analytics.js', 'ga' );
+  ga('create', 'UA-100363260-1', 'auto'); ga('send', 'pageview');</script></head><body><div class=content-container><div class=post><div class=post-title>编写shell脚本的一些简单概念</div><span class=post-date><time>27 Jul 2017</time></span><div class=post-tag><ul><li><a><span><i class="fa fa-paperclip" aria-hidden=true></i>linux</span></a></li><li><a><span><i class="fa fa-paperclip" aria-hidden=true></i>shell</span></a></li></ul></div><p>注意，本文环境为macOS Sierra 10.12.5 + zsh</p><h3 id=开始>开始</h3><p>脚本的第一行需要指定解释器。</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #6A737D">#!/bin/bash</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #8B949E">#!/bin/bash</span></span></code></pre></div>
+</code></pre><p><code>#!</code> 是一个约定的标记，它告诉系统这个脚本需要什么解释器来执行，即使用哪一种 Shell。我们在运行shell脚本时可以直接运行解释器，将shell脚本的文件名作为参数，那么这第一行的指定解释器就没有用了。</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #24292E">/bin/sh test.sh</span></span>
+<span class=line><span style="color: #6A737D">#文件的后缀名可以任意修改，不影响运行</span></span>
+<span class=line><span style="color: #24292E">/bin/php test.php</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #C9D1D9">/bin/sh test.sh</span></span>
+<span class=line><span style="color: #8B949E">#文件的后缀名可以任意修改，不影响运行</span></span>
+<span class=line><span style="color: #C9D1D9">/bin/php test.php</span></span></code></pre></div>
+</code></pre><p>但是如果直接作为程序运行的话，首先需要修改文件的权限，然后cd到相应目录：</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #24292E">chmod +x ./test.sh  </span><span style="color: #6A737D">#使脚本具有执行权限</span></span>
+<span class=line><span style="color: #24292E">./test.sh  </span><span style="color: #6A737D">#执行脚本</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #C9D1D9">chmod +x ./test.sh  </span><span style="color: #8B949E">#使脚本具有执行权限</span></span>
+<span class=line><span style="color: #C9D1D9">./test.sh  </span><span style="color: #8B949E">#执行脚本</span></span></code></pre></div>
+</code></pre><p>注意一定要写成 <code>./test.sh</code>，而不是 <code>test.sh</code>。运行其它二进制的程序也一样，直接写 test.sh，linux 系统会去 PATH 里寻找有没有叫 test.sh 的，而只有 /bin, /sbin, /usr/bin，/usr/sbin 等在 PATH 里，你的当前目录通常不在 PATH 里，所以写成 test.sh 是会找不到命令的，要用 ./test.sh 告诉系统说，就在当前目录找。</p><blockquote><h4 id=关于文件权限>关于文件权限</h4><p>Linux/Unix 的档案调用权限分为三级 : 档案拥有者、群组、其他。利用 chmod 可以藉以控制文件如何被他人所调用。 参数 : mode : 权限设定字串，格式如下 : <code>[ugoa...][[+-=][rwxX]...][,...]</code>，其中:</p><p>u 表示该档案的拥有者，g 表示与该档案的拥有者属于同一个群体(group)者，o 表示其他以外的人，a 表示这三者皆是，即user/group/others。</p><p><code>+</code> 表示增加权限、<code>-</code> 表示取消权限、<code>=</code> 表示唯一设定权限。</p><p>r(readable) 表示可读取，w(writable) 表示可写入，x(excutable) 表示可执行，X 表示只有当该档案是个子目录或者该档案已经被设定过为可执行。</p><p>详细的使用可以自行搜索。</p></blockquote><h3 id=变量>变量</h3><p>直接定义变量，不需要关键词声明，注意不需要添加多余的空格，否则无法识别：</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #24292E">a = </span><span style="color: #032F62">&quot;hello world&quot;</span><span style="color: #24292E"> </span><span style="color: #6A737D">#无法识别</span></span>
+<span class=line><span style="color: #24292E">a=</span><span style="color: #032F62">&quot;hello world&quot;</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #C9D1D9">a = </span><span style="color: #A5D6FF">&quot;hello world&quot;</span><span style="color: #C9D1D9"> </span><span style="color: #8B949E">#无法识别</span></span>
+<span class=line><span style="color: #C9D1D9">a=</span><span style="color: #A5D6FF">&quot;hello world&quot;</span></span></code></pre></div>
+</code></pre><p>命名规则很简单：首个字符为大小写字母；中间可以有下划线；不能有空格，标点；不能使用关键词。</p><p>使用变量时，需要添加$符号，大括号可选，来帮助解释器识别边界：</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #24292E">num=2</span></span>
+<span class=line><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&quot;this is the </span><span style="color: #24292E">$numnd</span><span style="color: #032F62">&quot;</span><span style="color: #24292E"> </span><span style="color: #6A737D">#this is the</span></span>
+<span class=line><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&quot;this is the </span><span style="color: #24292E">${num}</span><span style="color: #032F62">nd&quot;</span><span style="color: #24292E"> </span><span style="color: #6A737D">#this is the 2nd</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #C9D1D9">num=2</span></span>
+<span class=line><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&quot;this is the </span><span style="color: #C9D1D9">$numnd</span><span style="color: #A5D6FF">&quot;</span><span style="color: #C9D1D9"> </span><span style="color: #8B949E">#this is the</span></span>
+<span class=line><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&quot;this is the </span><span style="color: #C9D1D9">${num}</span><span style="color: #A5D6FF">nd&quot;</span><span style="color: #C9D1D9"> </span><span style="color: #8B949E">#this is the 2nd</span></span></code></pre></div>
+</code></pre><p>readonly 可以使变量定义为只读变量，无法再被赋值； unset 可以删除一个变量，但不能删除只读变量</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #24292E">hi=</span><span style="color: #032F62">&quot;hello world&quot;</span></span>
+<span class=line><span style="color: #D73A49">readonly</span><span style="color: #24292E"> hi</span></span>
+<span class=line><span style="color: #24292E">hi=</span><span style="color: #032F62">&quot;hi again&quot;</span><span style="color: #24292E"> </span><span style="color: #6A737D">#This variable is read only.</span></span>
+<span class=line></span>
+<span class=line><span style="color: #24292E">n=1</span></span>
+<span class=line><span style="color: #005CC5">unset</span><span style="color: #24292E"> n</span></span>
+<span class=line><span style="color: #005CC5">echo</span><span style="color: #24292E"> $n </span><span style="color: #6A737D">#nothing</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #C9D1D9">hi=</span><span style="color: #A5D6FF">&quot;hello world&quot;</span></span>
+<span class=line><span style="color: #FF7B72">readonly</span><span style="color: #C9D1D9"> hi</span></span>
+<span class=line><span style="color: #C9D1D9">hi=</span><span style="color: #A5D6FF">&quot;hi again&quot;</span><span style="color: #C9D1D9"> </span><span style="color: #8B949E">#This variable is read only.</span></span>
+<span class=line></span>
+<span class=line><span style="color: #C9D1D9">n=1</span></span>
+<span class=line><span style="color: #79C0FF">unset</span><span style="color: #C9D1D9"> n</span></span>
+<span class=line><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> $n </span><span style="color: #8B949E">#nothing</span></span></code></pre></div>
+</code></pre><h3 id=字符串>字符串</h3><p>字符串可以用单引号，也可以用双引号，也可以不用引号。但注意单双引号是有区别的：</p><p>单引号里的任何字符都会原样输出，单引号字符串中的变量是无效的； 单引号字串中不能出现单引号（对单引号使用转义符后也不行）； 双引号里可以有变量； 双引号里可以出现转义字符；</p><p>用起来类似ES6中的模版字符串：</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #24292E">your_name=</span><span style="color: #032F62">&quot;somebody&quot;</span></span>
+<span class=line><span style="color: #24292E">greeting=</span><span style="color: #032F62">&quot;hello </span><span style="color: #24292E">${your_name}</span><span style="color: #032F62">&quot;</span></span>
+<span class=line><span style="color: #005CC5">echo</span><span style="color: #24292E"> ${greeting} </span><span style="color: #6A737D">#hello somebody</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #C9D1D9">your_name=</span><span style="color: #A5D6FF">&quot;somebody&quot;</span></span>
+<span class=line><span style="color: #C9D1D9">greeting=</span><span style="color: #A5D6FF">&quot;hello </span><span style="color: #C9D1D9">${your_name}</span><span style="color: #A5D6FF">&quot;</span></span>
+<span class=line><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> ${greeting} </span><span style="color: #8B949E">#hello somebody</span></span></code></pre></div>
+</code></pre><p>字符串长度：变量名前加#号来获取</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #24292E">string=</span><span style="color: #032F62">&quot;abcd&quot;</span></span>
+<span class=line><span style="color: #005CC5">echo</span><span style="color: #24292E"> ${</span><span style="color: #D73A49">#</span><span style="color: #24292E">string} </span><span style="color: #6A737D">#输出 4</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #C9D1D9">string=</span><span style="color: #A5D6FF">&quot;abcd&quot;</span></span>
+<span class=line><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> ${</span><span style="color: #FF7B72">#</span><span style="color: #C9D1D9">string} </span><span style="color: #8B949E">#输出 4</span></span></code></pre></div>
+</code></pre><p>提取子字符串：有一点点形似python切片，<code>string:起始位:字符个数</code>，Linux的字符串截取方式还有很多，具体可以另行搜索。</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #24292E">string=</span><span style="color: #032F62">&quot;but what is python?&quot;</span></span>
+<span class=line><span style="color: #005CC5">echo</span><span style="color: #24292E"> ${string</span><span style="color: #D73A49">:</span><span style="color: #24292E">4</span><span style="color: #D73A49">:</span><span style="color: #24292E">4} </span><span style="color: #6A737D"># what</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #C9D1D9">string=</span><span style="color: #A5D6FF">&quot;but what is python?&quot;</span></span>
+<span class=line><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> ${string</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9">4</span><span style="color: #FF7B72">:</span><span style="color: #C9D1D9">4} </span><span style="color: #8B949E"># what</span></span></code></pre></div>
+</code></pre><h3 id=数组>数组</h3><p>用括号来表示数组，数组元素用&quot;空格&quot;符号分割开。定义数组的一般形式为 数组名=(值1 值2 ... 值n)，以下标来获取单个值，使用@符号可以获取数组中的所有元素，以#号获取长度:</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #24292E">arr1=(value0 value1 value2 value3)</span></span>
+<span class=line></span>
+<span class=line><span style="color: #24292E">arr2=(</span></span>
+<span class=line><span style="color: #24292E">  val1</span></span>
+<span class=line><span style="color: #24292E">  val2</span></span>
+<span class=line><span style="color: #24292E">  val3</span></span>
+<span class=line><span style="color: #24292E">  val456789</span></span>
+<span class=line><span style="color: #24292E">)</span></span>
+<span class=line></span>
+<span class=line><span style="color: #005CC5">echo</span><span style="color: #24292E"> ${arr1[0]} </span><span style="color: #6A737D"># val1</span></span>
+<span class=line><span style="color: #005CC5">echo</span><span style="color: #24292E"> ${arr1[@]} </span><span style="color: #6A737D"># val1 val2 val3 val4</span></span>
+<span class=line><span style="color: #005CC5">echo</span><span style="color: #24292E"> ${</span><span style="color: #D73A49">#</span><span style="color: #24292E">arr1[@]} </span><span style="color: #6A737D"># 4</span></span>
+<span class=line><span style="color: #005CC5">echo</span><span style="color: #24292E"> ${</span><span style="color: #D73A49">#</span><span style="color: #24292E">arr1[3]} </span><span style="color: #6A737D"># 9</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #C9D1D9">arr1=(value0 value1 value2 value3)</span></span>
+<span class=line></span>
+<span class=line><span style="color: #C9D1D9">arr2=(</span></span>
+<span class=line><span style="color: #C9D1D9">  val1</span></span>
+<span class=line><span style="color: #C9D1D9">  val2</span></span>
+<span class=line><span style="color: #C9D1D9">  val3</span></span>
+<span class=line><span style="color: #C9D1D9">  val456789</span></span>
+<span class=line><span style="color: #C9D1D9">)</span></span>
+<span class=line></span>
+<span class=line><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> ${arr1[0]} </span><span style="color: #8B949E"># val1</span></span>
+<span class=line><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> ${arr1[@]} </span><span style="color: #8B949E"># val1 val2 val3 val4</span></span>
+<span class=line><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> ${</span><span style="color: #FF7B72">#</span><span style="color: #C9D1D9">arr1[@]} </span><span style="color: #8B949E"># 4</span></span>
+<span class=line><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> ${</span><span style="color: #FF7B72">#</span><span style="color: #C9D1D9">arr1[3]} </span><span style="color: #8B949E"># 9</span></span></code></pre></div>
+</code></pre><h3 id=注释>注释</h3><p>注释以#号开头，shell脚本里没有多行注释，只能每一行加一个#号。</p><h3 id=基本命令>基本命令</h3><ul><li>echo &quot;some text&quot;: 将文字内容打印在屏幕上</li><li>ls: 显示文件列表</li><li>wc –l filewc -w filewc -c file: 计算文件行数计算文件中的单词数计算文件中的字符数</li><li>cp sourcefile destfile: 文件拷贝</li><li>mv oldname newname : 重命名文件或移动文件</li><li>rm file: 删除文件</li><li>grep &#39;pattern&#39; file: 在文件内搜索字符串比如：grep &#39;searchstring&#39; file.txt</li><li>cut -b colnum file: 指定欲显示的文件内容范围，并将它们输出到标准输出设备比如：输出每行第5个到第9个字符cut -b5-9 file.txt千万不要和cat命令混淆，这是两个完全不同的命令</li><li>cat file.txt: 输出文件内容到标准输出设备（屏幕）上</li><li>file somefile: 得到文件类型</li><li>read var: 提示用户输入，并将输入赋值给变量</li><li>sort file.txt: 对file.txt文件中的行进行排序</li><li>uniq: 删除文本文件中出现的行列比如： <code>sort file.txt | uniq</code></li><li>expr: 进行数学运算Example: add 2 and 3 <code>expr 2 &quot;+&quot; 3</code></li><li>find: 搜索文件比如：根据文件名搜索find . -name filename -print</li><li>tee: 将数据输出到标准输出设备(屏幕) 和文件比如：<code>somecommand | tee outfile</code></li><li>basename file: 返回不包含路径的文件名比如： basename /bin/tux将返回 tux</li><li>dirname file: 返回文件所在路径比如：dirname /bin/tux将返回 /bin</li><li>head file: 打印文本文件开头几行</li><li>tail file : 打印文本文件末尾几行</li><li>sed: Sed是一个基本的查找替换程序。可以从标准输入（比如命令管道）读入文本，并将结果输出到标准输出（屏幕）。该命令采用正则表达式（见参考）进行搜索。不要和shell中的通配符相混淆。比如：将linuxfocus 替换为 <code>LinuxFocus ：cat text.file | sed &#39;s/linuxfocus/LinuxFocus/&#39; &gt; newtext.file</code></li><li>awk: awk 用来从文本文件中提取字段。缺省地，字段分割符是空格，可以使用-F指定其他分割符。<code>cat file.txt | awk -F, &#39;{print $1 &quot;,&quot; $3 }&#39;</code>这里我们使用，作为字段分割符，同时打印第一个和第三个字段。如果该文件内容如下： <code>Adam Bor, 34, IndiaKerry Miller, 22, USA</code> 命令输出结果为：<code>Adam Bor, IndiaKerry Miller, USA</code></li></ul><h3 id=管道-重定向和-backtick>管道, 重定向和 backtick</h3><ul><li><p>管道 (|) 将一个命令的输出作为另外一个命令的输入。</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #24292E">grep </span><span style="color: #032F62">&quot;hello&quot;</span><span style="color: #24292E"> file.txt </span><span style="color: #D73A49">|</span><span style="color: #24292E"> wc -l</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #C9D1D9">grep </span><span style="color: #A5D6FF">&quot;hello&quot;</span><span style="color: #C9D1D9"> file.txt </span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9"> wc -l</span></span></code></pre></div>
+</code></pre><p>在file.txt中搜索包含有”hello”的行并计算其行数。 在这里grep命令的输出作为wc命令的输入。当然您可以使用多个命令。</p></li><li><p>重定向： 大多数 UNIX 系统命令从你的终端接受输入并将所产生的输出发送回​​到您的终端。一个命令通常从一个叫标准输入的地方读取输入，默认情况下，这恰好是你的终端。同样，一个命令通常将其输出写入到标准输出，默认情况下，这也是你的终端。</p></li></ul><table><thead><tr><th>命令</th><th>说明</th></tr></thead><tbody><tr><td>command &gt; file</td><td>将输出重定向到 file。</td></tr><tr><td>command &lt; file</td><td>将输入重定向到 file。</td></tr><tr><td>command &gt;&gt; file</td><td>将输出以追加的方式重定向到 file。</td></tr><tr><td>n &gt; file</td><td>将文件描述符为 n 的文件重定向到 file。</td></tr><tr><td>n &gt;&gt; file</td><td>将文件描述符为 n 的文件以追加的方式重定向到 file。</td></tr><tr><td>n &gt;&amp; m</td><td>将输出文件 m 和 n 合并。</td></tr><tr><td>n &lt;&amp; m</td><td>将输入文件 m 和 n 合并。</td></tr><tr><td>&lt;&lt; tag</td><td>将开始标记 tag 和结束标记 tag 之间的内容作为输入。</td></tr></tbody></table><ul><li>反短斜线 使用反短斜线可以将一个命令的输出作为另外一个命令的一个命令行参数。 比如<code>find . -mtime -1 -type f -print</code>，用来查找过去24小时（-mtime –2则表示过去48小时）内修改过的文件。如果您想将所有查找到的文件打一个包，则可以使用以下脚本：</li></ul><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #6A737D">#!/bin/sh </span></span>
+<span class=line><span style="color: #6A737D"># The ticks are backticks (`) not normal quotes (&#39;): </span></span>
+<span class=line><span style="color: #24292E">tar -zcvf lastmod.tar.gz </span><span style="color: #032F62">`find </span><span style="color: #005CC5">.</span><span style="color: #032F62"> -mtime -1 -type f -print`</span><span style="color: #24292E"> </span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #8B949E">#!/bin/sh </span></span>
+<span class=line><span style="color: #8B949E"># The ticks are backticks (`) not normal quotes (&#39;): </span></span>
+<span class=line><span style="color: #C9D1D9">tar -zcvf lastmod.tar.gz </span><span style="color: #A5D6FF">`find </span><span style="color: #79C0FF">.</span><span style="color: #A5D6FF"> -mtime -1 -type f -print`</span><span style="color: #C9D1D9"> </span></span></code></pre></div>
+</code></pre><h3 id=流程控制>流程控制</h3><p>关于条件和循环，有一点要注意的是shell脚本中流程不可为空：</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #24292E">a=10</span></span>
+<span class=line><span style="color: #24292E">b=20</span></span>
+<span class=line><span style="color: #D73A49">if</span><span style="color: #24292E"> [ $a </span><span style="color: #D73A49">==</span><span style="color: #24292E"> $b ]</span></span>
+<span class=line><span style="color: #D73A49">then</span></span>
+<span class=line><span style="color: #24292E">  </span><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&quot;a 等于 b&quot;</span></span>
+<span class=line><span style="color: #D73A49">elif</span><span style="color: #24292E"> [ $a </span><span style="color: #D73A49">-gt</span><span style="color: #24292E"> $b ]</span></span>
+<span class=line><span style="color: #D73A49">then</span></span>
+<span class=line><span style="color: #24292E">  </span><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&quot;a 大于 b&quot;</span><span style="color: #24292E">  </span><span style="color: #6A737D">#如果没有要执行的就干脆不要else，不可为空</span></span>
+<span class=line><span style="color: #D73A49">elif</span><span style="color: #24292E"> [ $a </span><span style="color: #D73A49">-lt</span><span style="color: #24292E"> $b ]</span></span>
+<span class=line><span style="color: #D73A49">then</span></span>
+<span class=line><span style="color: #24292E">  </span><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&quot;a 小于 b&quot;</span></span>
+<span class=line><span style="color: #D73A49">else</span></span>
+<span class=line><span style="color: #24292E">   </span><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&quot;没有符合的条件&quot;</span></span>
+<span class=line><span style="color: #D73A49">fi</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #C9D1D9">a=10</span></span>
+<span class=line><span style="color: #C9D1D9">b=20</span></span>
+<span class=line><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> [ $a </span><span style="color: #FF7B72">==</span><span style="color: #C9D1D9"> $b ]</span></span>
+<span class=line><span style="color: #FF7B72">then</span></span>
+<span class=line><span style="color: #C9D1D9">  </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&quot;a 等于 b&quot;</span></span>
+<span class=line><span style="color: #FF7B72">elif</span><span style="color: #C9D1D9"> [ $a </span><span style="color: #FF7B72">-gt</span><span style="color: #C9D1D9"> $b ]</span></span>
+<span class=line><span style="color: #FF7B72">then</span></span>
+<span class=line><span style="color: #C9D1D9">  </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&quot;a 大于 b&quot;</span><span style="color: #C9D1D9">  </span><span style="color: #8B949E">#如果没有要执行的就干脆不要else，不可为空</span></span>
+<span class=line><span style="color: #FF7B72">elif</span><span style="color: #C9D1D9"> [ $a </span><span style="color: #FF7B72">-lt</span><span style="color: #C9D1D9"> $b ]</span></span>
+<span class=line><span style="color: #FF7B72">then</span></span>
+<span class=line><span style="color: #C9D1D9">  </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&quot;a 小于 b&quot;</span></span>
+<span class=line><span style="color: #FF7B72">else</span></span>
+<span class=line><span style="color: #C9D1D9">   </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&quot;没有符合的条件&quot;</span></span>
+<span class=line><span style="color: #FF7B72">fi</span></span></code></pre></div>
+</code></pre><p>for循环和while循环：</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #D73A49">for</span><span style="color: #24292E"> loop </span><span style="color: #D73A49">in</span><span style="color: #24292E"> 1 2 3 4 5</span></span>
+<span class=line><span style="color: #D73A49">do</span></span>
+<span class=line><span style="color: #24292E">    </span><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&quot;The value is: </span><span style="color: #24292E">$loop</span><span style="color: #032F62">&quot;</span></span>
+<span class=line><span style="color: #D73A49">done</span></span>
+<span class=line></span>
+<span class=line><span style="color: #6A737D"># The value is: 1</span></span>
+<span class=line><span style="color: #6A737D"># The value is: 2</span></span>
+<span class=line><span style="color: #6A737D"># The value is: 3</span></span>
+<span class=line><span style="color: #6A737D"># The value is: 4</span></span>
+<span class=line><span style="color: #6A737D"># The value is: 5</span></span>
+<span class=line></span>
+<span class=line><span style="color: #24292E">int=1</span></span>
+<span class=line><span style="color: #24292E">while</span><span style="color: #032F62">(( </span><span style="color: #24292E">$int</span><span style="color: #D73A49">&lt;=</span><span style="color: #005CC5">5</span><span style="color: #032F62"> ))</span></span>
+<span class=line><span style="color: #D73A49">do</span></span>
+<span class=line><span style="color: #24292E">        </span><span style="color: #005CC5">echo</span><span style="color: #24292E"> $int</span></span>
+<span class=line><span style="color: #24292E">        </span><span style="color: #005CC5">let</span><span style="color: #24292E"> </span><span style="color: #032F62">&quot;int++&quot;</span></span>
+<span class=line><span style="color: #D73A49">done</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> loop </span><span style="color: #FF7B72">in</span><span style="color: #C9D1D9"> 1 2 3 4 5</span></span>
+<span class=line><span style="color: #FF7B72">do</span></span>
+<span class=line><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&quot;The value is: </span><span style="color: #C9D1D9">$loop</span><span style="color: #A5D6FF">&quot;</span></span>
+<span class=line><span style="color: #FF7B72">done</span></span>
+<span class=line></span>
+<span class=line><span style="color: #8B949E"># The value is: 1</span></span>
+<span class=line><span style="color: #8B949E"># The value is: 2</span></span>
+<span class=line><span style="color: #8B949E"># The value is: 3</span></span>
+<span class=line><span style="color: #8B949E"># The value is: 4</span></span>
+<span class=line><span style="color: #8B949E"># The value is: 5</span></span>
+<span class=line></span>
+<span class=line><span style="color: #C9D1D9">int=1</span></span>
+<span class=line><span style="color: #C9D1D9">while</span><span style="color: #A5D6FF">(( </span><span style="color: #C9D1D9">$int</span><span style="color: #FF7B72">&lt;=</span><span style="color: #79C0FF">5</span><span style="color: #A5D6FF"> ))</span></span>
+<span class=line><span style="color: #FF7B72">do</span></span>
+<span class=line><span style="color: #C9D1D9">        </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> $int</span></span>
+<span class=line><span style="color: #C9D1D9">        </span><span style="color: #79C0FF">let</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&quot;int++&quot;</span></span>
+<span class=line><span style="color: #FF7B72">done</span></span></code></pre></div>
+</code></pre><p>until循环与while循环在处理方式上刚好相反。一般while循环优于until循环，但在某些时候—也只是极少数情况下，until循环更加有用。</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #D73A49">until</span><span style="color: #24292E"> condition</span></span>
+<span class=line><span style="color: #D73A49">do</span></span>
+<span class=line><span style="color: #24292E">    </span><span style="color: #005CC5">command</span></span>
+<span class=line><span style="color: #D73A49">done</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #FF7B72">until</span><span style="color: #C9D1D9"> condition</span></span>
+<span class=line><span style="color: #FF7B72">do</span></span>
+<span class=line><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">command</span></span>
+<span class=line><span style="color: #FF7B72">done</span></span></code></pre></div>
+</code></pre><p>case取值后面必须为单词in，每一模式必须以右括号结束。取值可以为变量或常数。匹配发现取值符合某一模式后，其间所有命令开始执行直至 ;;。 取值将检测匹配的每一个模式。一旦模式匹配，则执行完匹配模式相应命令后不再继续其他模式。如果无一匹配模式，使用星号 * 捕获该值，再执行后面的命令。 下面的脚本提示输入1到4，与每一种模式进行匹配：</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&#39;输入 1 到 4 之间的数字:&#39;</span></span>
+<span class=line><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&#39;你输入的数字为:&#39;</span></span>
+<span class=line><span style="color: #005CC5">read</span><span style="color: #24292E"> aNum</span></span>
+<span class=line><span style="color: #D73A49">case</span><span style="color: #24292E"> $aNum </span><span style="color: #D73A49">in</span></span>
+<span class=line><span style="color: #24292E">    1)  </span><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&#39;你选择了 1&#39;</span></span>
+<span class=line><span style="color: #24292E">    ;;</span></span>
+<span class=line><span style="color: #24292E">    2)  </span><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&#39;你选择了 2&#39;</span></span>
+<span class=line><span style="color: #24292E">    ;;</span></span>
+<span class=line><span style="color: #24292E">    3)  </span><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&#39;你选择了 3&#39;</span></span>
+<span class=line><span style="color: #24292E">    ;;</span></span>
+<span class=line><span style="color: #24292E">    4)  </span><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&#39;你选择了 4&#39;</span></span>
+<span class=line><span style="color: #24292E">    ;;</span></span>
+<span class=line><span style="color: #24292E">    </span><span style="color: #D73A49">*</span><span style="color: #24292E">)  </span><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&#39;你没有输入 1 到 4 之间的数字&#39;</span></span>
+<span class=line><span style="color: #24292E">    ;;</span></span>
+<span class=line><span style="color: #D73A49">esac</span><span style="color: #24292E"> </span><span style="color: #6A737D">#case反过来作为结束语</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#39;输入 1 到 4 之间的数字:&#39;</span></span>
+<span class=line><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#39;你输入的数字为:&#39;</span></span>
+<span class=line><span style="color: #79C0FF">read</span><span style="color: #C9D1D9"> aNum</span></span>
+<span class=line><span style="color: #FF7B72">case</span><span style="color: #C9D1D9"> $aNum </span><span style="color: #FF7B72">in</span></span>
+<span class=line><span style="color: #C9D1D9">    1)  </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#39;你选择了 1&#39;</span></span>
+<span class=line><span style="color: #C9D1D9">    ;;</span></span>
+<span class=line><span style="color: #C9D1D9">    2)  </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#39;你选择了 2&#39;</span></span>
+<span class=line><span style="color: #C9D1D9">    ;;</span></span>
+<span class=line><span style="color: #C9D1D9">    3)  </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#39;你选择了 3&#39;</span></span>
+<span class=line><span style="color: #C9D1D9">    ;;</span></span>
+<span class=line><span style="color: #C9D1D9">    4)  </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#39;你选择了 4&#39;</span></span>
+<span class=line><span style="color: #C9D1D9">    ;;</span></span>
+<span class=line><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">*</span><span style="color: #C9D1D9">)  </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#39;你没有输入 1 到 4 之间的数字&#39;</span></span>
+<span class=line><span style="color: #C9D1D9">    ;;</span></span>
+<span class=line><span style="color: #FF7B72">esac</span><span style="color: #C9D1D9"> </span><span style="color: #8B949E">#case反过来作为结束语</span></span></code></pre></div>
+</code></pre><p>跳出循环使用break和continue，同JS中一样。</p><h3 id=函数>函数</h3><p>定义函数和JS也很像，但function关键词是可以省略的，调用时也不需要圆括号：</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #6F42C1">demo1</span><span style="color: #24292E">(){</span></span>
+<span class=line><span style="color: #24292E">    </span><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&quot;这是我的第一个 shell 函数!&quot;</span></span>
+<span class=line><span style="color: #24292E">}</span></span>
+<span class=line></span>
+<span class=line><span style="color: #D73A49">function</span><span style="color: #24292E"> </span><span style="color: #6F42C1">demo2(){</span></span>
+<span class=line><span style="color: #24292E">  </span><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&quot;and this is the 2nd!&quot;</span></span>
+<span class=line><span style="color: #24292E">}</span></span>
+<span class=line><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&quot;-----函数开始执行-----&quot;</span></span>
+<span class=line><span style="color: #24292E">demo1</span></span>
+<span class=line><span style="color: #24292E">demo2</span></span>
+<span class=line><span style="color: #005CC5">echo</span><span style="color: #24292E"> </span><span style="color: #032F62">&quot;-----函数执行完毕-----&quot;</span></span>
+<span class=line></span>
+<span class=line><span style="color: #6A737D"># 输出</span></span>
+<span class=line><span style="color: #6A737D"># -----函数开始执行-----</span></span>
+<span class=line><span style="color: #6A737D"># 这是我的第一个 shell 函数!</span></span>
+<span class=line><span style="color: #6A737D"># and this is the 2nd!</span></span>
+<span class=line><span style="color: #6A737D"># -----函数执行完毕-----</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #D2A8FF">demo1</span><span style="color: #C9D1D9">(){</span></span>
+<span class=line><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&quot;这是我的第一个 shell 函数!&quot;</span></span>
+<span class=line><span style="color: #C9D1D9">}</span></span>
+<span class=line></span>
+<span class=line><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">demo2(){</span></span>
+<span class=line><span style="color: #C9D1D9">  </span><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&quot;and this is the 2nd!&quot;</span></span>
+<span class=line><span style="color: #C9D1D9">}</span></span>
+<span class=line><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&quot;-----函数开始执行-----&quot;</span></span>
+<span class=line><span style="color: #C9D1D9">demo1</span></span>
+<span class=line><span style="color: #C9D1D9">demo2</span></span>
+<span class=line><span style="color: #79C0FF">echo</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&quot;-----函数执行完毕-----&quot;</span></span>
+<span class=line></span>
+<span class=line><span style="color: #8B949E"># 输出</span></span>
+<span class=line><span style="color: #8B949E"># -----函数开始执行-----</span></span>
+<span class=line><span style="color: #8B949E"># 这是我的第一个 shell 函数!</span></span>
+<span class=line><span style="color: #8B949E"># and this is the 2nd!</span></span>
+<span class=line><span style="color: #8B949E"># -----函数执行完毕-----</span></span></code></pre></div>
+</code></pre><p>所有函数在使用前必须定义。这意味着必须将函数放在脚本开始部分，直至shell解释器首次发现它时，才可以使用。调用函数仅使用其函数名即可，如果有参数的话以空格隔开，函数返回值在调用该函数后通过 $? 来获得。在函数体内部，通过 $n 的形式来获取参数的值，例如，$1表示第一个参数，$2表示第二个参数...但第10个以后需要加上大括号，比如${10}。</p><p>另外，还有几个特殊字符用来处理参数： |参数处理|说明| |------|----| |$#|传递到脚本的参数个数| |$*|以一个单字符串显示所有向脚本传递的参数| |$$|脚本运行的当前进程ID号| |$!|后台运行的最后一个进程的ID号| |$@|与$*相同，但是使用时加引号，并在引号中返回每个参数。| |$-|显示Shell使用的当前选项，与set命令功能相同。| |$?|显示最后命令的退出状态。0表示没有错误，其他任何值表明有错误。|</p><h3 id=引用外部文件>引用外部文件</h3><p>和其他语言一样，Shell 也可以包含外部脚本。这样可以很方便的封装一些公用的代码作为一个独立的文件。被包含的文件不需要可执行权限。 Shell 文件包含的语法格式如下：</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #005CC5">.</span><span style="color: #24292E"> filename   </span><span style="color: #6A737D"># 注意点号(.)和文件名中间有一空格</span></span>
+<span class=line><span style="color: #6A737D"># 或</span></span>
+<span class=line><span style="color: #005CC5">source</span><span style="color: #24292E"> filename</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #79C0FF">.</span><span style="color: #C9D1D9"> filename   </span><span style="color: #8B949E"># 注意点号(.)和文件名中间有一空格</span></span>
+<span class=line><span style="color: #8B949E"># 或</span></span>
+<span class=line><span style="color: #79C0FF">source</span><span style="color: #C9D1D9"> filename</span></span></code></pre></div>
+</code></pre></div><div class=footer><hr><div class=footer-link><a href=/archive><i class="fa fa-archive" aria-hidden=true></i></a><a target=_blank href=https://twitter.com/chow_won><i class="fa fa-twitter" aria-hidden=true></i></a> <a target=_blank href=https://github.com/zoubingwu><i class="fa fa-github" aria-hidden=true></i></a> <a target=_blank href=mailto:zoubingwu@gmail.com><i class="fa fa-envelope" aria-hidden=true></i></a></div>© 2016-2021 zoubingwu. All rights reserved.</div></div></body></html>

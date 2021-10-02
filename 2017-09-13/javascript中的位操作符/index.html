@@ -1,0 +1,136 @@
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no"><meta name=keywords content=blog,html,css,javascript,react,vue,nodejs><meta name=description content="zoubingwu 个人博客, zoubingwu's blog"><link href=/assets/images/favicon.ico rel=bookmark type=image/x-icon><link href=/assets/images/favicon.ico rel=icon type=image/x-icon><link href=/assets/images/favicon.ico rel="shortcut icon" type=image/x-icon><link rel=stylesheet href=/assets/css/main.css type=text/css><link rel=preload href=/assets/fonts/googlefont.css as=style><link rel=preload href=https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css as=style><link rel=stylesheet href=/assets/fonts/googlefont.css as=style><link rel=stylesheet href=https://cdn.bootcdn.net/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css as=style><link rel=alternate type=application/rss+xml title="RSS Feed for zoubingwu's blog" href=/feed.xml><title>JavaScript中的位操作符 | https://zoubingwu.com</title><meta property=og:title content="JavaScript中的位操作符 | https://zoubingwu.com"><meta property=og:locale content=en_US><meta name=description content=位操作符用于最基本的二进制数值操作上，由于在JavaScript的日常开发中很少用到，因此很多人对此了解也不多...><meta property=og:description content=位操作符用于最基本的二进制数值操作上，由于在JavaScript的日常开发中很少用到，因此很多人对此了解也不多...><link rel=canonical href=https://zoubingwu.com/2017-09-13/javascript中的位操作符><meta property=og:url content=https://zoubingwu.com/2017-09-13/javascript中的位操作符><meta property=og:site_name content="zoubingwu's blog"><meta property=og:type content=article><meta property=article:published_time content=2017-09-13T22:13:43.000Z><meta name=twitter:card content=summary><meta property=twitter:title content="JavaScript中的位操作符 | https://zoubingwu.com"><script>(function (i, s, o, g, r, a, m) { i['GoogleAnalyticsObject'] = r; (i[r] = i[r]
+  || function () { (i[r].q = i[r].q || []).push(arguments); }), (i[r].l = 1 *
+  new Date()); (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
+  a.async = 1; a.src = g; m.parentNode.insertBefore(a, m); })( window, document,
+  'script', 'https://www.google-analytics.com/analytics.js', 'ga' );
+  ga('create', 'UA-100363260-1', 'auto'); ga('send', 'pageview');</script></head><body><div class=content-container><div class=post><div class=post-title>JavaScript中的位操作符</div><span class=post-date><time>13 Sep 2017</time></span><div class=post-tag><ul><li><a><span><i class="fa fa-paperclip" aria-hidden=true></i>javascript</span></a></li></ul></div><h3 id=整数的存储>整数的存储</h3><p>在计算机中，所有的数据都是以二进制的形式储存的。在 c++ 中，整数储存的位数往往和编译器的实现有关，而在 ECMAScript 中的所有数值都是以 IEEE-754 64位的格式储存的，当然位操作符并不直接操作 64 位的值。而是先将 64 位转换为 32 位，然后执行操作，最后再将结果转换位 64 位。对于开发人员来说，整个过程就好像 64 位格式是透明的，只存在 32 位的整数一样。</p><p>学习过 c++ 语言基础的同学都知道，对于有符号的整数，32位中的前31位都用来表示数值，而第32位用来表示符号位：0 表示正数，1 表示负数，这个叫做符号位。对于正数，以纯二进制格式存储，而负数，则以二进制补码的格式。计算补码，则是将二进制的原码取反加 1。比如要求得 -18 的二进制表示：</p><pre><code class=language-sh><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #6A737D"># 我们首先求得 18 的二进制，即：</span></span>
+<span class=line><span style="color: #24292E">0000 0000 0000 0000 0000 0000 0001 0010</span></span>
+<span class=line></span>
+<span class=line><span style="color: #6A737D"># 然后每一位取反，获得其二进制的反码：</span></span>
+<span class=line><span style="color: #24292E">1111 1111 1111 1111 1111 1111 1110 1101</span></span>
+<span class=line></span>
+<span class=line><span style="color: #6A737D"># 然后再加 1，获得补码：</span></span>
+<span class=line><span style="color: #24292E">1111 1111 1111 1111 1111 1111 1110 1110</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #8B949E"># 我们首先求得 18 的二进制，即：</span></span>
+<span class=line><span style="color: #C9D1D9">0000 0000 0000 0000 0000 0000 0001 0010</span></span>
+<span class=line></span>
+<span class=line><span style="color: #8B949E"># 然后每一位取反，获得其二进制的反码：</span></span>
+<span class=line><span style="color: #C9D1D9">1111 1111 1111 1111 1111 1111 1110 1101</span></span>
+<span class=line></span>
+<span class=line><span style="color: #8B949E"># 然后再加 1，获得补码：</span></span>
+<span class=line><span style="color: #C9D1D9">1111 1111 1111 1111 1111 1111 1110 1110</span></span></code></pre></div>
+</code></pre><p>当然，最左边的第32位，在处理有符号整数时是不能访问的。</p><h3 id=按位非（not）>按位非（NOT）</h3><p>按位非操作符在 JS 中由一个波浪线 <code>~</code> 表示，返回的结果就是每一位取反获得的反码。根据负数的规则，我们可以得出反码的本质：操作数的负值减 1。但由于位操作符在底层直接操作，因此速度更快。</p><pre><code class=language-js><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #D73A49">var</span><span style="color: #24292E"> a </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">25</span><span style="color: #24292E">;  </span><span style="color: #6A737D">// 0000 0000 0000 0000 0000 0000 0001 1001</span></span>
+<span class=line><span style="color: #D73A49">var</span><span style="color: #24292E"> b </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #D73A49">~</span><span style="color: #005CC5">25</span><span style="color: #24292E">; </span><span style="color: #6A737D">// 1111 1111 1111 1111 1111 1111 1110 0110</span></span>
+<span class=line><span style="color: #24292E">console.</span><span style="color: #6F42C1">log</span><span style="color: #24292E">(b) </span><span style="color: #6A737D">// -26</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #FF7B72">var</span><span style="color: #C9D1D9"> a </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">25</span><span style="color: #C9D1D9">;  </span><span style="color: #8B949E">// 0000 0000 0000 0000 0000 0000 0001 1001</span></span>
+<span class=line><span style="color: #FF7B72">var</span><span style="color: #C9D1D9"> b </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">~</span><span style="color: #79C0FF">25</span><span style="color: #C9D1D9">; </span><span style="color: #8B949E">// 1111 1111 1111 1111 1111 1111 1110 0110</span></span>
+<span class=line><span style="color: #C9D1D9">console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(b) </span><span style="color: #8B949E">// -26</span></span></code></pre></div>
+</code></pre><h3 id=按位与（and）>按位与（AND）</h3><p>按位与由一个 <code>&amp;</code> 符号表示，它有两个操作符数，本质上就是每一位对齐然后对相同位置上的值进行 AND 操作。所谓 AND 操作，和逻辑上的 AND 类似：</p><table><thead><tr><th>第一数值</th><th>第二个数值</th><th>结果</th></tr></thead><tbody><tr><td>1</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>0</td><td>0</td><td>0</td></tr></tbody></table><p>举个例子：</p><pre><code class=language-js><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #D73A49">var</span><span style="color: #24292E"> result </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">25</span><span style="color: #24292E"> </span><span style="color: #D73A49">&amp;</span><span style="color: #24292E"> </span><span style="color: #005CC5">3</span></span>
+<span class=line><span style="color: #24292E">console.</span><span style="color: #6F42C1">log</span><span style="color: #24292E">(result) </span><span style="color: #6A737D">// 1</span></span>
+<span class=line></span>
+<span class=line><span style="color: #6A737D">//过程如下：</span></span>
+<span class=line><span style="color: #6A737D">//  25 = 0000 0000 0000 0000 0000 0000 0001 1001</span></span>
+<span class=line><span style="color: #6A737D">//   3 = 0000 0000 0000 0000 0000 0000 0000 0011</span></span>
+<span class=line><span style="color: #6A737D">// ---------------------------------------------</span></span>
+<span class=line><span style="color: #6A737D">// AND = 0000 0000 0000 0000 0000 0000 0000 0001</span></span>
+<span class=line><span style="color: #6A737D">// 即结果为 1</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #FF7B72">var</span><span style="color: #C9D1D9"> result </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">25</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&amp;</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">3</span></span>
+<span class=line><span style="color: #C9D1D9">console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(result) </span><span style="color: #8B949E">// 1</span></span>
+<span class=line></span>
+<span class=line><span style="color: #8B949E">//过程如下：</span></span>
+<span class=line><span style="color: #8B949E">//  25 = 0000 0000 0000 0000 0000 0000 0001 1001</span></span>
+<span class=line><span style="color: #8B949E">//   3 = 0000 0000 0000 0000 0000 0000 0000 0011</span></span>
+<span class=line><span style="color: #8B949E">// ---------------------------------------------</span></span>
+<span class=line><span style="color: #8B949E">// AND = 0000 0000 0000 0000 0000 0000 0000 0001</span></span>
+<span class=line><span style="color: #8B949E">// 即结果为 1</span></span></code></pre></div>
+</code></pre><h3 id=按位或（or）>按位或（OR）</h3><p>按位或有 <code>|</code> 符号表示，同样也是两个操作数，对每一位进行类似逻辑上的或操作：</p><table><thead><tr><th>第一数值</th><th>第二个数值</th><th>结果</th></tr></thead><tbody><tr><td>1</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>0</td><td>1</td><td>1</td></tr><tr><td>0</td><td>0</td><td>0</td></tr></tbody></table><pre><code class=language-js><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #D73A49">var</span><span style="color: #24292E"> result </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">25</span><span style="color: #24292E"> </span><span style="color: #D73A49">|</span><span style="color: #24292E"> </span><span style="color: #005CC5">3</span></span>
+<span class=line><span style="color: #24292E">console.</span><span style="color: #6F42C1">log</span><span style="color: #24292E">(result) </span><span style="color: #6A737D">// 27</span></span>
+<span class=line></span>
+<span class=line><span style="color: #6A737D">//过程如下：</span></span>
+<span class=line><span style="color: #6A737D">//  25 = 0000 0000 0000 0000 0000 0000 0001 1001</span></span>
+<span class=line><span style="color: #6A737D">//   3 = 0000 0000 0000 0000 0000 0000 0000 0011</span></span>
+<span class=line><span style="color: #6A737D">// ---------------------------------------------</span></span>
+<span class=line><span style="color: #6A737D">//  OR = 0000 0000 0000 0000 0000 0000 0001 1011</span></span>
+<span class=line><span style="color: #6A737D">// 即结果为 27</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #FF7B72">var</span><span style="color: #C9D1D9"> result </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">25</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">|</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">3</span></span>
+<span class=line><span style="color: #C9D1D9">console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(result) </span><span style="color: #8B949E">// 27</span></span>
+<span class=line></span>
+<span class=line><span style="color: #8B949E">//过程如下：</span></span>
+<span class=line><span style="color: #8B949E">//  25 = 0000 0000 0000 0000 0000 0000 0001 1001</span></span>
+<span class=line><span style="color: #8B949E">//   3 = 0000 0000 0000 0000 0000 0000 0000 0011</span></span>
+<span class=line><span style="color: #8B949E">// ---------------------------------------------</span></span>
+<span class=line><span style="color: #8B949E">//  OR = 0000 0000 0000 0000 0000 0000 0001 1011</span></span>
+<span class=line><span style="color: #8B949E">// 即结果为 27</span></span></code></pre></div>
+</code></pre><h3 id=按位异或（xor）>按位异或（XOR）</h3><p>按位异或（XOR）由 <code>^</code> 表示，也有两个操作数，按下面的表来操作：</p><table><thead><tr><th>第一数值</th><th>第二个数值</th><th>结果</th></tr></thead><tbody><tr><td>1</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>0</td><td>1</td><td>1</td></tr><tr><td>0</td><td>0</td><td>0</td></tr></tbody></table><p>按位异或和按位或不同的地方在于，这个操作要求两个数值的对应位上必须相异时才返回 1，如果都是 0 或者都是 1 则返回 0。</p><pre><code class=language-js><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #D73A49">var</span><span style="color: #24292E"> result </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">25</span><span style="color: #24292E"> </span><span style="color: #D73A49">^</span><span style="color: #24292E"> </span><span style="color: #005CC5">3</span></span>
+<span class=line><span style="color: #24292E">console.</span><span style="color: #6F42C1">log</span><span style="color: #24292E">(result) </span><span style="color: #6A737D">// 26</span></span>
+<span class=line></span>
+<span class=line><span style="color: #6A737D">//过程如下：</span></span>
+<span class=line><span style="color: #6A737D">//  25 = 0000 0000 0000 0000 0000 0000 0001 1001</span></span>
+<span class=line><span style="color: #6A737D">//   3 = 0000 0000 0000 0000 0000 0000 0000 0011</span></span>
+<span class=line><span style="color: #6A737D">// ---------------------------------------------</span></span>
+<span class=line><span style="color: #6A737D">// XOR = 0000 0000 0000 0000 0000 0000 0001 1010</span></span>
+<span class=line><span style="color: #6A737D">// 即结果为 26</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #FF7B72">var</span><span style="color: #C9D1D9"> result </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">25</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">^</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">3</span></span>
+<span class=line><span style="color: #C9D1D9">console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(result) </span><span style="color: #8B949E">// 26</span></span>
+<span class=line></span>
+<span class=line><span style="color: #8B949E">//过程如下：</span></span>
+<span class=line><span style="color: #8B949E">//  25 = 0000 0000 0000 0000 0000 0000 0001 1001</span></span>
+<span class=line><span style="color: #8B949E">//   3 = 0000 0000 0000 0000 0000 0000 0000 0011</span></span>
+<span class=line><span style="color: #8B949E">// ---------------------------------------------</span></span>
+<span class=line><span style="color: #8B949E">// XOR = 0000 0000 0000 0000 0000 0000 0001 1010</span></span>
+<span class=line><span style="color: #8B949E">// 即结果为 26</span></span></code></pre></div>
+</code></pre><h3 id=左移>左移</h3><p>左移由 <code>&lt;&lt;</code> 表示，这个操作将数值的所有位向左移动指定的位数，左移并不会影响符号位。</p><pre><code class=language-js><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #D73A49">var</span><span style="color: #24292E"> result </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">2</span><span style="color: #24292E"> </span><span style="color: #D73A49">&lt;&lt;</span><span style="color: #24292E"> </span><span style="color: #005CC5">5</span></span>
+<span class=line><span style="color: #24292E">console.</span><span style="color: #6F42C1">log</span><span style="color: #24292E">(result) </span><span style="color: #6A737D">// 64</span></span>
+<span class=line></span>
+<span class=line><span style="color: #6A737D">//过程如下：</span></span>
+<span class=line><span style="color: #6A737D">//   2 = 0000 0000 0000 0000 0000 0000 0000 0010</span></span>
+<span class=line><span style="color: #6A737D">// ---------------------------------------------</span></span>
+<span class=line><span style="color: #6A737D">// &lt;&lt;5 = 0000 0000 0000 0000 0000 0000 0100 0000</span></span>
+<span class=line><span style="color: #6A737D">//                                        |____|</span></span>
+<span class=line><span style="color: #6A737D">//                                        以0填充</span></span>
+<span class=line><span style="color: #6A737D">// 即结果为 64</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #FF7B72">var</span><span style="color: #C9D1D9"> result </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">2</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&lt;&lt;</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">5</span></span>
+<span class=line><span style="color: #C9D1D9">console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(result) </span><span style="color: #8B949E">// 64</span></span>
+<span class=line></span>
+<span class=line><span style="color: #8B949E">//过程如下：</span></span>
+<span class=line><span style="color: #8B949E">//   2 = 0000 0000 0000 0000 0000 0000 0000 0010</span></span>
+<span class=line><span style="color: #8B949E">// ---------------------------------------------</span></span>
+<span class=line><span style="color: #8B949E">// &lt;&lt;5 = 0000 0000 0000 0000 0000 0000 0100 0000</span></span>
+<span class=line><span style="color: #8B949E">//                                        |____|</span></span>
+<span class=line><span style="color: #8B949E">//                                        以0填充</span></span>
+<span class=line><span style="color: #8B949E">// 即结果为 64</span></span></code></pre></div>
+</code></pre><h3 id=有符号的右移>有符号的右移</h3><p>有符号的右移由操作符 <code>&gt;&gt;</code> 表示，有符号的右移与左移正好相反，即如果 64 右移 5位，结果为 2。同样，在操作时也会出现空位，只不过空位出现在原数值的左侧、符号位的右侧，并且会用符号位的值来填充所有的空位。</p><pre><code class=language-js><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #D73A49">var</span><span style="color: #24292E"> result </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">64</span><span style="color: #24292E"> </span><span style="color: #D73A49">&gt;&gt;</span><span style="color: #24292E"> </span><span style="color: #005CC5">5</span></span>
+<span class=line><span style="color: #24292E">console.</span><span style="color: #6F42C1">log</span><span style="color: #24292E">(result) </span><span style="color: #6A737D">// 2</span></span>
+<span class=line></span>
+<span class=line><span style="color: #6A737D">//过程如下：</span></span>
+<span class=line><span style="color: #6A737D">//  64 = 0000 0000 0000 0000 0000 0000 0100 0000</span></span>
+<span class=line><span style="color: #6A737D">// ---------------------------------------------</span></span>
+<span class=line><span style="color: #6A737D">// &gt;&gt;5 = 0000 0000 0000 0000 0000 0000 0000 0010</span></span>
+<span class=line><span style="color: #6A737D">//        |____|</span></span>
+<span class=line><span style="color: #6A737D">//       以0填充</span></span>
+<span class=line><span style="color: #6A737D">// 即结果为 2</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #FF7B72">var</span><span style="color: #C9D1D9"> result </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">64</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&gt;&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">5</span></span>
+<span class=line><span style="color: #C9D1D9">console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(result) </span><span style="color: #8B949E">// 2</span></span>
+<span class=line></span>
+<span class=line><span style="color: #8B949E">//过程如下：</span></span>
+<span class=line><span style="color: #8B949E">//  64 = 0000 0000 0000 0000 0000 0000 0100 0000</span></span>
+<span class=line><span style="color: #8B949E">// ---------------------------------------------</span></span>
+<span class=line><span style="color: #8B949E">// &gt;&gt;5 = 0000 0000 0000 0000 0000 0000 0000 0010</span></span>
+<span class=line><span style="color: #8B949E">//        |____|</span></span>
+<span class=line><span style="color: #8B949E">//       以0填充</span></span>
+<span class=line><span style="color: #8B949E">// 即结果为 2</span></span></code></pre></div>
+</code></pre><h3 id=无符号的右移>无符号的右移</h3><p>无符号的右移由操作符 <code>&gt;&gt;&gt;</code> 表示，这个操作会将所有的 32 位都往右移动，对正数来说，结果仍然和有符号的右移相同。但对负数来说，结果就不一样了，首先，无符号右移是以 0 来填充空位，而不像有符号的一样以符号位的值来填充，其次，无符号右移会把负数的二进制码当作正数的二进制码，而且，由于负数以其绝对值的补码表示，因此右移的结果会非常之大。</p><pre><code class=language-js><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #D73A49">var</span><span style="color: #24292E"> result </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #D73A49">-</span><span style="color: #005CC5">64</span><span style="color: #24292E"> </span><span style="color: #D73A49">&gt;&gt;&gt;</span><span style="color: #24292E"> </span><span style="color: #005CC5">5</span></span>
+<span class=line><span style="color: #24292E">console.</span><span style="color: #6F42C1">log</span><span style="color: #24292E">(result) </span><span style="color: #6A737D">// 134217726</span></span>
+<span class=line></span>
+<span class=line><span style="color: #6A737D">//过程如下：</span></span>
+<span class=line><span style="color: #6A737D">//   64 = 0000 0000 0000 0000 0000 0000 0100 0000</span></span>
+<span class=line><span style="color: #6A737D">//  -64 = 1111 1111 1111 1111 1111 1111 1100 0000</span></span>
+<span class=line><span style="color: #6A737D">// ---------------------------------------------</span></span>
+<span class=line><span style="color: #6A737D">// &gt;&gt;&gt;5 = 0000 0111 1111 1111 1111 1111 1111 1110</span></span>
+<span class=line><span style="color: #6A737D">//        |____|</span></span>
+<span class=line><span style="color: #6A737D">//       以0填充</span></span>
+<span class=line><span style="color: #6A737D">// 即结果为 134217726</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #FF7B72">var</span><span style="color: #C9D1D9"> result </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">-</span><span style="color: #79C0FF">64</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">&gt;&gt;&gt;</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">5</span></span>
+<span class=line><span style="color: #C9D1D9">console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(result) </span><span style="color: #8B949E">// 134217726</span></span>
+<span class=line></span>
+<span class=line><span style="color: #8B949E">//过程如下：</span></span>
+<span class=line><span style="color: #8B949E">//   64 = 0000 0000 0000 0000 0000 0000 0100 0000</span></span>
+<span class=line><span style="color: #8B949E">//  -64 = 1111 1111 1111 1111 1111 1111 1100 0000</span></span>
+<span class=line><span style="color: #8B949E">// ---------------------------------------------</span></span>
+<span class=line><span style="color: #8B949E">// &gt;&gt;&gt;5 = 0000 0111 1111 1111 1111 1111 1111 1110</span></span>
+<span class=line><span style="color: #8B949E">//        |____|</span></span>
+<span class=line><span style="color: #8B949E">//       以0填充</span></span>
+<span class=line><span style="color: #8B949E">// 即结果为 134217726</span></span></code></pre></div>
+</code></pre></div><div class=footer><hr><div class=footer-link><a href=/archive><i class="fa fa-archive" aria-hidden=true></i></a><a target=_blank href=https://twitter.com/chow_won><i class="fa fa-twitter" aria-hidden=true></i></a> <a target=_blank href=https://github.com/zoubingwu><i class="fa fa-github" aria-hidden=true></i></a> <a target=_blank href=mailto:zoubingwu@gmail.com><i class="fa fa-envelope" aria-hidden=true></i></a></div>© 2016-2021 zoubingwu. All rights reserved.</div></div></body></html>
