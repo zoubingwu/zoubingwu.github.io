@@ -1,0 +1,10 @@
+@media (prefers-color-scheme: light) {
+  .shiki-dark {
+    display: none;
+  }
+}
+@media (prefers-color-scheme: dark) {
+  .shiki-light {
+    display: none;
+  }
+}
