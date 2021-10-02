@@ -47,7 +47,7 @@ async function transformMarkdownToHtml(path: string, post: PostData) {
   const dir = `${config.output}${postUrl}`;
   const output = `${dir}/index.html`;
 
-  consola.info(`Generating ${path}`);
+  consola.info(`Generating ${output}`);
   await renderPostPage({
     title: post.metadata.title,
     tags: post.metadata.tags,

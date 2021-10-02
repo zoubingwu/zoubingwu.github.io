@@ -28,5 +28,5 @@ export async function readFile(p: string) {
 }
 
 export function getPostUrl(date: Date, title: string) {
-  return `/${dayjs(date).format('YYYY-MM-DD')}/${title}`;
+  return `/${dayjs(date).format('YYYY-MM-DD')}/${title.toLowerCase().split(' ').join('-')}`;
 }
