@@ -47,6 +47,8 @@ async function main() {
 
   consola.info('Getting post list...');
   const postList = await readPostList();
+  consola.info(`Got ${postList.length} posts.`);
+
   const postMap = new Map<string, PostData>();
 
   consola.info('Getting post metadata...');
