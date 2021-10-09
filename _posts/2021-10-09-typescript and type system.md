@@ -69,7 +69,7 @@ Nominal 类型系统比较的是类型本身，具备非常强的一致性要求
 
 在 C# 中使用的就是 Nominal 类型系统：
 
-```
+```ts
 public class Foo {
 	public string Name { get; set; }
 	public int Id { get; set; }
@@ -94,7 +94,6 @@ class Foo {
 class Bar {
 	method() {}
 }
-
 
 const foo: Foo = new Foo(); // Ok
 const bar: Bar = bew Foo(); // Ok
@@ -189,7 +188,7 @@ type Circle = {
 type Shape = Square | Rectangle | Circle
 
 function area(shape: Shape): number {
-	swich (shape.kind) {
+	switch (shape.kind) {
 		case 'square':
 			return shape.size * shape.size
 		case 'rectangle':
@@ -208,7 +207,7 @@ Shape 合集中都有一个 kind 属性，它的值是一个 string literal，�
 
 ```ts
 function area(shape: Shape): number {
-	swich (shape.kind) {
+	switch (shape.kind) {
 		case 'square':
 			return shape.size * shape.size
 		case 'rectangle':
@@ -245,7 +244,6 @@ class Triangle {
 }
 
 decalare const ShapeType: unique symbol
-
 
 class Shape {
 	[ShapeType]: void
