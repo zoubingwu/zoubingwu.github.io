@@ -3,127 +3,67 @@
   new Date()); (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
   a.async = 1; a.src = g; m.parentNode.insertBefore(a, m); })( window, document,
   'script', 'https://www.google-analytics.com/analytics.js', 'ga' );
-  ga('create', 'UA-100363260-1', 'auto'); ga('send', 'pageview');</script></head><body><div class=content-container><div class=post><div class=post-title>debounce and throttle</div><span class=post-date><time>23 May 2017</time></span><div class=post-tag><ul><li><a><span><i class="fa fa-paperclip" aria-hidden=true></i>javascript</span></a></li></ul></div><p>最近研究了一下<code>lodash</code>和<code>underscore</code>的部分源码，其中关于<code>debounce</code>和<code>throttle</code>感觉是比较值得说一说的。因为项目中也经常需要监听<code>scroll</code>等事件，不做防抖这样的设置经常会出现一些奇怪的效果。</p><p>关于这两者的区别可以看看这个<a href=http://demo.nimius.net/debounce_throttle/ >demo</a>，简单来说就是一个是在动作完成后最后执行一次函数，而另一个就是在固定的时间区间内才执行一次，并不是每一次触发都会去执行绑定的函数。</p><p>先来说说<code>debounce</code>，简单实现的思路就是把每一次事件触发的函数放入一个定时器中，在下一次的触发时清除这个定时器，这样只有最后一次无法被清除从而执行。</p><pre><code class=language-javascript><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #D73A49">function</span><span style="color: #24292E"> </span><span style="color: #6F42C1">debounce</span><span style="color: #24292E">(</span><span style="color: #E36209">fn</span><span style="color: #24292E">, </span><span style="color: #E36209">delay</span><span style="color: #24292E">) {</span></span>
+  ga('create', 'UA-100363260-1', 'auto'); ga('send', 'pageview');</script></head><body><div class=content-container><div class=post><div class=post-title>debounce and throttle</div><span class=post-date><time>23 May 2017</time></span><div class=post-tag><ul><li><a><span><i class="fa fa-paperclip" aria-hidden=true></i>javascript</span></a></li></ul></div><p>最近研究了一下<code>lodash</code>和<code>underscore</code>的部分源码，其中关于<code>debounce</code>和<code>throttle</code>感觉是比较值得说一说的。因为项目中也经常需要监听<code>scroll</code>等事件，不做防抖这样的设置经常会出现一些奇怪的效果。</p><p>关于这两者的区别可以看看这个<a href=http://demo.nimius.net/debounce_throttle/ >demo</a>，简单来说就是一个是在动作完成后最后执行一次函数，而另一个就是在固定的时间区间内才执行一次，并不是每一次触发都会去执行绑定的函数。</p><p>先来说说<code>debounce</code>，简单实现的思路就是把每一次事件触发的函数放入一个定时器中，在下一次的触发时清除这个定时器，这样只有最后一次无法被清除从而执行。</p><pre><code class=language-javascript><pre class=shiki style="background-color: #282c34"><code><span class=line><span style="color: #C678DD">function</span><span style="color: #ABB2BF"> </span><span style="color: #61AFEF">debounce</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75; font-style: italic">fn</span><span style="color: #ABB2BF">, </span><span style="color: #E06C75; font-style: italic">delay</span><span style="color: #ABB2BF">) {</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #6A737D">// 定时器</span></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">var</span><span style="color: #24292E"> timer</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #7F848E; font-style: italic">// 定时器</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">var</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">timer</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #6A737D">// 返回一个函数，这个函数会在一个时间区间结束后的 delay 毫秒时执行 fn 函数</span></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">return</span><span style="color: #24292E"> </span><span style="color: #D73A49">function</span><span style="color: #24292E"> () {</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #7F848E; font-style: italic">// 返回一个函数，这个函数会在一个时间区间结束后的 delay 毫秒时执行 fn 函数</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">return</span><span style="color: #ABB2BF"> </span><span style="color: #C678DD">function</span><span style="color: #ABB2BF"> () {</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #6A737D">// 保存函数调用时的上下文和参数，传递给 fn</span></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #D73A49">var</span><span style="color: #24292E"> that </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">this</span></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #D73A49">var</span><span style="color: #24292E"> args </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">arguments</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #7F848E; font-style: italic">// 保存函数调用时的上下文和参数，传递给 fn</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #C678DD">var</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">that</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">this</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #C678DD">var</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">args</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">arguments</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #6A737D">// 每次这个返回的函数被调用，就清除定时器，以保证不执行 fn</span></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #005CC5">clearTimeout</span><span style="color: #24292E">(timer)</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #7F848E; font-style: italic">// 每次这个返回的函数被调用，就清除定时器，以保证不执行 fn</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #56B6C2">clearTimeout</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75">timer</span><span style="color: #ABB2BF">)</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #6A737D">// 当返回的函数被最后一次调用后（也就是用户停止了某个连续的操作），</span></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #6A737D">// 再过 delay 毫秒就执行 fn</span></span>
-<span class=line><span style="color: #24292E">    timer </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">setTimeout</span><span style="color: #24292E">(</span><span style="color: #D73A49">function</span><span style="color: #24292E"> () {</span></span>
-<span class=line><span style="color: #24292E">      fn.</span><span style="color: #6F42C1">apply</span><span style="color: #24292E">(that, args)</span></span>
-<span class=line><span style="color: #24292E">    }, delay)</span></span>
-<span class=line><span style="color: #24292E">  }</span></span>
-<span class=line><span style="color: #24292E">}</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">debounce</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">fn</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">delay</span><span style="color: #C9D1D9">) {</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #7F848E; font-style: italic">// 当返回的函数被最后一次调用后（也就是用户停止了某个连续的操作），</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #7F848E; font-style: italic">// 再过 delay 毫秒就执行 fn</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #E06C75">timer</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">setTimeout</span><span style="color: #ABB2BF">(</span><span style="color: #C678DD">function</span><span style="color: #ABB2BF"> () {</span></span>
+<span class=line><span style="color: #ABB2BF">      </span><span style="color: #E5C07B">fn</span><span style="color: #ABB2BF">.</span><span style="color: #61AFEF">apply</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75">that</span><span style="color: #ABB2BF">, </span><span style="color: #E06C75">args</span><span style="color: #ABB2BF">)</span></span>
+<span class=line><span style="color: #ABB2BF">    }, </span><span style="color: #E06C75">delay</span><span style="color: #ABB2BF">)</span></span>
+<span class=line><span style="color: #ABB2BF">  }</span></span>
+<span class=line><span style="color: #ABB2BF">}</span></span></code></pre>
+</code></pre><p>这样使用时可以把<code>debounce</code>作为回调添加给绑定的事件：</p><pre><code class=language-javascript><pre class=shiki style="background-color: #282c34"><code><span class=line><span style="color: #61AFEF">$</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75">document</span><span style="color: #ABB2BF">).</span><span style="color: #61AFEF">on</span><span style="color: #ABB2BF">(</span><span style="color: #98C379">&#39;scroll&#39;</span><span style="color: #ABB2BF">, </span><span style="color: #61AFEF">debounce</span><span style="color: #ABB2BF">(</span><span style="color: #C678DD">function</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75; font-style: italic">e</span><span style="color: #ABB2BF">) {</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #7F848E; font-style: italic">// 代码</span></span>
+<span class=line><span style="color: #ABB2BF">}, </span><span style="color: #D19A66">250</span><span style="color: #ABB2BF">))</span></span></code></pre>
+</code></pre><p><code>throttle</code>的概念其实也是类似于<code>debounce</code>，区别在于我们需要记录一下时间的间隔，如果距离上次执行事件响应的函数时间小于间隔的话就同<code>debounce</code>一样继续清除定时器，并继续将函数放入定时器，否则直接执行函数：</p><pre><code class=language-javascript><pre class=shiki style="background-color: #282c34"><code><span class=line><span style="color: #C678DD">function</span><span style="color: #ABB2BF"> </span><span style="color: #61AFEF">throttle</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75; font-style: italic">fn</span><span style="color: #ABB2BF">, </span><span style="color: #E06C75; font-style: italic">threshhold</span><span style="color: #ABB2BF">) {</span></span>
 <span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #8B949E">// 定时器</span></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">var</span><span style="color: #C9D1D9"> timer</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #7F848E; font-style: italic">// 记录上次执行的时间</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">var</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">last</span></span>
 <span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #8B949E">// 返回一个函数，这个函数会在一个时间区间结束后的 delay 毫秒时执行 fn 函数</span></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> () {</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #7F848E; font-style: italic">// 定时器</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">var</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">timer</span></span>
 <span class=line></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 保存函数调用时的上下文和参数，传递给 fn</span></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">var</span><span style="color: #C9D1D9"> that </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">this</span></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">var</span><span style="color: #C9D1D9"> args </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">arguments</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #7F848E; font-style: italic">// 默认间隔为 250ms</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #E06C75">threshhold</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">||</span><span style="color: #ABB2BF"> (</span><span style="color: #E06C75">threshhold</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #D19A66">250</span><span style="color: #ABB2BF">)</span></span>
 <span class=line></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 每次这个返回的函数被调用，就清除定时器，以保证不执行 fn</span></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #79C0FF">clearTimeout</span><span style="color: #C9D1D9">(timer)</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #7F848E; font-style: italic">// 返回的函数，每过 threshhold 毫秒就执行一次 fn 函数</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">return</span><span style="color: #ABB2BF"> </span><span style="color: #C678DD">function</span><span style="color: #ABB2BF"> () {</span></span>
 <span class=line></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 当返回的函数被最后一次调用后（也就是用户停止了某个连续的操作），</span></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 再过 delay 毫秒就执行 fn</span></span>
-<span class=line><span style="color: #C9D1D9">    timer </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">setTimeout</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> () {</span></span>
-<span class=line><span style="color: #C9D1D9">      fn.</span><span style="color: #D2A8FF">apply</span><span style="color: #C9D1D9">(that, args)</span></span>
-<span class=line><span style="color: #C9D1D9">    }, delay)</span></span>
-<span class=line><span style="color: #C9D1D9">  }</span></span>
-<span class=line><span style="color: #C9D1D9">}</span></span></code></pre></div>
-</code></pre><p>这样使用时可以把<code>debounce</code>作为回调添加给绑定的事件：</p><pre><code class=language-javascript><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #6F42C1">$</span><span style="color: #24292E">(document).</span><span style="color: #6F42C1">on</span><span style="color: #24292E">(</span><span style="color: #032F62">&#39;scroll&#39;</span><span style="color: #24292E">, </span><span style="color: #6F42C1">debounce</span><span style="color: #24292E">(</span><span style="color: #D73A49">function</span><span style="color: #24292E">(</span><span style="color: #E36209">e</span><span style="color: #24292E">) {</span></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #6A737D">// 代码</span></span>
-<span class=line><span style="color: #24292E">}, </span><span style="color: #005CC5">250</span><span style="color: #24292E">))</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #D2A8FF">$</span><span style="color: #C9D1D9">(document).</span><span style="color: #D2A8FF">on</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">&#39;scroll&#39;</span><span style="color: #C9D1D9">, </span><span style="color: #D2A8FF">debounce</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">function</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">e</span><span style="color: #C9D1D9">) {</span></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 代码</span></span>
-<span class=line><span style="color: #C9D1D9">}, </span><span style="color: #79C0FF">250</span><span style="color: #C9D1D9">))</span></span></code></pre></div>
-</code></pre><p><code>throttle</code>的概念其实也是类似于<code>debounce</code>，区别在于我们需要记录一下时间的间隔，如果距离上次执行事件响应的函数时间小于间隔的话就同<code>debounce</code>一样继续清除定时器，并继续将函数放入定时器，否则直接执行函数：</p><pre><code class=language-javascript><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #D73A49">function</span><span style="color: #24292E"> </span><span style="color: #6F42C1">throttle</span><span style="color: #24292E">(</span><span style="color: #E36209">fn</span><span style="color: #24292E">, </span><span style="color: #E36209">threshhold</span><span style="color: #24292E">) {</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #7F848E; font-style: italic">// 保存函数调用时的上下文和参数，传递给 fn</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #C678DD">var</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">that</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">this</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #C678DD">var</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">args</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">arguments</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #6A737D">// 记录上次执行的时间</span></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">var</span><span style="color: #24292E"> last</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #C678DD">var</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">now</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">+</span><span style="color: #C678DD">new</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">Date</span><span style="color: #ABB2BF">()</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #6A737D">// 定时器</span></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">var</span><span style="color: #24292E"> timer</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #7F848E; font-style: italic">// 如果距离上次执行 fn 函数的时间小于 threshhold，那么就放弃</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #7F848E; font-style: italic">// 执行 fn，并重新计时</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #C678DD">if</span><span style="color: #ABB2BF"> (</span><span style="color: #E06C75">last</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">&amp;&amp;</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">now</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">&lt;</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">last</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">+</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">threshhold</span><span style="color: #ABB2BF">) {</span></span>
+<span class=line><span style="color: #ABB2BF">      </span><span style="color: #56B6C2">clearTimeout</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75">timer</span><span style="color: #ABB2BF">)</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #6A737D">// 默认间隔为 250ms</span></span>
-<span class=line><span style="color: #24292E">  threshhold </span><span style="color: #D73A49">||</span><span style="color: #24292E"> (threshhold </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">250</span><span style="color: #24292E">)</span></span>
+<span class=line><span style="color: #ABB2BF">      </span><span style="color: #7F848E; font-style: italic">// 保证在当前时间区间结束后，再执行一次 fn</span></span>
+<span class=line><span style="color: #ABB2BF">      </span><span style="color: #E06C75">timer</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">setTimeout</span><span style="color: #ABB2BF">(</span><span style="color: #C678DD">function</span><span style="color: #ABB2BF"> () {</span></span>
+<span class=line><span style="color: #ABB2BF">        </span><span style="color: #E06C75">last</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">now</span></span>
+<span class=line><span style="color: #ABB2BF">        </span><span style="color: #E5C07B">fn</span><span style="color: #ABB2BF">.</span><span style="color: #61AFEF">apply</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75">that</span><span style="color: #ABB2BF">, </span><span style="color: #E06C75">args</span><span style="color: #ABB2BF">)</span></span>
+<span class=line><span style="color: #ABB2BF">      }, </span><span style="color: #E06C75">threshhold</span><span style="color: #ABB2BF">)</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #6A737D">// 返回的函数，每过 threshhold 毫秒就执行一次 fn 函数</span></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">return</span><span style="color: #24292E"> </span><span style="color: #D73A49">function</span><span style="color: #24292E"> () {</span></span>
-<span class=line></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #6A737D">// 保存函数调用时的上下文和参数，传递给 fn</span></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #D73A49">var</span><span style="color: #24292E"> that </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">this</span></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #D73A49">var</span><span style="color: #24292E"> args </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">arguments</span></span>
-<span class=line></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #D73A49">var</span><span style="color: #24292E"> now </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #D73A49">+new</span><span style="color: #24292E"> </span><span style="color: #005CC5">Date</span><span style="color: #24292E">()</span></span>
-<span class=line></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #6A737D">// 如果距离上次执行 fn 函数的时间小于 threshhold，那么就放弃</span></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #6A737D">// 执行 fn，并重新计时</span></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #D73A49">if</span><span style="color: #24292E"> (last </span><span style="color: #D73A49">&amp;&amp;</span><span style="color: #24292E"> now </span><span style="color: #D73A49">&lt;</span><span style="color: #24292E"> last </span><span style="color: #D73A49">+</span><span style="color: #24292E"> threshhold) {</span></span>
-<span class=line><span style="color: #24292E">      </span><span style="color: #005CC5">clearTimeout</span><span style="color: #24292E">(timer)</span></span>
-<span class=line></span>
-<span class=line><span style="color: #24292E">      </span><span style="color: #6A737D">// 保证在当前时间区间结束后，再执行一次 fn</span></span>
-<span class=line><span style="color: #24292E">      timer </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">setTimeout</span><span style="color: #24292E">(</span><span style="color: #D73A49">function</span><span style="color: #24292E"> () {</span></span>
-<span class=line><span style="color: #24292E">        last </span><span style="color: #D73A49">=</span><span style="color: #24292E"> now</span></span>
-<span class=line><span style="color: #24292E">        fn.</span><span style="color: #6F42C1">apply</span><span style="color: #24292E">(that, args)</span></span>
-<span class=line><span style="color: #24292E">      }, threshhold)</span></span>
-<span class=line></span>
-<span class=line><span style="color: #24292E">      </span><span style="color: #6A737D">// 在时间区间的最开始和到达指定间隔的时候执行一次 fn</span></span>
-<span class=line><span style="color: #24292E">    } </span><span style="color: #D73A49">else</span><span style="color: #24292E"> {</span></span>
-<span class=line><span style="color: #24292E">      last </span><span style="color: #D73A49">=</span><span style="color: #24292E"> now</span></span>
-<span class=line><span style="color: #24292E">      fn.</span><span style="color: #6F42C1">apply</span><span style="color: #24292E">(that, args)</span></span>
-<span class=line><span style="color: #24292E">    }</span></span>
-<span class=line><span style="color: #24292E">  }</span></span>
-<span class=line><span style="color: #24292E">}</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">throttle</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">fn</span><span style="color: #C9D1D9">, </span><span style="color: #FFA657">threshhold</span><span style="color: #C9D1D9">) {</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #8B949E">// 记录上次执行的时间</span></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">var</span><span style="color: #C9D1D9"> last</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #8B949E">// 定时器</span></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">var</span><span style="color: #C9D1D9"> timer</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #8B949E">// 默认间隔为 250ms</span></span>
-<span class=line><span style="color: #C9D1D9">  threshhold </span><span style="color: #FF7B72">||</span><span style="color: #C9D1D9"> (threshhold </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">250</span><span style="color: #C9D1D9">)</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #8B949E">// 返回的函数，每过 threshhold 毫秒就执行一次 fn 函数</span></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> () {</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 保存函数调用时的上下文和参数，传递给 fn</span></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">var</span><span style="color: #C9D1D9"> that </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">this</span></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">var</span><span style="color: #C9D1D9"> args </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">arguments</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">var</span><span style="color: #C9D1D9"> now </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">+new</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">Date</span><span style="color: #C9D1D9">()</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 如果距离上次执行 fn 函数的时间小于 threshhold，那么就放弃</span></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 执行 fn，并重新计时</span></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (last </span><span style="color: #FF7B72">&amp;&amp;</span><span style="color: #C9D1D9"> now </span><span style="color: #FF7B72">&lt;</span><span style="color: #C9D1D9"> last </span><span style="color: #FF7B72">+</span><span style="color: #C9D1D9"> threshhold) {</span></span>
-<span class=line><span style="color: #C9D1D9">      </span><span style="color: #79C0FF">clearTimeout</span><span style="color: #C9D1D9">(timer)</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">      </span><span style="color: #8B949E">// 保证在当前时间区间结束后，再执行一次 fn</span></span>
-<span class=line><span style="color: #C9D1D9">      timer </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">setTimeout</span><span style="color: #C9D1D9">(</span><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> () {</span></span>
-<span class=line><span style="color: #C9D1D9">        last </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> now</span></span>
-<span class=line><span style="color: #C9D1D9">        fn.</span><span style="color: #D2A8FF">apply</span><span style="color: #C9D1D9">(that, args)</span></span>
-<span class=line><span style="color: #C9D1D9">      }, threshhold)</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">      </span><span style="color: #8B949E">// 在时间区间的最开始和到达指定间隔的时候执行一次 fn</span></span>
-<span class=line><span style="color: #C9D1D9">    } </span><span style="color: #FF7B72">else</span><span style="color: #C9D1D9"> {</span></span>
-<span class=line><span style="color: #C9D1D9">      last </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> now</span></span>
-<span class=line><span style="color: #C9D1D9">      fn.</span><span style="color: #D2A8FF">apply</span><span style="color: #C9D1D9">(that, args)</span></span>
-<span class=line><span style="color: #C9D1D9">    }</span></span>
-<span class=line><span style="color: #C9D1D9">  }</span></span>
-<span class=line><span style="color: #C9D1D9">}</span></span></code></pre></div>
+<span class=line><span style="color: #ABB2BF">      </span><span style="color: #7F848E; font-style: italic">// 在时间区间的最开始和到达指定间隔的时候执行一次 fn</span></span>
+<span class=line><span style="color: #ABB2BF">    } </span><span style="color: #C678DD">else</span><span style="color: #ABB2BF"> {</span></span>
+<span class=line><span style="color: #ABB2BF">      </span><span style="color: #E06C75">last</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">now</span></span>
+<span class=line><span style="color: #ABB2BF">      </span><span style="color: #E5C07B">fn</span><span style="color: #ABB2BF">.</span><span style="color: #61AFEF">apply</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75">that</span><span style="color: #ABB2BF">, </span><span style="color: #E06C75">args</span><span style="color: #ABB2BF">)</span></span>
+<span class=line><span style="color: #ABB2BF">    }</span></span>
+<span class=line><span style="color: #ABB2BF">  }</span></span>
+<span class=line><span style="color: #ABB2BF">}</span></span></code></pre>
 </code></pre><p>使用的方法也和之前类似。</p><h2 id=总结>总结</h2><p><code>debounce</code> 强制只在某段时间内执行一次， <code>throttle</code> 强制函数以固定的速率执行。因此在处理一些高频率触发的事件的时候，它们都能极大提升性能和优化用户体验。</p></div><div class=footer><hr><div class=footer-link><a href=/archive><i class="fa fa-archive" aria-hidden=true></i></a><a target=_blank href=https://twitter.com/chow_won><i class="fa fa-twitter" aria-hidden=true></i></a> <a target=_blank href=https://github.com/zoubingwu><i class="fa fa-github" aria-hidden=true></i></a> <a target=_blank href=mailto:zoubingwu@gmail.com><i class="fa fa-envelope" aria-hidden=true></i></a></div>© 2016-2021 zoubingwu. All rights reserved.</div></div></body></html>

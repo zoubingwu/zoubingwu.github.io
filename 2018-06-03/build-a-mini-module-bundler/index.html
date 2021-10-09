@@ -3,221 +3,114 @@
   new Date()); (a = s.createElement(o)), (m = s.getElementsByTagName(o)[0]);
   a.async = 1; a.src = g; m.parentNode.insertBefore(a, m); })( window, document,
   'script', 'https://www.google-analytics.com/analytics.js', 'ga' );
-  ga('create', 'UA-100363260-1', 'auto'); ga('send', 'pageview');</script></head><body><div class=content-container><div class=post><div class=post-title>Build a mini module bundler</div><span class=post-date><time>3 Jun 2018</time></span><div class=post-tag><ul><li><a><span><i class="fa fa-paperclip" aria-hidden=true></i>webpack</span></a></li></ul></div><h2 id=introduction>Introduction</h2><blockquote><p>Module bundlers compile small pieces of code into something larger and more complex that can run in a web browser. These small pieces are just JavaScript files, and dependencies between them are expressed by a module system.</p></blockquote><p>模块化编程使得开发者可以将一个大型的程序拆分成多个小的模块，由每一个模块提供可靠的抽象和封装，确保每一个模块正常工作，再拼装起来，这一思想使得多人协作参与的大型程序开发更可控，对 debug 和测试等更友好。</p><p>Node.js 自诞生就开始支持模块化的，但浏览器的世界里这个过程依然处于缓慢的发展之中。Webpack 这类工具的诞生也是为了解决这个问题，使得我们可以不用顾虑全局变量之类的各种问题编写各种模块，最后再打包成一个文件。</p><p>我们可以自己尝试编写一个简单的打包工具来理解其中的原理。</p><h2 id=how>How</h2><p>首先从入口文件开始，分析其依赖，然后不断获取依赖的依赖，最后生成一个依赖树。当然为了简单，我们先不考虑循环依赖，各种模块类型，缓存模块等等。</p><p>我们直接使用 babel 提供的 babylon 等相关的编译工具来分析文件，可以编写一个函数来分析依赖：</p><pre><code class=language-js><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #D73A49">const</span><span style="color: #24292E"> </span><span style="color: #005CC5">fs</span><span style="color: #24292E"> </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">require</span><span style="color: #24292E">(</span><span style="color: #032F62">&#39;fs&#39;</span><span style="color: #24292E">);</span></span>
-<span class=line><span style="color: #D73A49">const</span><span style="color: #24292E"> </span><span style="color: #005CC5">babylon</span><span style="color: #24292E"> </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">require</span><span style="color: #24292E">(</span><span style="color: #032F62">&#39;babylon&#39;</span><span style="color: #24292E">);</span></span>
-<span class=line><span style="color: #D73A49">const</span><span style="color: #24292E"> </span><span style="color: #005CC5">traverse</span><span style="color: #24292E"> </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">require</span><span style="color: #24292E">(</span><span style="color: #032F62">&#39;babel-traverse&#39;</span><span style="color: #24292E">).default;</span></span>
-<span class=line><span style="color: #D73A49">const</span><span style="color: #24292E"> { </span><span style="color: #005CC5">transformFromAst</span><span style="color: #24292E"> } </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">require</span><span style="color: #24292E">(</span><span style="color: #032F62">&#39;babel-core&#39;</span><span style="color: #24292E">);</span></span>
+  ga('create', 'UA-100363260-1', 'auto'); ga('send', 'pageview');</script></head><body><div class=content-container><div class=post><div class=post-title>Build a mini module bundler</div><span class=post-date><time>3 Jun 2018</time></span><div class=post-tag><ul><li><a><span><i class="fa fa-paperclip" aria-hidden=true></i>webpack</span></a></li></ul></div><h2 id=introduction>Introduction</h2><blockquote><p>Module bundlers compile small pieces of code into something larger and more complex that can run in a web browser. These small pieces are just JavaScript files, and dependencies between them are expressed by a module system.</p></blockquote><p>模块化编程使得开发者可以将一个大型的程序拆分成多个小的模块，由每一个模块提供可靠的抽象和封装，确保每一个模块正常工作，再拼装起来，这一思想使得多人协作参与的大型程序开发更可控，对 debug 和测试等更友好。</p><p>Node.js 自诞生就开始支持模块化的，但浏览器的世界里这个过程依然处于缓慢的发展之中。Webpack 这类工具的诞生也是为了解决这个问题，使得我们可以不用顾虑全局变量之类的各种问题编写各种模块，最后再打包成一个文件。</p><p>我们可以自己尝试编写一个简单的打包工具来理解其中的原理。</p><h2 id=how>How</h2><p>首先从入口文件开始，分析其依赖，然后不断获取依赖的依赖，最后生成一个依赖树。当然为了简单，我们先不考虑循环依赖，各种模块类型，缓存模块等等。</p><p>我们直接使用 babel 提供的 babylon 等相关的编译工具来分析文件，可以编写一个函数来分析依赖：</p><pre><code class=language-js><pre class=shiki style="background-color: #282c34"><code><span class=line><span style="color: #C678DD">const</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">fs</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">require</span><span style="color: #ABB2BF">(</span><span style="color: #98C379">&#39;fs&#39;</span><span style="color: #ABB2BF">);</span></span>
+<span class=line><span style="color: #C678DD">const</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">babylon</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">require</span><span style="color: #ABB2BF">(</span><span style="color: #98C379">&#39;babylon&#39;</span><span style="color: #ABB2BF">);</span></span>
+<span class=line><span style="color: #C678DD">const</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">traverse</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">require</span><span style="color: #ABB2BF">(</span><span style="color: #98C379">&#39;babel-traverse&#39;</span><span style="color: #ABB2BF">).</span><span style="color: #E06C75">default</span><span style="color: #ABB2BF">;</span></span>
+<span class=line><span style="color: #C678DD">const</span><span style="color: #ABB2BF"> { </span><span style="color: #E5C07B">transformFromAst</span><span style="color: #ABB2BF"> } </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">require</span><span style="color: #ABB2BF">(</span><span style="color: #98C379">&#39;babel-core&#39;</span><span style="color: #ABB2BF">);</span></span>
 <span class=line></span>
-<span class=line><span style="color: #6A737D">// 使用一个递增的 id 来区分每一个依赖</span></span>
-<span class=line><span style="color: #D73A49">let</span><span style="color: #24292E"> </span><span style="color: #005CC5">ID</span><span style="color: #24292E"> </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">0</span><span style="color: #24292E">;</span></span>
+<span class=line><span style="color: #7F848E; font-style: italic">// 使用一个递增的 id 来区分每一个依赖</span></span>
+<span class=line><span style="color: #C678DD">let</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">ID</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #D19A66">0</span><span style="color: #ABB2BF">;</span></span>
 <span class=line></span>
-<span class=line><span style="color: #D73A49">function</span><span style="color: #24292E"> </span><span style="color: #6F42C1">createAsset</span><span style="color: #24292E">(</span><span style="color: #E36209">filename</span><span style="color: #24292E">) {</span></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #6A737D">// 获取入口文件的文本内容</span></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">const</span><span style="color: #24292E"> </span><span style="color: #005CC5">content</span><span style="color: #24292E"> </span><span style="color: #D73A49">=</span><span style="color: #24292E"> fs.</span><span style="color: #6F42C1">readFileSync</span><span style="color: #24292E">(filename, </span><span style="color: #032F62">&#39;utf-8&#39;</span><span style="color: #24292E">);</span></span>
+<span class=line><span style="color: #C678DD">function</span><span style="color: #ABB2BF"> </span><span style="color: #61AFEF">createAsset</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75; font-style: italic">filename</span><span style="color: #ABB2BF">) {</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #7F848E; font-style: italic">// 获取入口文件的文本内容</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">const</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">content</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">fs</span><span style="color: #ABB2BF">.</span><span style="color: #61AFEF">readFileSync</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75">filename</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&#39;utf-8&#39;</span><span style="color: #ABB2BF">);</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #6A737D">// 利用 babylon parser 从 ES6 代码生成 ast</span></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">const</span><span style="color: #24292E"> </span><span style="color: #005CC5">ast</span><span style="color: #24292E"> </span><span style="color: #D73A49">=</span><span style="color: #24292E"> babylon.</span><span style="color: #6F42C1">parse</span><span style="color: #24292E">(content, {</span></span>
-<span class=line><span style="color: #24292E">    sourceType: </span><span style="color: #032F62">&#39;module&#39;</span><span style="color: #24292E">,</span></span>
-<span class=line><span style="color: #24292E">  });</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #7F848E; font-style: italic">// 利用 babylon parser 从 ES6 代码生成 ast</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">const</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">ast</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">babylon</span><span style="color: #ABB2BF">.</span><span style="color: #61AFEF">parse</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75">content</span><span style="color: #ABB2BF">, {</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #E06C75">sourceType</span><span style="color: #ABB2BF">: </span><span style="color: #98C379">&#39;module&#39;</span><span style="color: #ABB2BF">,</span></span>
+<span class=line><span style="color: #ABB2BF">  });</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">const</span><span style="color: #24292E"> </span><span style="color: #005CC5">dependencies</span><span style="color: #24292E"> </span><span style="color: #D73A49">=</span><span style="color: #24292E"> [];</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">const</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">dependencies</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> [];</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #6F42C1">traverse</span><span style="color: #24292E">(ast, {</span></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #6F42C1">ImportDeclaration</span><span style="color: #24292E">: ({ </span><span style="color: #E36209">node</span><span style="color: #24292E"> }) </span><span style="color: #D73A49">=&gt;</span><span style="color: #24292E"> {</span></span>
-<span class=line><span style="color: #24292E">      dependencies.</span><span style="color: #6F42C1">push</span><span style="color: #24292E">(node.source.value);</span></span>
-<span class=line><span style="color: #24292E">    },</span></span>
-<span class=line><span style="color: #24292E">  });</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #61AFEF">traverse</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75">ast</span><span style="color: #ABB2BF">, {</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #61AFEF">ImportDeclaration</span><span style="color: #ABB2BF">: ({ </span><span style="color: #E06C75; font-style: italic">node</span><span style="color: #ABB2BF"> }) </span><span style="color: #C678DD">=&gt;</span><span style="color: #ABB2BF"> {</span></span>
+<span class=line><span style="color: #ABB2BF">      </span><span style="color: #E5C07B">dependencies</span><span style="color: #ABB2BF">.</span><span style="color: #61AFEF">push</span><span style="color: #ABB2BF">(</span><span style="color: #E5C07B">node</span><span style="color: #ABB2BF">.</span><span style="color: #E5C07B">source</span><span style="color: #ABB2BF">.</span><span style="color: #E06C75">value</span><span style="color: #ABB2BF">);</span></span>
+<span class=line><span style="color: #ABB2BF">    },</span></span>
+<span class=line><span style="color: #ABB2BF">  });</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #6A737D">// 这里我们使用 babel 提供的工具从 ast 转化为 ES5 代码以适应多种浏览器</span></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">const</span><span style="color: #24292E"> { </span><span style="color: #005CC5">code</span><span style="color: #24292E"> } </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #6F42C1">transformFromAst</span><span style="color: #24292E">(ast, </span><span style="color: #005CC5">null</span><span style="color: #24292E">, {</span></span>
-<span class=line><span style="color: #24292E">    presets: [</span><span style="color: #032F62">&#39;env&#39;</span><span style="color: #24292E">],</span></span>
-<span class=line><span style="color: #24292E">  });</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #7F848E; font-style: italic">// 这里我们使用 babel 提供的工具从 ast 转化为 ES5 代码以适应多种浏览器</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">const</span><span style="color: #ABB2BF"> { </span><span style="color: #E5C07B">code</span><span style="color: #ABB2BF"> } </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #61AFEF">transformFromAst</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75">ast</span><span style="color: #ABB2BF">, </span><span style="color: #D19A66">null</span><span style="color: #ABB2BF">, {</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #E06C75">presets</span><span style="color: #ABB2BF">: [</span><span style="color: #98C379">&#39;env&#39;</span><span style="color: #ABB2BF">],</span></span>
+<span class=line><span style="color: #ABB2BF">  });</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">const</span><span style="color: #24292E"> </span><span style="color: #005CC5">id</span><span style="color: #24292E"> </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">ID</span><span style="color: #D73A49">++</span><span style="color: #24292E">;</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">const</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">id</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">ID</span><span style="color: #56B6C2">++</span><span style="color: #ABB2BF">;</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">return</span><span style="color: #24292E"> {</span></span>
-<span class=line><span style="color: #24292E">    id,</span></span>
-<span class=line><span style="color: #24292E">    filename,</span></span>
-<span class=line><span style="color: #24292E">    dependencies,</span></span>
-<span class=line><span style="color: #24292E">    code,</span></span>
-<span class=line><span style="color: #24292E">  };</span></span>
-<span class=line><span style="color: #24292E">}</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">fs</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">require</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">&#39;fs&#39;</span><span style="color: #C9D1D9">);</span></span>
-<span class=line><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">babylon</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">require</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">&#39;babylon&#39;</span><span style="color: #C9D1D9">);</span></span>
-<span class=line><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">traverse</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">require</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">&#39;babel-traverse&#39;</span><span style="color: #C9D1D9">).default;</span></span>
-<span class=line><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> { </span><span style="color: #79C0FF">transformFromAst</span><span style="color: #C9D1D9"> } </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">require</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">&#39;babel-core&#39;</span><span style="color: #C9D1D9">);</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">return</span><span style="color: #ABB2BF"> {</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #E06C75">id</span><span style="color: #ABB2BF">,</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #E06C75">filename</span><span style="color: #ABB2BF">,</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #E06C75">dependencies</span><span style="color: #ABB2BF">,</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #E06C75">code</span><span style="color: #ABB2BF">,</span></span>
+<span class=line><span style="color: #ABB2BF">  };</span></span>
+<span class=line><span style="color: #ABB2BF">}</span></span></code></pre>
+</code></pre><p>利用上面这个函数我们可以抽取一个模块的依赖，接下来要做的，就是从入口文件开始，不断去获取依赖，依赖的依赖...最后搞清楚所有的依赖，以及谁依赖谁的关系，生成一个 dependency graph。</p><pre><code class=language-js><pre class=shiki style="background-color: #282c34"><code><span class=line><span style="color: #C678DD">const</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">path</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">require</span><span style="color: #ABB2BF">(</span><span style="color: #98C379">&#39;path&#39;</span><span style="color: #ABB2BF">);</span></span>
 <span class=line></span>
-<span class=line><span style="color: #8B949E">// 使用一个递增的 id 来区分每一个依赖</span></span>
-<span class=line><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">ID</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">0</span><span style="color: #C9D1D9">;</span></span>
+<span class=line><span style="color: #C678DD">function</span><span style="color: #ABB2BF"> </span><span style="color: #61AFEF">createGraph</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75; font-style: italic">entry</span><span style="color: #ABB2BF">) {</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">const</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">mainAsset</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #61AFEF">createAsset</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75">entry</span><span style="color: #ABB2BF">);</span></span>
 <span class=line></span>
-<span class=line><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">createAsset</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">filename</span><span style="color: #C9D1D9">) {</span></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #8B949E">// 获取入口文件的文本内容</span></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">content</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> fs.</span><span style="color: #D2A8FF">readFileSync</span><span style="color: #C9D1D9">(filename, </span><span style="color: #A5D6FF">&#39;utf-8&#39;</span><span style="color: #C9D1D9">);</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #7F848E; font-style: italic">// 我们用一个数组来保存每一个文件的依赖关系。一开始这里只有入口文件。</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">const</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">queue</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> [</span><span style="color: #E06C75">mainAsset</span><span style="color: #ABB2BF">];</span></span>
 <span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #8B949E">// 利用 babylon parser 从 ES6 代码生成 ast</span></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">ast</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> babylon.</span><span style="color: #D2A8FF">parse</span><span style="color: #C9D1D9">(content, {</span></span>
-<span class=line><span style="color: #C9D1D9">    sourceType: </span><span style="color: #A5D6FF">&#39;module&#39;</span><span style="color: #C9D1D9">,</span></span>
-<span class=line><span style="color: #C9D1D9">  });</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #7F848E; font-style: italic">// 循环这个数组，分析其依赖，并将相对路径转换为绝对路径，然后在 push 到该数组内。</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">for</span><span style="color: #ABB2BF"> (</span><span style="color: #C678DD">const</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">asset</span><span style="color: #ABB2BF"> </span><span style="color: #C678DD">of</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">queue</span><span style="color: #ABB2BF">) {</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #E5C07B">asset</span><span style="color: #ABB2BF">.</span><span style="color: #E06C75">mapping</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> {};</span></span>
 <span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">dependencies</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> [];</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #7F848E; font-style: italic">// 模块当前所在的文件内</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #C678DD">const</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">dirname</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">path</span><span style="color: #ABB2BF">.</span><span style="color: #61AFEF">dirname</span><span style="color: #ABB2BF">(</span><span style="color: #E5C07B">asset</span><span style="color: #ABB2BF">.</span><span style="color: #E06C75">filename</span><span style="color: #ABB2BF">);</span></span>
 <span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #D2A8FF">traverse</span><span style="color: #C9D1D9">(ast, {</span></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #D2A8FF">ImportDeclaration</span><span style="color: #C9D1D9">: ({ </span><span style="color: #FFA657">node</span><span style="color: #C9D1D9"> }) </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
-<span class=line><span style="color: #C9D1D9">      dependencies.</span><span style="color: #D2A8FF">push</span><span style="color: #C9D1D9">(node.source.value);</span></span>
-<span class=line><span style="color: #C9D1D9">    },</span></span>
-<span class=line><span style="color: #C9D1D9">  });</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #E5C07B">asset</span><span style="color: #ABB2BF">.</span><span style="color: #E5C07B">dependencies</span><span style="color: #ABB2BF">.</span><span style="color: #61AFEF">forEach</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75; font-style: italic">relativePath</span><span style="color: #ABB2BF"> </span><span style="color: #C678DD">=&gt;</span><span style="color: #ABB2BF"> {</span></span>
+<span class=line><span style="color: #ABB2BF">      </span><span style="color: #C678DD">const</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">absolutePath</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">path</span><span style="color: #ABB2BF">.</span><span style="color: #61AFEF">join</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75">dirname</span><span style="color: #ABB2BF">, </span><span style="color: #E06C75">relativePath</span><span style="color: #ABB2BF">);</span></span>
+<span class=line><span style="color: #ABB2BF">      </span><span style="color: #C678DD">const</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">child</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #61AFEF">createAsset</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75">absolutePath</span><span style="color: #ABB2BF">);</span></span>
 <span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #8B949E">// 这里我们使用 babel 提供的工具从 ast 转化为 ES5 代码以适应多种浏览器</span></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> { </span><span style="color: #79C0FF">code</span><span style="color: #C9D1D9"> } </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">transformFromAst</span><span style="color: #C9D1D9">(ast, </span><span style="color: #79C0FF">null</span><span style="color: #C9D1D9">, {</span></span>
-<span class=line><span style="color: #C9D1D9">    presets: [</span><span style="color: #A5D6FF">&#39;env&#39;</span><span style="color: #C9D1D9">],</span></span>
-<span class=line><span style="color: #C9D1D9">  });</span></span>
+<span class=line><span style="color: #ABB2BF">      </span><span style="color: #7F848E; font-style: italic">// 保存这个依赖关系</span></span>
+<span class=line><span style="color: #ABB2BF">      </span><span style="color: #E5C07B">asset</span><span style="color: #ABB2BF">.</span><span style="color: #E06C75">mapping</span><span style="color: #ABB2BF">[</span><span style="color: #E06C75">relativePath</span><span style="color: #ABB2BF">] </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">child</span><span style="color: #ABB2BF">.</span><span style="color: #E06C75">id</span><span style="color: #ABB2BF">;</span></span>
 <span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">id</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">ID</span><span style="color: #FF7B72">++</span><span style="color: #C9D1D9">;</span></span>
+<span class=line><span style="color: #ABB2BF">      </span><span style="color: #E5C07B">queue</span><span style="color: #ABB2BF">.</span><span style="color: #61AFEF">push</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75">child</span><span style="color: #ABB2BF">);</span></span>
+<span class=line><span style="color: #ABB2BF">    });</span></span>
+<span class=line><span style="color: #ABB2BF">  }</span></span>
 <span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> {</span></span>
-<span class=line><span style="color: #C9D1D9">    id,</span></span>
-<span class=line><span style="color: #C9D1D9">    filename,</span></span>
-<span class=line><span style="color: #C9D1D9">    dependencies,</span></span>
-<span class=line><span style="color: #C9D1D9">    code,</span></span>
-<span class=line><span style="color: #C9D1D9">  };</span></span>
-<span class=line><span style="color: #C9D1D9">}</span></span></code></pre></div>
-</code></pre><p>利用上面这个函数我们可以抽取一个模块的依赖，接下来要做的，就是从入口文件开始，不断去获取依赖，依赖的依赖...最后搞清楚所有的依赖，以及谁依赖谁的关系，生成一个 dependency graph。</p><pre><code class=language-js><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #D73A49">const</span><span style="color: #24292E"> </span><span style="color: #005CC5">path</span><span style="color: #24292E"> </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #005CC5">require</span><span style="color: #24292E">(</span><span style="color: #032F62">&#39;path&#39;</span><span style="color: #24292E">);</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">return</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">queue</span><span style="color: #ABB2BF">;</span></span>
+<span class=line><span style="color: #ABB2BF">}</span></span></code></pre>
+</code></pre><p>第三个函数，我们就利用上面的 dependency graph 来生成一个 bundle，相当于 webpack 最后打包出来的一个 bundle.js：</p><pre><code class=language-js><pre class=shiki style="background-color: #282c34"><code><span class=line><span style="color: #C678DD">function</span><span style="color: #ABB2BF"> </span><span style="color: #61AFEF">bundle</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75; font-style: italic">graph</span><span style="color: #ABB2BF">) {</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">let</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">modules</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #98C379">&#39;&#39;</span><span style="color: #ABB2BF">;</span></span>
 <span class=line></span>
-<span class=line><span style="color: #D73A49">function</span><span style="color: #24292E"> </span><span style="color: #6F42C1">createGraph</span><span style="color: #24292E">(</span><span style="color: #E36209">entry</span><span style="color: #24292E">) {</span></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">const</span><span style="color: #24292E"> </span><span style="color: #005CC5">mainAsset</span><span style="color: #24292E"> </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #6F42C1">createAsset</span><span style="color: #24292E">(entry);</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #7F848E; font-style: italic">/**</span></span>
+<span class=line><span style="color: #7F848E; font-style: italic">   * 生成一串 key-value 结构，以 id 作为 key，一个数组作为 value。</span></span>
+<span class=line><span style="color: #7F848E; font-style: italic">   * 其中数组的第一个值为一个函数包裹的代码块，这样各自模块的作用域保持独立，不会影响其他的模块。</span></span>
+<span class=line><span style="color: #7F848E; font-style: italic">   * 第二个值为 { &#39;./relative/path&#39;: 1 } 这样的 mapping 对象，</span></span>
+<span class=line><span style="color: #7F848E; font-style: italic">   * 方便模块内使用相对路径的 require 函数调用。</span></span>
+<span class=line><span style="color: #7F848E; font-style: italic">   *</span></span>
+<span class=line><span style="color: #7F848E; font-style: italic">   * 因为生成的代码使用了 CommonJS 的模块引入方式，因此我们之后需要手动实现一下 require 函数。</span></span>
+<span class=line><span style="color: #7F848E; font-style: italic">   */</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #E5C07B">graph</span><span style="color: #ABB2BF">.</span><span style="color: #61AFEF">forEach</span><span style="color: #ABB2BF">(</span><span style="color: #E06C75; font-style: italic">singleModule</span><span style="color: #ABB2BF"> </span><span style="color: #C678DD">=&gt;</span><span style="color: #ABB2BF"> {</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #E06C75">modules</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">+=</span><span style="color: #ABB2BF"> </span><span style="color: #98C379">`</span><span style="color: #C678DD">${</span><span style="color: #E5C07B">singleModule</span><span style="color: #ABB2BF">.</span><span style="color: #E06C75">id</span><span style="color: #C678DD">}</span><span style="color: #98C379">: [ function (require, module, exports) { </span><span style="color: #C678DD">${</span><span style="color: #E5C07B">singleModule</span><span style="color: #ABB2BF">.</span><span style="color: #E06C75">code</span><span style="color: #C678DD">}</span><span style="color: #98C379"> }, </span><span style="color: #C678DD">${</span><span style="color: #D19A66">JSON</span><span style="color: #ABB2BF">.</span><span style="color: #56B6C2">stringify</span><span style="color: #ABB2BF">(</span><span style="color: #E5C07B">singleModule</span><span style="color: #ABB2BF">.</span><span style="color: #E06C75">mapping</span><span style="color: #ABB2BF">)</span><span style="color: #C678DD">}</span><span style="color: #98C379">, ],`</span><span style="color: #ABB2BF">;</span></span>
+<span class=line><span style="color: #ABB2BF">  });</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #6A737D">// 我们用一个数组来保存每一个文件的依赖关系。一开始这里只有入口文件。</span></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">const</span><span style="color: #24292E"> </span><span style="color: #005CC5">queue</span><span style="color: #24292E"> </span><span style="color: #D73A49">=</span><span style="color: #24292E"> [mainAsset];</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #7F848E; font-style: italic">// 将 require 函数和 module.exports 保存在匿名的 IIFE 主函数，并将其引用注入到模块内部。</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">const</span><span style="color: #ABB2BF"> </span><span style="color: #E5C07B">result</span><span style="color: #ABB2BF"> </span><span style="color: #56B6C2">=</span><span style="color: #ABB2BF"> </span><span style="color: #98C379">`(function(modules) {</span></span>
+<span class=line><span style="color: #98C379">    function require(id) {</span></span>
+<span class=line><span style="color: #98C379">      var fn = modules[id][0];</span></span>
+<span class=line><span style="color: #98C379">      var mapping = modules[id][1];</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #6A737D">// 循环这个数组，分析其依赖，并将相对路径转换为绝对路径，然后在 push 到该数组内。</span></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">for</span><span style="color: #24292E"> (</span><span style="color: #D73A49">const</span><span style="color: #24292E"> </span><span style="color: #005CC5">asset</span><span style="color: #24292E"> </span><span style="color: #D73A49">of</span><span style="color: #24292E"> queue) {</span></span>
-<span class=line><span style="color: #24292E">    asset.mapping </span><span style="color: #D73A49">=</span><span style="color: #24292E"> {};</span></span>
+<span class=line><span style="color: #98C379">      function localRequire(name) {</span></span>
+<span class=line><span style="color: #98C379">        return require(mapping[name]);</span></span>
+<span class=line><span style="color: #98C379">      }</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #6A737D">// 模块当前所在的文件内</span></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #D73A49">const</span><span style="color: #24292E"> </span><span style="color: #005CC5">dirname</span><span style="color: #24292E"> </span><span style="color: #D73A49">=</span><span style="color: #24292E"> path.</span><span style="color: #6F42C1">dirname</span><span style="color: #24292E">(asset.filename);</span></span>
+<span class=line><span style="color: #98C379">      var module = { exports: {} };</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">    asset.dependencies.</span><span style="color: #6F42C1">forEach</span><span style="color: #24292E">(</span><span style="color: #E36209">relativePath</span><span style="color: #24292E"> </span><span style="color: #D73A49">=&gt;</span><span style="color: #24292E"> {</span></span>
-<span class=line><span style="color: #24292E">      </span><span style="color: #D73A49">const</span><span style="color: #24292E"> </span><span style="color: #005CC5">absolutePath</span><span style="color: #24292E"> </span><span style="color: #D73A49">=</span><span style="color: #24292E"> path.</span><span style="color: #6F42C1">join</span><span style="color: #24292E">(dirname, relativePath);</span></span>
-<span class=line><span style="color: #24292E">      </span><span style="color: #D73A49">const</span><span style="color: #24292E"> </span><span style="color: #005CC5">child</span><span style="color: #24292E"> </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #6F42C1">createAsset</span><span style="color: #24292E">(absolutePath);</span></span>
+<span class=line><span style="color: #98C379">      fn(localRequire, module, module.exports);</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">      </span><span style="color: #6A737D">// 保存这个依赖关系</span></span>
-<span class=line><span style="color: #24292E">      asset.mapping[relativePath] </span><span style="color: #D73A49">=</span><span style="color: #24292E"> child.id;</span></span>
+<span class=line><span style="color: #98C379">      return module.exports;</span></span>
+<span class=line><span style="color: #98C379">    }</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">      queue.</span><span style="color: #6F42C1">push</span><span style="color: #24292E">(child);</span></span>
-<span class=line><span style="color: #24292E">    });</span></span>
-<span class=line><span style="color: #24292E">  }</span></span>
-<span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">return</span><span style="color: #24292E"> queue;</span></span>
-<span class=line><span style="color: #24292E">}</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">path</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">require</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">&#39;path&#39;</span><span style="color: #C9D1D9">);</span></span>
-<span class=line></span>
-<span class=line><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">createGraph</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">entry</span><span style="color: #C9D1D9">) {</span></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">mainAsset</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">createAsset</span><span style="color: #C9D1D9">(entry);</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #8B949E">// 我们用一个数组来保存每一个文件的依赖关系。一开始这里只有入口文件。</span></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">queue</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> [mainAsset];</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #8B949E">// 循环这个数组，分析其依赖，并将相对路径转换为绝对路径，然后在 push 到该数组内。</span></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">for</span><span style="color: #C9D1D9"> (</span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">asset</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">of</span><span style="color: #C9D1D9"> queue) {</span></span>
-<span class=line><span style="color: #C9D1D9">    asset.mapping </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> {};</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #8B949E">// 模块当前所在的文件内</span></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">dirname</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> path.</span><span style="color: #D2A8FF">dirname</span><span style="color: #C9D1D9">(asset.filename);</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">    asset.dependencies.</span><span style="color: #D2A8FF">forEach</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">relativePath</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
-<span class=line><span style="color: #C9D1D9">      </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">absolutePath</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> path.</span><span style="color: #D2A8FF">join</span><span style="color: #C9D1D9">(dirname, relativePath);</span></span>
-<span class=line><span style="color: #C9D1D9">      </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">child</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">createAsset</span><span style="color: #C9D1D9">(absolutePath);</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">      </span><span style="color: #8B949E">// 保存这个依赖关系</span></span>
-<span class=line><span style="color: #C9D1D9">      asset.mapping[relativePath] </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> child.id;</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">      queue.</span><span style="color: #D2A8FF">push</span><span style="color: #C9D1D9">(child);</span></span>
-<span class=line><span style="color: #C9D1D9">    });</span></span>
-<span class=line><span style="color: #C9D1D9">  }</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> queue;</span></span>
-<span class=line><span style="color: #C9D1D9">}</span></span></code></pre></div>
-</code></pre><p>第三个函数，我们就利用上面的 dependency graph 来生成一个 bundle，相当于 webpack 最后打包出来的一个 bundle.js：</p><pre><code class=language-js><div class=shiki-light><pre class=shiki style="background-color: #ffffff"><code><span class=line><span style="color: #D73A49">function</span><span style="color: #24292E"> </span><span style="color: #6F42C1">bundle</span><span style="color: #24292E">(</span><span style="color: #E36209">graph</span><span style="color: #24292E">) {</span></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">let</span><span style="color: #24292E"> modules </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #032F62">&#39;&#39;</span><span style="color: #24292E">;</span></span>
-<span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #6A737D">/**</span></span>
-<span class=line><span style="color: #6A737D">   * 生成一串 key-value 结构，以 id 作为 key，一个数组作为 value。</span></span>
-<span class=line><span style="color: #6A737D">   * 其中数组的第一个值为一个函数包裹的代码块，这样各自模块的作用域保持独立，不会影响其他的模块。</span></span>
-<span class=line><span style="color: #6A737D">   * 第二个值为 { &#39;./relative/path&#39;: 1 } 这样的 mapping 对象，</span></span>
-<span class=line><span style="color: #6A737D">   * 方便模块内使用相对路径的 require 函数调用。</span></span>
-<span class=line><span style="color: #6A737D">   *</span></span>
-<span class=line><span style="color: #6A737D">   * 因为生成的代码使用了 CommonJS 的模块引入方式，因此我们之后需要手动实现一下 require 函数。</span></span>
-<span class=line><span style="color: #6A737D">   */</span></span>
-<span class=line><span style="color: #24292E">  graph.</span><span style="color: #6F42C1">forEach</span><span style="color: #24292E">(</span><span style="color: #E36209">singleModule</span><span style="color: #24292E"> </span><span style="color: #D73A49">=&gt;</span><span style="color: #24292E"> {</span></span>
-<span class=line><span style="color: #24292E">    modules </span><span style="color: #D73A49">+=</span><span style="color: #24292E"> </span><span style="color: #032F62">`${</span><span style="color: #24292E">singleModule</span><span style="color: #032F62">.</span><span style="color: #24292E">id</span><span style="color: #032F62">}: [ function (require, module, exports) { ${</span><span style="color: #24292E">singleModule</span><span style="color: #032F62">.</span><span style="color: #24292E">code</span><span style="color: #032F62">} }, ${</span><span style="color: #005CC5">JSON</span><span style="color: #032F62">.</span><span style="color: #005CC5">stringify</span><span style="color: #032F62">(</span><span style="color: #24292E">singleModule</span><span style="color: #032F62">.</span><span style="color: #24292E">mapping</span><span style="color: #032F62">)</span><span style="color: #032F62">}, ],`</span><span style="color: #24292E">;</span></span>
-<span class=line><span style="color: #24292E">  });</span></span>
-<span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #6A737D">// 将 require 函数和 module.exports 保存在匿名的 IIFE 主函数，并将其引用注入到模块内部。</span></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">const</span><span style="color: #24292E"> </span><span style="color: #005CC5">result</span><span style="color: #24292E"> </span><span style="color: #D73A49">=</span><span style="color: #24292E"> </span><span style="color: #032F62">`(function(modules) {</span></span>
-<span class=line><span style="color: #032F62">    function require(id) {</span></span>
-<span class=line><span style="color: #032F62">      var fn = modules[id][0];</span></span>
-<span class=line><span style="color: #032F62">      var mapping = modules[id][1];</span></span>
-<span class=line></span>
-<span class=line><span style="color: #032F62">      function localRequire(name) {</span></span>
-<span class=line><span style="color: #032F62">        return require(mapping[name]);</span></span>
-<span class=line><span style="color: #032F62">      }</span></span>
-<span class=line></span>
-<span class=line><span style="color: #032F62">      var module = { exports: {} };</span></span>
-<span class=line></span>
-<span class=line><span style="color: #032F62">      fn(localRequire, module, module.exports);</span></span>
-<span class=line></span>
-<span class=line><span style="color: #032F62">      return module.exports;</span></span>
-<span class=line><span style="color: #032F62">    }</span></span>
-<span class=line></span>
-<span class=line><span style="color: #032F62">    require(0);</span></span>
-<span class=line><span style="color: #032F62">  })({ ${</span><span style="color: #24292E">modules</span><span style="color: #032F62">} });`</span></span>
+<span class=line><span style="color: #98C379">    require(0);</span></span>
+<span class=line><span style="color: #98C379">  })({ </span><span style="color: #C678DD">${</span><span style="color: #E06C75">modules</span><span style="color: #C678DD">}</span><span style="color: #98C379"> });`</span></span>
 <span class=line></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">  fs.</span><span style="color: #6F42C1">writeFile</span><span style="color: #24292E">(</span><span style="color: #032F62">&#39;bundle.js&#39;</span><span style="color: #24292E">, result, </span><span style="color: #032F62">&#39;utf-8&#39;</span><span style="color: #24292E">, (</span><span style="color: #E36209">err</span><span style="color: #24292E">) </span><span style="color: #D73A49">=&gt;</span><span style="color: #24292E"> {</span></span>
-<span class=line><span style="color: #24292E">    </span><span style="color: #D73A49">if</span><span style="color: #24292E"> (err) </span><span style="color: #D73A49">throw</span><span style="color: #24292E"> err;</span></span>
-<span class=line><span style="color: #24292E">    console.</span><span style="color: #6F42C1">log</span><span style="color: #24292E">(</span><span style="color: #032F62">&#39;The bundle file has been saved!&#39;</span><span style="color: #24292E">);</span></span>
-<span class=line><span style="color: #24292E">  });</span></span>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #E5C07B">fs</span><span style="color: #ABB2BF">.</span><span style="color: #61AFEF">writeFile</span><span style="color: #ABB2BF">(</span><span style="color: #98C379">&#39;bundle.js&#39;</span><span style="color: #ABB2BF">, </span><span style="color: #E06C75">result</span><span style="color: #ABB2BF">, </span><span style="color: #98C379">&#39;utf-8&#39;</span><span style="color: #ABB2BF">, (</span><span style="color: #E06C75; font-style: italic">err</span><span style="color: #ABB2BF">) </span><span style="color: #C678DD">=&gt;</span><span style="color: #ABB2BF"> {</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #C678DD">if</span><span style="color: #ABB2BF"> (</span><span style="color: #E06C75">err</span><span style="color: #ABB2BF">) </span><span style="color: #C678DD">throw</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">err</span><span style="color: #ABB2BF">;</span></span>
+<span class=line><span style="color: #ABB2BF">    </span><span style="color: #E5C07B">console</span><span style="color: #ABB2BF">.</span><span style="color: #61AFEF">log</span><span style="color: #ABB2BF">(</span><span style="color: #98C379">&#39;The bundle file has been saved!&#39;</span><span style="color: #ABB2BF">);</span></span>
+<span class=line><span style="color: #ABB2BF">  });</span></span>
 <span class=line></span>
-<span class=line><span style="color: #24292E">  </span><span style="color: #D73A49">return</span><span style="color: #24292E"> result;</span></span>
-<span class=line><span style="color: #24292E">}</span></span></code></pre></div><div class=shiki-dark><pre class=shiki style="background-color: #0d1117"><code><span class=line><span style="color: #FF7B72">function</span><span style="color: #C9D1D9"> </span><span style="color: #D2A8FF">bundle</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">graph</span><span style="color: #C9D1D9">) {</span></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">let</span><span style="color: #C9D1D9"> modules </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">&#39;&#39;</span><span style="color: #C9D1D9">;</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #8B949E">/**</span></span>
-<span class=line><span style="color: #8B949E">   * 生成一串 key-value 结构，以 id 作为 key，一个数组作为 value。</span></span>
-<span class=line><span style="color: #8B949E">   * 其中数组的第一个值为一个函数包裹的代码块，这样各自模块的作用域保持独立，不会影响其他的模块。</span></span>
-<span class=line><span style="color: #8B949E">   * 第二个值为 { &#39;./relative/path&#39;: 1 } 这样的 mapping 对象，</span></span>
-<span class=line><span style="color: #8B949E">   * 方便模块内使用相对路径的 require 函数调用。</span></span>
-<span class=line><span style="color: #8B949E">   *</span></span>
-<span class=line><span style="color: #8B949E">   * 因为生成的代码使用了 CommonJS 的模块引入方式，因此我们之后需要手动实现一下 require 函数。</span></span>
-<span class=line><span style="color: #8B949E">   */</span></span>
-<span class=line><span style="color: #C9D1D9">  graph.</span><span style="color: #D2A8FF">forEach</span><span style="color: #C9D1D9">(</span><span style="color: #FFA657">singleModule</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
-<span class=line><span style="color: #C9D1D9">    modules </span><span style="color: #FF7B72">+=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">`${</span><span style="color: #C9D1D9">singleModule</span><span style="color: #A5D6FF">.</span><span style="color: #C9D1D9">id</span><span style="color: #A5D6FF">}: [ function (require, module, exports) { ${</span><span style="color: #C9D1D9">singleModule</span><span style="color: #A5D6FF">.</span><span style="color: #C9D1D9">code</span><span style="color: #A5D6FF">} }, ${</span><span style="color: #79C0FF">JSON</span><span style="color: #A5D6FF">.</span><span style="color: #79C0FF">stringify</span><span style="color: #A5D6FF">(</span><span style="color: #C9D1D9">singleModule</span><span style="color: #A5D6FF">.</span><span style="color: #C9D1D9">mapping</span><span style="color: #A5D6FF">)</span><span style="color: #A5D6FF">}, ],`</span><span style="color: #C9D1D9">;</span></span>
-<span class=line><span style="color: #C9D1D9">  });</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #8B949E">// 将 require 函数和 module.exports 保存在匿名的 IIFE 主函数，并将其引用注入到模块内部。</span></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">const</span><span style="color: #C9D1D9"> </span><span style="color: #79C0FF">result</span><span style="color: #C9D1D9"> </span><span style="color: #FF7B72">=</span><span style="color: #C9D1D9"> </span><span style="color: #A5D6FF">`(function(modules) {</span></span>
-<span class=line><span style="color: #A5D6FF">    function require(id) {</span></span>
-<span class=line><span style="color: #A5D6FF">      var fn = modules[id][0];</span></span>
-<span class=line><span style="color: #A5D6FF">      var mapping = modules[id][1];</span></span>
-<span class=line></span>
-<span class=line><span style="color: #A5D6FF">      function localRequire(name) {</span></span>
-<span class=line><span style="color: #A5D6FF">        return require(mapping[name]);</span></span>
-<span class=line><span style="color: #A5D6FF">      }</span></span>
-<span class=line></span>
-<span class=line><span style="color: #A5D6FF">      var module = { exports: {} };</span></span>
-<span class=line></span>
-<span class=line><span style="color: #A5D6FF">      fn(localRequire, module, module.exports);</span></span>
-<span class=line></span>
-<span class=line><span style="color: #A5D6FF">      return module.exports;</span></span>
-<span class=line><span style="color: #A5D6FF">    }</span></span>
-<span class=line></span>
-<span class=line><span style="color: #A5D6FF">    require(0);</span></span>
-<span class=line><span style="color: #A5D6FF">  })({ ${</span><span style="color: #C9D1D9">modules</span><span style="color: #A5D6FF">} });`</span></span>
-<span class=line></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">  fs.</span><span style="color: #D2A8FF">writeFile</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">&#39;bundle.js&#39;</span><span style="color: #C9D1D9">, result, </span><span style="color: #A5D6FF">&#39;utf-8&#39;</span><span style="color: #C9D1D9">, (</span><span style="color: #FFA657">err</span><span style="color: #C9D1D9">) </span><span style="color: #FF7B72">=&gt;</span><span style="color: #C9D1D9"> {</span></span>
-<span class=line><span style="color: #C9D1D9">    </span><span style="color: #FF7B72">if</span><span style="color: #C9D1D9"> (err) </span><span style="color: #FF7B72">throw</span><span style="color: #C9D1D9"> err;</span></span>
-<span class=line><span style="color: #C9D1D9">    console.</span><span style="color: #D2A8FF">log</span><span style="color: #C9D1D9">(</span><span style="color: #A5D6FF">&#39;The bundle file has been saved!&#39;</span><span style="color: #C9D1D9">);</span></span>
-<span class=line><span style="color: #C9D1D9">  });</span></span>
-<span class=line></span>
-<span class=line><span style="color: #C9D1D9">  </span><span style="color: #FF7B72">return</span><span style="color: #C9D1D9"> result;</span></span>
-<span class=line><span style="color: #C9D1D9">}</span></span></code></pre></div>
+<span class=line><span style="color: #ABB2BF">  </span><span style="color: #C678DD">return</span><span style="color: #ABB2BF"> </span><span style="color: #E06C75">result</span><span style="color: #ABB2BF">;</span></span>
+<span class=line><span style="color: #ABB2BF">}</span></span></code></pre>
 </code></pre><p>最后我们可以写一个简单的 entry file 来测试一下，生成 graph 并调用 bundle 就可以完成打包了！代码可以查看<a href=https://github.com/shadeofgod/build-a-simple-module-bundler>https://github.com/shadeofgod/build-a-simple-module-bundler</a>。</p><h3 id=ref>ref</h3><ul><li><a href=https://webpack.js.org/concepts/modules/ >https://webpack.js.org/concepts/modules/</a></li><li><a href=https://github.com/ronami/minipack>https://github.com/ronami/minipack</a></li></ul></div><div class=footer><hr><div class=footer-link><a href=/archive><i class="fa fa-archive" aria-hidden=true></i></a><a target=_blank href=https://twitter.com/chow_won><i class="fa fa-twitter" aria-hidden=true></i></a> <a target=_blank href=https://github.com/zoubingwu><i class="fa fa-github" aria-hidden=true></i></a> <a target=_blank href=mailto:zoubingwu@gmail.com><i class="fa fa-envelope" aria-hidden=true></i></a></div>© 2016-2021 zoubingwu. All rights reserved.</div></div></body></html>
