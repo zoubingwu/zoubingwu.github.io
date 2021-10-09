@@ -16,6 +16,7 @@ const config = {
   paginate: 10,
   paginatePath: '/page:num',
   output: 'dist',
+  shikiTheme: 'one-dark-pro',
 };
 
 export type SiteConfig = typeof config;

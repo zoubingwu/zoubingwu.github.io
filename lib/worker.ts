@@ -11,23 +11,11 @@ import config from './config';
 
 marked.setOptions({
   highlight: function (code, lang, callback) {
-    Promise.all([
-      shiki.getHighlighter({ theme: 'github-light' }),
-      shiki.getHighlighter({ theme: 'github-dark' }),
-    ]).then(([light, dark]) => {
+    shiki.getHighlighter({ theme: config.shikiTheme }).then(highlighter => {
       try {
-        const lightCode = `<div class="shiki-light">${light.codeToHtml(
-          code,
-          lang
-        )}</div>`;
-        const darkCode = `<div class="shiki-dark">${dark.codeToHtml(
-          code,
-          lang
-        )}</div>`;
-
-        return callback!(null, lightCode + darkCode);
+        return callback!(null, highlighter.codeToHtml(code, lang));
       } catch (e) {
-        consola.error(`Error when parsing code with language ${lang}: `, code);
+        consola.error(`Error when parsing code with language \`${lang}\`:\n`, code);
         return callback!(e);
       }
     });
