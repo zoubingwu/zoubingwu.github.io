@@ -18,7 +18,6 @@ description: "concepts in typescript and type system"
 
 ```js
 console.log(eval("40 + 2")) // OK
-
 console.log(eval("Hello world!")) // Error!
 ```
 
@@ -108,7 +107,7 @@ TS 和 C# 都是由 Anders Hejlsberg 的负责设计的两门编程语言，这�
 TypeScript 只检查 Shape，即类型定义的约束条件，这和集合（Set）的概念非常类似。 比如说 Point 类型实际就上就可以理解为一种集合：
 
 ```ts
-Point {
+interface Point {
 	x: number;
 	y: number;
 }
@@ -136,7 +135,6 @@ interface WithAge {
 }
 
 type People = WithName & WithAge
-
 type NumberOrString = string | number
 ```
 
@@ -193,7 +191,7 @@ function area(shape: Shape): number {
 			return shape.size * shape.size
 		case 'rectangle':
 			return shape.width * shape.height
-		case 'circle'
+		case 'circle':
 			return Math.Pi * shape.radius * shape.radius
 	}
 }
@@ -212,7 +210,7 @@ function area(shape: Shape): number {
 			return shape.size * shape.size
 		case 'rectangle':
 			return shape.width * shape.height
-		case 'circle'
+		case 'circle':
 			return Math.Pi * shape.radius * shape.radius
 		default:
 			const _exhaustiveCheck: never = shape
@@ -238,12 +236,11 @@ D - Dependency Inversion Principle
 
 ```ts
 decalare const TriangleType: unique symbol
+decalare const ShapeType: unique symbol
 
 class Triangle {
 	[TriangleType]: void
 }
-
-decalare const ShapeType: unique symbol
 
 class Shape {
 	[ShapeType]: void
