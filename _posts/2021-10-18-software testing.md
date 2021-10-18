@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "software testing"
-date: 2021-10-09 16:12:33
+date: 2021-10-18 18:04:33
 tags:
 - test
 description: "Software testing concepts and tools in JavaScript"
