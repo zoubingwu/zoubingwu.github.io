@@ -113,7 +113,7 @@ test('adds 1 + 2 to equal 3', () => {
 
 对于测试像 React 组件这样的需求来说，可以使用 Enzyme 这样的工具，不过更推荐的是吗 `@testing-library/react`。这个库是 Enzyme 的替代品。
 
-React Testing Library 是一个用于测试 React 组件的轻量级解决方案。它主要指导原则是： **您的测试与您的软件使用方式越相似，它们就可以给您越多的信心。**
+React Testing Library 是一个用于测试 React 组件的轻量级解决方案。它主要指导原则是： **The more your tests resemble the way your software is used, the more confidence they can give you.**
 
 ```js
 // __tests__/fetch.test.js
