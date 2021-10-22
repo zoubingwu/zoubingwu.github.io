@@ -35,7 +35,7 @@
     "recursive-copy": "^2.0.13",
     "rimraf": "^3.0.2",
     "sass": "^1.42.1",
-    "shiki": "^0.9.11",
+    "shiki": "^0.9.12",
     "typescript": "^4.4.3",
     "workerpool": "^6.1.5"
   }

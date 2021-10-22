@@ -22,7 +22,7 @@ specifiers:
   rimraf: ^3.0.2
   sass: ^1.42.1
   serve: ^12.0.1
-  shiki: ^0.9.11
+  shiki: ^0.9.12
   typescript: ^4.4.3
   workerpool: ^6.1.5
 
@@ -46,7 +46,7 @@ dependencies:
   recursive-copy: 2.0.13
   rimraf: 3.0.2
   sass: 1.42.1
-  shiki: 0.9.11
+  shiki: 0.9.12
   typescript: 4.4.3
   workerpool: 6.1.5
 
@@ -1085,8 +1085,8 @@ packages:
     engines: {node: '>=0.10.0'}
     dev: true
 
-  /shiki/0.9.11:
-    resolution: {integrity: sha512-tjruNTLFhU0hruCPoJP0y+B9LKOmcqUhTpxn7pcJB3fa+04gFChuEmxmrUfOJ7ZO6Jd+HwMnDHgY3lv3Tqonuw==}
+  /shiki/0.9.12:
+    resolution: {integrity: sha512-VXcROdldv0/Qu0w2XvzU4IrvTeBNs/Kj/FCmtcEXGz7Tic/veQzliJj6tEiAgoKianhQstpYmbPDStHU5Opqcw==}
     dependencies:
       jsonc-parser: 3.0.0
       onigasm: 2.2.5
