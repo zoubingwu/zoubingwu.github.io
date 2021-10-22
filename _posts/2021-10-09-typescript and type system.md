@@ -68,7 +68,7 @@ Nominal 类型系统比较的是类型本身，具备非常强的一致性要求
 
 在 C# 中使用的就是 Nominal 类型系统：
 
-```ts
+```csharp
 public class Foo {
 	public string Name { get; set; }
 	public int Id { get; set; }
