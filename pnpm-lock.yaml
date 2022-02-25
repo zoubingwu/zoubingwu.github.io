@@ -4,7 +4,7 @@ specifiers:
   '@types/ejs': ^3.1.0
   '@types/html-minifier-terser': ^6.0.0
   '@types/lodash': ^4.14.175
-  '@types/marked': ^3.0.1
+  '@types/marked': ^4.0.2
   '@types/mkdirp': ^1.0.2
   '@types/node': ^16.10.2
   '@types/rimraf': ^3.0.2
@@ -15,7 +15,7 @@ specifiers:
   gray-matter: ^4.0.3
   html-minifier-terser: ^6.0.2
   lodash: ^4.17.21
-  marked: ^3.0.4
+  marked: ^4.0.12
   mkdirp: ^1.0.4
   prettier: ^2.4.1
   recursive-copy: ^2.0.13
@@ -30,7 +30,7 @@ dependencies:
   '@types/ejs': 3.1.0
   '@types/html-minifier-terser': 6.0.0
   '@types/lodash': 4.14.175
-  '@types/marked': 3.0.1
+  '@types/marked': 4.0.2
   '@types/mkdirp': 1.0.2
   '@types/node': 16.10.2
   '@types/rimraf': 3.0.2
@@ -41,7 +41,7 @@ dependencies:
   gray-matter: 4.0.3
   html-minifier-terser: 6.0.2
   lodash: 4.17.21
-  marked: 3.0.4
+  marked: 4.0.12
   mkdirp: 1.0.4
   recursive-copy: 2.0.13
   rimraf: 3.0.2
@@ -75,8 +75,8 @@ packages:
     resolution: {integrity: sha512-XmdEOrKQ8a1Y/yxQFOMbC47G/V2VDO1GvMRnl4O75M4GW/abC5tnfzadQYkqEveqRM1dEJGFFegfPNA2vvx2iw==}
     dev: false
 
-  /@types/marked/3.0.1:
-    resolution: {integrity: sha512-jry/WUAC511P2NBCeiCkfTRCN2VXobeeQa8p8gImOYsRfnuIVfeEsqOJ1pk+CzCwfMCdv3dkTQRCYaNkkFGtxw==}
+  /@types/marked/4.0.2:
+    resolution: {integrity: sha512-auNrZ/c0w6wsM9DccwVxWHssrMDezHUAXNesdp2RQrCVCyrQbOiSq7yqdJKrUQQpw9VTm7CGYJH2A/YG7jjrjQ==}
     dev: false
 
   /@types/minimatch/3.0.5:
@@ -739,8 +739,8 @@ packages:
       yallist: 3.1.1
     dev: false
 
-  /marked/3.0.4:
-    resolution: {integrity: sha512-jBo8AOayNaEcvBhNobg6/BLhdsK3NvnKWJg33MAAPbvTWiG4QBn9gpW1+7RssrKu4K1dKlN+0goVQwV41xEfOA==}
+  /marked/4.0.12:
+    resolution: {integrity: sha512-hgibXWrEDNBWgGiK18j/4lkS6ihTe9sxtV4Q1OQppb/0zzyPSzoFANBa5MfsG/zgsWklmNnhm0XACZOH/0HBiQ==}
     engines: {node: '>= 12'}
     hasBin: true
     dev: false

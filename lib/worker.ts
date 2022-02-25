@@ -1,5 +1,5 @@
 import workerpool from 'workerpool';
-import marked from 'marked';
+import { marked } from 'marked';
 import * as shiki from 'shiki';
 import consola from 'consola';
 import dayjs from 'dayjs';
