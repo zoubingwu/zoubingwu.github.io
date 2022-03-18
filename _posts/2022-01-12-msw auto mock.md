@@ -40,9 +40,9 @@ if (process.env.NODE_ENV === 'mock') {
 }
 ```
 
-In this way, we don't need to modify any business code to adapt to it. We only need to inject different environment variables when starting the dev server to achieve seamless use of mock data.
+In this way, you don't need to modify any business code to adapt to it. Instead, you only need to inject different environment variables when starting the dev server to achieve seamless use of mock data.
 
-But then writing mock data for every request becomes very troublesome work. The shape of mocking data for each API needs to conform to the convention you have with the backend server. Tools like swagger are widely used in the backend to generate documentation as such convention. One of those convention formats is called [OpenAPI](https://swagger.io/specification/). With OpenAPI specification, now we know every request about what kind of data they will need what kind of data they will return.
+But then writing mock data for every request becomes troublesome work. The shape of mocking data for each API needs to conform to the convention you have with the backend server. Tools like swagger are widely used in the backend to generate documentation as a role of such convention. One of those convention formats is called [OpenAPI](https://swagger.io/specification/). With OpenAPI specification, now we know every request about what kind of data they will need what kind of data they will return.
 
 So instead of hand-writing everything, it is much wiser to take advantage of the existing conventions like OpenAPI. I wrote a simple CLI tool called [msw-auto-mock](https://github.com/zoubingwu/msw-auto-mock) to help us to generate the correct shape of mock data automatically by reading required information from the specification.
 
