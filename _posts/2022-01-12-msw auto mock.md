@@ -17,7 +17,7 @@ When building a front-end project, you often need to mock an API call yourself i
 
 Generally speaking, the possible ways include static fixtures, hand-writing code, or some third-party dependencies. For example, create another independent server and pass all the requests to that server. These methods are not particularly ideal.
 
-It needs us to modify the code repeatedly when using the hard-coded state, and introducing a new server will bring new maintenance burdens. Not only do you need to start an additional process on the command line, but also you may need to frequently switch proxy target to forward the request to the correct server, which does not meet the ideal fast and smooth development mode. So is there a perfect way to meet our needs?
+It needs us to modify the code repeatedly when using the hard-coded state, and introducing a new server will bring new maintenance burdens. Not only do you need to start an additional process on the command line, but also you may need to frequently switch proxy target to forward the request to the correct server endpoint. This indeed works but definitely is not an ideal and smooth development pattern. So is there a perfect way to meet our needs?
 
 There is a library called [msw](https://github.com/mswjs/msw) which did a very good job. It uses the service worker to intercept all requests on the network level to mock every call, and it is very easy to use. You only have to worry about how to define your data, and the rest will be handled by it.
 
