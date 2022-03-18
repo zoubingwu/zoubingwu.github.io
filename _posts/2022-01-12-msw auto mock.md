@@ -8,12 +8,12 @@ tags:
 description: "Elegant API mocking with the service worker."
 ---
 
-When building a front-end project, you often need to mock an API interface yourself in many scenarios:
+When building a front-end project, you often need to mock an API call yourself in many scenarios:
 
-- in an agile, competitive environment, the backend may be still developing, and I hope to be able to build front-end in parallel
+- in an agile, competitive environment, the backend may be still developing, and you hope to be able to build front-end in parallel
 - Or in the development environment, the backend server is quite unstable, and waiting for them to fix it is not an option.
 - Most of the front-end issues are related to the data, such as invalid API calls, missing error handling, or something like a text is too long to display and needs to be truncated.
-- Sometimes, I want to be able to quickly carry out some experimental development, such as experimenting with a new technology or the prototype implementation of some ideas
+- Sometimes, you want to be able to quickly carry out some experimental development, such as experimenting with a new technology or the prototype implementation of some ideas
 
 Generally speaking, the possible ways include static fixtures, hand-writing code, or some third-party dependencies. For example, create another independent server and pass all the requests to that server. These methods are not particularly ideal.
 
