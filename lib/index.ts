@@ -7,7 +7,7 @@ import { pick } from 'lodash';
 import dayjs from 'dayjs';
 import copy from 'recursive-copy';
 
-import { rm, readFile, getPostUrl } from './utils';
+import { rm, readFile, getPostUrl, getFileCreatedTime } from './utils';
 import config from './config';
 import { renderArchivePage, renderIndexPage } from './renderer';
 
@@ -23,6 +23,9 @@ async function readPostList() {
 
 async function readPostMetaData(p: string, map: Map<string, PostData>) {
   const data = matter(await readFile(p));
+  if (!data.data.date) {
+    data.data.date = await getFileCreatedTime(p)
+  }
   map.set(p, {
     metadata: pick(data.data, ['title', 'date', 'tags', 'description']),
     content: data.content,

@@ -27,6 +27,11 @@ export async function readFile(p: string) {
   return await fs.readFile(p, 'utf-8');
 }
 
+export async function getFileCreatedTime(p: string) {
+  const { birthtime } = await fs.stat(p)
+  return birthtime
+}
+
 export function getPostUrl(date: Date, title: string) {
   return `/${dayjs(date).format('YYYY-MM-DD')}/${title
     .toLowerCase()
