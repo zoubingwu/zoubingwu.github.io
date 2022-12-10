@@ -30,6 +30,7 @@
     "gray-matter": "^4.0.3",
     "html-minifier-terser": "^6.0.2",
     "lodash": "^4.17.21",
+    "lxgw-wenkai-webfont": "^1.6.0",
     "marked": "^4.0.12",
     "mkdirp": "^1.0.4",
     "recursive-copy": "^2.0.13",
