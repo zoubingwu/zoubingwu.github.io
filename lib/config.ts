@@ -7,7 +7,7 @@ const config = {
     email: 'zoubingwu@gmail.com',
   },
   copyright: {
-    year: '2016-2021',
+    year: `2016-${new Date().getFullYear()}`,
     name: 'zoubingwu',
   },
   googleAnalytics: 'UA-100363260-1',
