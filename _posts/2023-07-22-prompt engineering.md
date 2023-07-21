@@ -73,9 +73,9 @@ Of course, you can add several examples to this chain thinking model for better 
 
 Finally, here is a template that can be applied to most scenarios without the need to remember the so-called best 100 instructions for GPT, which won't exceed the following scope:
 
-- ✅ Role, skill, personality
-- ✅ Goal
-- ✅ Specific context, keywords, negative words
-- ✅ Input rules
-- ✅ Output rules
-- ✅ Input and output examples.
+- Role, skill, personality
+- Goal
+- Specific context, keywords, negative words
+- Input rules
+- Output rules
+- Input and output examples.
