@@ -1,4 +1,4 @@
-import fs from 'fs/promises';
+import fs from 'node:fs/promises';
 import mkdirp from 'mkdirp';
 import { minify } from 'html-minifier-terser';
 import rimraf from 'rimraf';

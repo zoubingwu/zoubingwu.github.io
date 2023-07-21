@@ -1,5 +1,5 @@
-import path from 'path';
-import fs from 'fs/promises';
+import path from 'node:path';
+import fs from 'node:fs/promises';
 import ejs, { Data } from 'ejs';
 import consola from 'consola';
 import { chunk } from 'lodash';
