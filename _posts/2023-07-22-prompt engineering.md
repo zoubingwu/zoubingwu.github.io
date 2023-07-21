@@ -23,7 +23,8 @@ Simply enter the instruction you want, for example:
 Most of the basic needs can be met directly, but for slightly better results, you can **specify a role** for GPT. For example:
 
 ```
-You are a professional English translator, please translate the following content into Simplified Chinese
+You are a professional English translator,
+please translate the following content into Simplified Chinese
 ```
 
 ### Why specify a role?
@@ -61,14 +62,22 @@ In OpenAI's official documentation, there is a an [article](https://platform.ope
 ```
 Answer the user's inquiry according to these steps.
 
-Step 1 - First find your own solution to the problem. Don't rely on the student's solution, as it may be incorrect. Use triple quotes (""") to enclose all your work in this step.
+Step 1 - First find your own solution to the problem.
+Don't rely on the student's solution, as it may be incorrect.
+Use triple quotes (""") to enclose all your work in this step.
 
-Step 2 - Compare your solution with the student's solution and evaluate whether the student's solution is correct. Use triple quotes (""") to enclose all your work in this step.
+Step 2 - Compare your solution with the student's solution and
+evaluate whether the student's solution is correct.
+Use triple quotes (""") to enclose all your work in this step.
 
-Step 3 - If the student made a mistake, determine what hint you can give the student without revealing the answer. Use triple quotes (""") to enclose all your work in this step.
+Step 3 - If the student made a mistake,
+determine what hint you can give the student without revealing the answer.
+Use triple quotes (""") to enclose all your work in this step.
 
-Step 4 - If the student made a mistake, provide the hint from the previous step to the student (outside the triple quotes). Instead of writing "Step 4 -...", write "Hint:".
-Of course, you can add several examples to this chain thinking model for better results.
+Step 4 - If the student made a mistake,
+provide the hint from the previous step to the student (outside the triple quotes).
+Instead of writing "Step 4 -...", write "Hint:". Of course,
+you can add several examples to this chain thinking model for better results.
 ```
 
 Finally, here is a template that can be applied to most scenarios without the need to remember the so-called best 100 instructions for GPT, which won't exceed the following scope:
