@@ -3,18 +3,6 @@
 /*--------------
   Body
   -------------- */
-@font-face {
-  font-family: 'MW';
-  src: local('Merriweather');
-  unicode-range: U+0020-007E; /* ASCII character set */
-}
-
-@font-face {
-  font-family: 'LXGW';
-  src: local('LXGW WenKai Lite');
-  unicode-range: U+4E00-9FFF; /* Chinese character set */
-}
-
 body {
   font-family: $base-font;
   font-size: $base-font-size;
