@@ -4,7 +4,7 @@
   "description": "a minimalistic blog generator",
   "main": "lib/index.ts",
   "scripts": {
-    "build": "npm run build:css && tsx lib/index.ts",
+    "build": "tsx lib/index.ts",
     "build:css": "sass _sass/main.scss assets/css/main.css --no-source-map --style compressed",
     "fmt": "prettier lib/*.ts --write",
     "serve": "serve dist"
