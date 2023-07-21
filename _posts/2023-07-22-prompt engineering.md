@@ -21,7 +21,10 @@ Simply enter the instruction you want, for example:
 - `Please explain to a 10-year-old what ChatGPT is.`
 
 Most of the basic needs can be met directly, but for slightly better results, you can **specify a role** for GPT. For example:
-"You are a professional English translator, please translate the following content into Simplified Chinese:"
+
+```
+You are a professional English translator, please translate the following content into Simplified Chinese
+```
 
 ### Why specify a role?
 
@@ -49,7 +52,7 @@ With examples, most problems can be solved.
 
 ## Advanced
 
-Chain thinking (do it in multiple steps) + slow thinking (print out the result of each step)
+**Chain thinking** (do it in multiple steps) and **slow thinking** (print out the result of each step).
 
 For some complex reasoning processes, it's easy for GPT to make mistakes if you ask it to give an answer directly. It's best to let GPT do it step by step and print out the intermediate steps.
 
