@@ -1,0 +1,16 @@
+{
+  "tasks": {
+    "start": "deno run --allow-net --allow-read --allow-sys main.tsx"
+  },
+  "imports": {
+    "lodash-es": "npm:lodash-es@4.17.21",
+    "matter": "npm:gray-matter@4.0.3",
+    "dayjs": "https://esm.sh/dayjs@1.11.10",
+    "dayjs/": "https://esm.sh/dayjs@1.11.10/",
+    "react": "npm:react@18.2.0",
+    "marked": "npm:marked@11.1.0",
+    "marked-highlight": "npm:marked-highlight@2.1.0",
+    "hono/": "https://deno.land/x/hono@v3.11.10/",
+    "shikiji": "npm:shikiji@0.9.12"
+  }
+}

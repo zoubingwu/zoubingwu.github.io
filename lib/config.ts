@@ -1,4 +1,4 @@
-const config = {
+export const config = {
   name: "zoubingwu's blog",
   domain: 'https://zoubingwu.com',
   author: {
@@ -20,5 +20,21 @@ const config = {
 };
 
 export type SiteConfig = typeof config;
+
+export interface SeoConfig {
+  title: string;
+  description: string;
+  url: string;
+  next?: string;
+  isArticle?: boolean;
+  publishTime?: string;
+}
+
+export interface Post {
+  url: string;
+  date: string;
+  title: string;
+  description: string;
+}
 
 export default config;
