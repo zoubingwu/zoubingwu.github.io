@@ -107,6 +107,8 @@ const pages = chunk(posts, config.paginate);
 app.use("*", logger());
 app.use("/assets/*", serveStatic({ root: "./" }));
 
+app.get("/robots.txt", (c) => c.text("User-agent: *\nAllow: /"));
+
 app.get("/", (c) => {
   const paginator = {
     posts: pages.at(0),
