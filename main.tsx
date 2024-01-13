@@ -3,7 +3,6 @@
 import * as fs from "node:fs/promises";
 import * as path from "node:path";
 import * as process from "node:process";
-
 import { chunk, pick } from "lodash-es";
 import matter from "matter";
 import dayjs from "dayjs";
@@ -12,14 +11,13 @@ import timezone from "dayjs/plugin/timezone";
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
 import { getHighlighter } from "shikiji";
-
 import { Hono } from "hono/mod.ts";
 import { jsx, logger, serveStatic } from "hono/middleware.ts";
 import { ListPage } from "./deno/ListPage.tsx";
 import { PostPage } from "./deno/PostPage.tsx";
-import { config } from "./lib/config.ts";
 import { DefaultLayout } from "./deno/DefaultLayout.tsx";
 import { ArchivePage } from "./deno/ArchivePage.tsx";
+import { config } from "./lib/config.ts";
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
@@ -110,11 +108,12 @@ app.use("/assets/*", serveStatic({ root: "./" }));
 app.get("/robots.txt", (c) => c.text("User-agent: *\nAllow: /"));
 
 app.get("/", (c) => {
+  const nextPagePath = `${config.domain}/p/2`;
   const paginator = {
     posts: pages.at(0),
+    nextPagePath,
   };
 
-  const nextPagePath = `${config.domain}/p/2`;
 
   return c.html(
     <DefaultLayout

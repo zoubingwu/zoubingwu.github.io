@@ -12,5 +12,11 @@
     "marked-highlight": "npm:marked-highlight@2.1.0",
     "hono/": "https://deno.land/x/hono@v3.11.10/",
     "shikiji": "npm:shikiji@0.9.12"
+  },
+  "compilerOptions": {
+    "lib": [
+      "deno.window",
+      "deno.unstable"
+    ]
   }
 }
