@@ -145,7 +145,7 @@ app.get("/page/:page{\\d+}", (c) => {
   const nextPagePath = pageNumber === pages.length - 1
     ? undefined
     : getPageUrl(pageNumber + 1);
-  const previousPagePath = pageNumber === 1 ? '/' : getPageUrl(pageNumber - 1);
+  const previousPagePath = pageNumber === 2 ? '/' : getPageUrl(pageNumber - 1);
   const paginator = {
     posts: pages.at(pageNumber),
     nextPagePath,
