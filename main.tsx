@@ -138,7 +138,7 @@ app.get("/p/:page{\\d*}", (c) => {
     return c.redirect("/");
   }
 
-  const nextPagePath = pageNumber === pages.length
+  const nextPagePath = pageNumber === pages.length - 1
     ? undefined
     : `${config.domain}/p/${pageNumber + 1}`;
   const previousPagePath = `${config.domain}/p/${pageNumber - 1}`;
