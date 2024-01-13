@@ -32,7 +32,7 @@ export function ListPage({ paginator }: ListPageProps) {
       <div class="list-pagination">
         <span class="list-pagination-previous">
           {paginator.previousPagePath && (
-            <a href="<%- paginator.previousPagePath %>" class="previous">
+            <a href={paginator.previousPagePath} class="previous">
               <i class="fa fa-angle-left" aria-hidden="true"></i> previous
             </a>
           )}
@@ -40,7 +40,7 @@ export function ListPage({ paginator }: ListPageProps) {
 
         <span class="list-pagination-next">
           {paginator.nextPagePath && (
-            <a href="<%- paginator.nextPagePath %>" class="next">
+            <a href={paginator.nextPagePath} class="next">
               next <i class="fa fa-angle-right" aria-hidden="true"></i>
             </a>
           )}
