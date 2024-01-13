@@ -129,7 +129,7 @@ app.get("/", (c) => {
   );
 });
 
-app.get("/p/:page{\\d*}", (c) => {
+app.get("/p/:page{\\d+}", (c) => {
   const { page } = c.req.param();
   console.log("page: ", page);
 
