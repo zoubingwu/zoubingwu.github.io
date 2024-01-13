@@ -77,6 +77,10 @@ function getPostUrl(date: Date, title: string) {
   }`;
 }
 
+function getPageUrl(page: number) {
+  return `${config.domain}/page/${page}`;
+}
+
 const app = new Hono();
 const postList = await readPostList();
 
@@ -108,7 +112,7 @@ app.use("/assets/*", serveStatic({ root: "./" }));
 app.get("/robots.txt", (c) => c.text("User-agent: *\nAllow: /"));
 
 app.get("/", (c) => {
-  const nextPagePath = `${config.domain}/p/2`;
+  const nextPagePath = getPageUrl(2);
   const paginator = {
     posts: pages.at(0),
     nextPagePath,
@@ -129,7 +133,7 @@ app.get("/", (c) => {
   );
 });
 
-app.get("/p/:page{\\d+}", (c) => {
+app.get("/page/:page{\\d+}", (c) => {
   const { page } = c.req.param();
   console.log("page: ", page);
 
@@ -140,8 +144,8 @@ app.get("/p/:page{\\d+}", (c) => {
 
   const nextPagePath = pageNumber === pages.length - 1
     ? undefined
-    : `${config.domain}/p/${pageNumber + 1}`;
-  const previousPagePath = `${config.domain}/p/${pageNumber - 1}`;
+    : getPageUrl(pageNumber + 1);
+  const previousPagePath = getPageUrl(pageNumber - 1);
   const paginator = {
     posts: pages.at(pageNumber),
     nextPagePath,
@@ -155,7 +159,7 @@ app.get("/p/:page{\\d+}", (c) => {
         title: config.name,
         description: config.name,
         url: config.domain,
-        next: `${config.domain}/p/${Number(page)}`,
+        next: paginator.nextPagePath,
       }}
     >
       <ListPage paginator={paginator} />
