@@ -114,7 +114,6 @@ app.get("/", (c) => {
     nextPagePath,
   };
 
-
   return c.html(
     <DefaultLayout
       seo={{
@@ -123,6 +122,40 @@ app.get("/", (c) => {
         description: config.name,
         url: config.domain,
         next: nextPagePath,
+      }}
+    >
+      <ListPage paginator={paginator} />
+    </DefaultLayout>,
+  );
+});
+
+app.get("/p/:page{\\d*}", (c) => {
+  const { page } = c.req.param();
+  console.log("page: ", page);
+
+  const pageNumber = Number(page);
+  if (typeof pageNumber !== "number") {
+    return c.redirect("/");
+  }
+
+  const nextPagePath = pageNumber === pages.length
+    ? undefined
+    : `${config.domain}/p/${pageNumber + 1}`;
+  const previousPagePath = `${config.domain}/p/${pageNumber - 1}`;
+  const paginator = {
+    posts: pages.at(pageNumber),
+    nextPagePath,
+    previousPagePath,
+  };
+
+  return c.html(
+    <DefaultLayout
+      seo={{
+        isArticle: false,
+        title: config.name,
+        description: config.name,
+        url: config.domain,
+        next: `${config.domain}/p/${Number(page)}`,
       }}
     >
       <ListPage paginator={paginator} />
