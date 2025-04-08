@@ -7,8 +7,6 @@ tags:
 description: 'A comprehensive guide to understanding and using Go context package for JavaScript developers'
 ---
 
-## Go's context Package: A Guide for JavaScript Developers
-
 As a JavaScript developer, you're familiar with handling asynchronous operations (Promises, async/await) and perhaps signaling cancellation (like using `AbortController`). Go's `context` package serves similar purposes but is deeply integrated into Go's concurrency model (goroutines) and standard library APIs.
 
 ### Why context? The Problem It Solves
