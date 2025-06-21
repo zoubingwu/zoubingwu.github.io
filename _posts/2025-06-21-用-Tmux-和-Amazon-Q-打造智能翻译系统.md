@@ -5,7 +5,7 @@ date:   2025-06-21 21:08:00
 tags:
 - AI
 - Agent
-description: "分享一个利用 Tmux 和 Amazon Q 搭建多智能体翻译系统，高效完成大量文档翻译的案例。"
+description: "利用 Tmux 和 Amazon Q 搭建一个 multi agent 翻译系统"
 ---
 
 最近公司正好有免费的 Amazon Q 可以用，这东西是个 CLI agent，跟 `Codex` 差不多。巧的是，一直有客户抱怨我们的产品缺少中文文档。翻译这活儿，量大又繁琐，正好是 AI 的用武之地，于是我决定让 AI 把这几百篇文档全给翻译了。
