@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bingwu Zou - Software Engineer Resume</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Use Merriweather for that highly readable, classic academic/traditional look -->
+  <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap"
+    rel="stylesheet" />
+  <style>
+    :root {
+      --text-main: #111111;
+      --line-color: #000000;
+    }
+
+    body {
+      /* Using Merriweather with a fallback to standard traditional serif fonts */
+      font-family: "Merriweather", "Times New Roman", Times, serif;
+      background-color: #f4f4f5;
+      color: var(--text-main);
+      line-height: 1.35;
+      /* Slightly tighter line height */
+      font-size: 13.5px;
+      /* Scaled down slightly to fit a single page perfectly */
+    }
+
+    @media screen {
+      .resume-container {
+        max-width: 850px;
+        margin: 2.5rem auto;
+        background: white;
+        box-shadow:
+          0 4px 6px -1px rgba(0, 0, 0, 0.05),
+          0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        padding: 4rem;
+        min-height: 1100px;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+        margin: 0;
+        padding: 0;
+        font-size: 12.5px;
+        /* Force even slightly smaller font on print to guarantee 1 page */
+        line-height: 1.3;
+      }
+
+      .resume-container {
+        max-width: 100%;
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+      }
+
+      .no-print {
+        display: none;
+      }
+
+      a {
+        text-decoration: none;
+        color: inherit !important;
+      }
+
+      /* Aggressive spacing reduction for print */
+      header.mb-4 {
+        margin-bottom: 0.5rem !important;
+      }
+
+      .section-title {
+        margin-top: 10px !important;
+        margin-bottom: 6px !important;
+      }
+
+      .experience-item,
+      .project-item {
+        margin-bottom: 8px !important;
+      }
+
+      ul.custom-bullets>li {
+        margin-bottom: 1px !important;
+      }
+
+      @page {
+        size: A4;
+        margin: 0.5in;
+        /* Maximum safe printable margin */
+      }
+    }
+
+    .section-title {
+      font-size: 14.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-main);
+      /* The signature traditional double border look */
+      border-top: 1px solid var(--line-color);
+      border-bottom: 1px solid var(--line-color);
+      padding: 3px 0;
+      margin-top: 16px;
+      margin-bottom: 10px;
+    }
+
+    .experience-item,
+    .project-item {
+      margin-bottom: 10px;
+      page-break-inside: avoid;
+      /* Keeps items together */
+    }
+
+    /* Classic tight bullet points */
+    ul.custom-bullets {
+      list-style-type: disc;
+      padding-left: 18px;
+      margin-top: 3px;
+    }
+
+    ul.custom-bullets>li {
+      padding-left: 2px;
+      margin-bottom: 2px;
+      color: var(--text-main);
+      text-align: left;
+      hyphens: auto;
+      overflow-wrap: break-word;
+    }
+
+    .header-icon {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 4px;
+      margin-bottom: 2px;
+      opacity: 0.7;
+    }
+
+    .link-hover:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Floating Print Button -->
+  <div class="fixed top-6 right-6 no-print z-50">
+    <button onclick="window.print()"
+      class="bg-black text-white px-5 py-2.5 rounded shadow-md hover:bg-gray-800 transition-all flex items-center gap-2 text-sm font-bold border border-gray-700">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 9V2h12v7"></path>
+        <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+        <rect x="6" y="14" width="12" height="8"></rect>
+      </svg>
+      Export PDF
+    </button>
+  </div>
+
+  <div class="resume-container">
+    <!-- Header -->
+    <header class="text-center mb-4">
+      <h1 class="text-[28px] font-bold mb-1.5 tracking-wide">Bingwu Zou</h1>
+
+      <div class="text-[12.5px] text-gray-800 flex flex-wrap justify-center items-center gap-x-4 gap-y-1">
+        <span class="flex items-center">
+          <svg class="header-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+          </svg>
+          Shenzhen, China
+        </span>
+        <a href="mailto:zoubingwu@gmail.com" class="flex items-center link-hover">
+          <svg class="header-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          zoubingwu@gmail.com
+        </a>
+        <span class="flex items-center">
+          <svg class="header-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2">
+            <path
+              d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z">
+            </path>
+          </svg>
+          (86) 189-7338-5675
+        </span>
+        <a href="https://github.com/zoubingwu" class="flex items-center link-hover" target="_blank">
+          <svg class="header-icon" xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2">
+            <path
+              d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+            </path>
+          </svg>
+          github.com/zoubingwu
+        </a>
+      </div>
+    </header>
+
+    <!-- Summary -->
+    <section>
+      <h2 class="section-title">Summary</h2>
+      <p>
+        Senior Frontend / Full-stack engineer with 8+ years of experience,
+        specializing in complex product workflows, developer tools, and cloud
+        platforms. Over the past 5 years, I have driven the frontend
+        architecture and user experience of core TiDB Cloud products. I thrive
+        at the intersection of product thinking and robust engineering
+        (primarily TypeScript and React). Recently, I have also expanded into
+        building AI-powered internal systems and AI-native developer tools,
+        with a strong interest in agent workflows and automation.
+      </p>
+    </section>
+
+    <!-- Experience -->
+    <section>
+      <h2 class="section-title">Experience</h2>
+
+      <div class="experience-item">
+        <div class="flex justify-between items-baseline">
+          <h3 class="font-bold text-[14.5px]">
+            Senior Frontend / Full-stack Engineer
+          </h3>
+          <span class="font-bold text-[13.5px]">03/2021 – Present, Shenzhen, China</span>
+        </div>
+        <div class="text-[14px] mb-0.5">PingCAP</div>
+        <ul class="custom-bullets">
+          <li>
+            Led the frontend development and UX implementation for core TiDB
+            Cloud product capabilities, covering data import, backup/restore,
+            migration, and CDC/Changefeed workflows.
+          </li>
+          <li>
+            Drove the evolution of data onboarding experiences across multiple
+            plans, utilizing TypeScript and React to build intuitive,
+            stage-based custom mapping flows and refine user journeys.
+          </li>
+          <li>
+            Collaborated closely with backend and product teams to deliver
+            complex cloud integration features (CMEK, Private Link, cloud
+            storage restores) from a user-facing and frontend architecture
+            perspective.
+          </li>
+          <li>
+            Built Agent Jira, an AI-powered internal ticket intelligence
+            system using Node.js/TypeScript, integrating Jira, BigQuery, and
+            Feishu to support weekly reporting and issue analysis.
+          </li>
+          <li>
+            Participated in the technical exploration for TiDB Cloud
+            Zero and mem9.ai.
+          </li>
+          <li>
+            Regularly used AI tools such as Claude Code and Codex to
+            accelerate UI design exploration, component implementation, and
+            daily engineering workflows.
+          </li>
+        </ul>
+      </div>
+
+      <div class="experience-item">
+        <div class="flex justify-between items-baseline">
+          <h3 class="font-bold text-[14.5px]">Senior Frontend Engineer</h3>
+          <span class="font-bold text-[13.5px]">06/2018 – 03/2021, Shenzhen, China</span>
+        </div>
+        <div class="text-[14px] mb-0.5">DiDi Chuxing</div>
+        <ul class="custom-bullets">
+          <li>
+            Core engineer for DChat, an internal enterprise collaboration
+            suite built around desktop messaging and productivity workflows.
+          </li>
+          <li>
+            Designed and implemented complex desktop application features
+            using React, Electron, and Redux, including editor, calendar, and
+            local SQLite-based capabilities.
+          </li>
+          <li>
+            Improved startup performance, rendering efficiency, memory usage,
+            and cross-process communication in performance-critical desktop
+            scenarios.
+          </li>
+        </ul>
+      </div>
+
+      <div class="experience-item">
+        <div class="flex justify-between items-baseline">
+          <h3 class="font-bold text-[14.5px]">Senior Frontend Engineer</h3>
+          <span class="font-bold text-[13.5px]">10/2017 – 06/2018, Shenzhen, China</span>
+        </div>
+        <div class="text-[14px] mb-0.5">BearyChat</div>
+        <ul class="custom-bullets">
+          <li>
+            Core engineer for BearyChat, an enterprise collaboration desktop
+            application built with React, Redux, and Electron.
+          </li>
+          <li>
+            Worked on technically demanding modules such as message rendering,
+            search, input suggestion and autocomplete.
+          </li>
+        </ul>
+      </div>
+
+      <div class="experience-item">
+        <div class="flex justify-between items-baseline">
+          <h3 class="font-bold text-[14.5px]">Frontend Engineer</h3>
+          <span class="font-bold text-[13.5px]">03/2017 – 10/2017, Shenzhen, China</span>
+        </div>
+        <div class="text-[14px] mb-0.5">SSPai</div>
+        <ul class="custom-bullets">
+          <li>
+            Built and maintained web and admin interfaces using Vue.js,
+            including CMS-related and rich text editor customization work.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Other Projects -->
+    <section>
+      <h2 class="section-title">Other Projects</h2>
+
+      <div class="project-item">
+        <div class="flex justify-between items-baseline">
+          <h3 class="font-bold text-[14.5px]">BaseDeck</h3>
+          <a href="https://basedeck.app/" class="font-bold text-[13.5px] link-hover">basedeck.app</a>
+        </div>
+        <ul class="custom-bullets">
+          <li>
+            AI-native desktop workspace for database operations (MySQL, PG,
+            BQ, TiDB, etc.).
+          </li>
+          <li>
+            Designed schema-aware workflows with Codex/Claude agents for
+            NL-to-SQL.
+          </li>
+          <li>
+            Secure by design with encrypted credential storage and zero exposure to AI.
+          </li>
+        </ul>
+      </div>
+
+      <div class="project-item">
+        <div class="flex justify-between items-baseline">
+          <h3 class="font-bold text-[14.5px]">msw-auto-mock</h3>
+          <a href="https://github.com/zoubingwu/msw-auto-mock"
+            class="font-bold text-[13.5px] link-hover">github.com/zoubingwu/msw-auto-mock</a>
+        </div>
+        <ul class="custom-bullets">
+          <li>
+            CLI that generates mock APIs from OpenAPI/Swagger specifications.
+          </li>
+          <li>
+            Part of MSW ecosystem for seamless frontend development without backend dependencies.
+          </li>
+        </ul>
+      </div>
+
+      <div class="project-item">
+        <div class="flex justify-between items-baseline">
+          <h3 class="font-bold text-[14.5px]">electron-shared-state</h3>
+          <a href="https://github.com/zoubingwu/electron-shared-state"
+            class="font-bold text-[13.5px] link-hover">github.com/zoubingwu/electron-shared-state</a>
+        </div>
+        <ul class="custom-bullets">
+          <li>
+            State synchronization library for Electron apps using patch-based
+            sync.
+          </li>
+          <li>Simplifies shared state across main and renderer processes.</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section>
+      <h2 class="section-title">Education</h2>
+      <div class="experience-item flex justify-between items-baseline !mb-1">
+        <h3 class="font-bold text-[14.5px]">
+          Bachelors of Science in Computer Science
+        </h3>
+        <div class="text-[13.5px]">
+          Renmin University of China • Beijing, China
+        </div>
+      </div>
+    </section>
+
+    <!-- Skills -->
+    <section>
+      <h2 class="section-title">Skills</h2>
+      <div class="space-y-1">
+        <p>
+          <span class="font-bold">Frontend / Full-stack:</span> TypeScript,
+          JavaScript, React, Next.js, Node.js, Electron.
+        </p>
+        <p>
+          <span class="font-bold">Backend / Data:</span> Golang, Python,
+          MySQL, PostgreSQL, SQLite, TiDB, BigQuery, REST APIs.
+        </p>
+        <p>
+          <span class="font-bold">AI / Platform:</span> LLMs, AI Agents,
+          Claude Code, Codex, Docker, etc.
+        </p>
+      </div>
+    </section>
+  </div>
+</body>
+
+</html>
