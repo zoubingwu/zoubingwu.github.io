@@ -1,47 +1,32 @@
 {
-  "name": "blog",
+  "name": "zoubingwu.github.io",
   "version": "1.0.0",
-  "description": "a minimalistic blog",
-  "main": "lib/index.ts",
+  "private": true,
+  "type": "module",
+  "description": "zoubingwu's blog built with Astro",
   "scripts": {
-    "build": "tsx lib/index.ts",
-    "build:css": "sass _sass/main.scss assets/css/main.css --no-source-map --style compressed",
-    "fmt": "prettier lib/*.ts --write",
-    "serve": "serve dist"
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
   },
   "author": "zoubingwu",
   "license": "MIT",
-  "devDependencies": {
-    "prettier": "^2.4.1",
-    "serve": "^12.0.1",
-    "tsx": "^3.12.7"
-  },
   "dependencies": {
-    "@types/ejs": "^3.1.0",
-    "@types/html-minifier-terser": "^6.0.0",
-    "@types/lodash": "^4.14.175",
-    "@types/marked": "^4.0.2",
-    "@types/mkdirp": "^1.0.2",
-    "@types/node": "^18",
-    "@types/rimraf": "^3.0.2",
-    "@types/workerpool": "^6.1.0",
-    "consola": "^2.15.3",
-    "dayjs": "^1.10.7",
-    "ejs": "^3.1.7",
-    "gray-matter": "^4.0.3",
-    "html-minifier-terser": "^6.0.2",
-    "lodash": "^4.17.21",
-    "lxgw-wenkai-webfont": "^1.6.0",
-    "marked": "^4.0.12",
-    "mkdirp": "^1.0.4",
-    "recursive-copy": "^2.0.13",
-    "rimraf": "^3.0.2",
-    "sass": "^1.42.1",
-    "shiki": "^0.9.12",
-    "typescript": "^4.4.3",
-    "workerpool": "^6.1.5"
+    "@astrojs/rss": "^4.0.18",
+    "astro": "^6.1.2",
+    "dayjs": "^1.11.20",
+    "sass": "^1.98.0"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.8",
+    "remark-gfm": "^4.0.1",
+    "typescript": "^5.9.3",
+    "zod": "^4.3.6"
   },
   "engines": {
-    "node": "18.14.0"
-  }
+    "node": ">=24 <25"
+  },
+  "packageManager": "pnpm@10.33.0"
 }
