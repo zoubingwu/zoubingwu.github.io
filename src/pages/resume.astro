@@ -1,5 +1,14 @@
 ---
 import resumeHtml from '../resume/en.html?raw';
+
+const robotsMeta = [
+  '<meta name="robots" content="noindex, nofollow, noarchive" />',
+  '<meta name="googlebot" content="noindex, nofollow, noarchive" />',
+].join('\n  ');
+
+const html = resumeHtml.includes('</head>')
+  ? resumeHtml.replace('</head>', `  ${robotsMeta}\n</head>`)
+  : resumeHtml;
 ---
 
-<Fragment set:html={resumeHtml} />
+<Fragment set:html={html} />
