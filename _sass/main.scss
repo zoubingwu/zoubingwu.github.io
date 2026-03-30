@@ -3,3 +3,8 @@
 @use "typography";
 @use "site";
 @use "highlighter";
+
+.astro-code {
+  padding: 16px;
+  border-radius: 8px;;
+}
