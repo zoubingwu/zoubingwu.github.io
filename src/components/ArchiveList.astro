@@ -1,0 +1,38 @@
+---
+interface ArchiveListItem {
+  url: string;
+  title: string;
+  date: string;
+}
+
+interface Props {
+  title?: string;
+  posts: ArchiveListItem[];
+}
+
+const { title = 'Archive', posts } = Astro.props as Props;
+---
+
+<div class="page">
+  <div class="page-title">{title}</div>
+  <div class="archive">
+    <div class="archive-list">
+      {
+        posts.length === 0 ? (
+          <h2>No post found</h2>
+        ) : (
+          posts.map(post => (
+            <div class="archive-list-post">
+              <a href={post.url}>
+                <span class="archive-list-post-title">{post.title}</span>
+                <span class="archive-list-post-date">
+                  <time>| {post.date}</time>
+                </span>
+              </a>
+            </div>
+          ))
+        )
+      }
+    </div>
+  </div>
+</div>

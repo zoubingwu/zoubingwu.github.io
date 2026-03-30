@@ -1,0 +1,87 @@
+---
+import Footer from '../components/Footer.astro';
+import { site } from '../config/site';
+import '../../_sass/main.scss';
+
+interface SeoProps {
+  title: string;
+  description: string;
+  url: string;
+  next?: string;
+  isArticle?: boolean;
+  publishTime?: string;
+}
+
+const { seo } = Astro.props as { seo: SeoProps };
+const canonicalUrl = new URL(seo.url, site.domain).toString();
+const nextUrl = seo.next ? new URL(seo.next, site.domain).toString() : undefined;
+const analyticsData = JSON.stringify({
+  token: site.analytics.cloudflareToken,
+});
+---
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="keywords" content={site.keywords} />
+    <meta name="description" content={seo.description} />
+    <link href="/assets/images/favicon.ico" rel="bookmark" type="image/x-icon" />
+    <link href="/assets/images/favicon.ico" rel="icon" type="image/x-icon" />
+    <link
+      href="/assets/images/favicon.ico"
+      rel="shortcut icon"
+      type="image/x-icon"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+      integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={`RSS Feed for ${site.name}`}
+      href="/feed.xml"
+    />
+
+    <title>{seo.title}</title>
+    <meta property="og:title" content={seo.title} />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:description" content={seo.description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:type" content={seo.isArticle ? 'article' : 'website'} />
+    <meta name="twitter:card" content="summary" />
+    <meta property="twitter:title" content={seo.title} />
+    <link rel="canonical" href={canonicalUrl} />
+    {nextUrl && <link rel="next" href={nextUrl} />}
+    {seo.publishTime && (
+      <meta property="article:published_time" content={seo.publishTime} />
+    )}
+
+    <script
+      is:inline
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon={analyticsData}
+    ></script>
+  </head>
+  <body>
+    <main class="content-container">
+      <slot />
+      <Footer />
+    </main>
+  </body>
+</html>

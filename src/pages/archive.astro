@@ -1,0 +1,22 @@
+---
+import ArchiveList from '../components/ArchiveList.astro';
+import { site } from '../config/site';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import {
+  getAbsoluteUrl,
+  getSortedPosts,
+  toArchiveListItem,
+} from '../utils/posts';
+
+const posts = (await getSortedPosts()).map(toArchiveListItem);
+---
+
+<BaseLayout
+  seo={{
+    title: site.name,
+    description: site.description,
+    url: getAbsoluteUrl('/archive'),
+  }}
+>
+  <ArchiveList posts={posts} />
+</BaseLayout>

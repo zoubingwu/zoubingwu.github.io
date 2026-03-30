@@ -1,0 +1,49 @@
+---
+import PostList from '../../components/PostList.astro';
+import { site } from '../../config/site';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+  getAbsoluteUrl,
+  getPaginatedPath,
+  getPaginatedPosts,
+  getSortedPosts,
+  toPostListItem,
+} from '../../utils/posts';
+
+export async function getStaticPaths() {
+  const posts = await getSortedPosts();
+  const totalPages = Math.ceil(posts.length / site.paginate);
+
+  return Array.from({ length: Math.max(totalPages - 1, 0) }, (_, index) => {
+    const page = index + 2;
+    return {
+      params: {
+        page: String(page),
+      },
+    };
+  });
+}
+
+const page = Number(Astro.params.page);
+const allPosts = await getSortedPosts();
+const posts = getPaginatedPosts(allPosts, page).map(toPostListItem);
+const previousPagePath = page === 2 ? '/' : getPaginatedPath(page - 1);
+const nextPagePath =
+  page * site.paginate < allPosts.length ? getPaginatedPath(page + 1) : undefined;
+const canonicalPath = getPaginatedPath(page);
+---
+
+<BaseLayout
+  seo={{
+    title: site.name,
+    description: site.description,
+    url: getAbsoluteUrl(canonicalPath),
+    next: nextPagePath ? getAbsoluteUrl(nextPagePath) : undefined,
+  }}
+>
+  <PostList
+    posts={posts}
+    previousPagePath={previousPagePath}
+    nextPagePath={nextPagePath}
+  />
+</BaseLayout>

@@ -1,0 +1,34 @@
+---
+interface Props {
+  title: string;
+  date: string;
+  tags: string[];
+}
+
+const { title, date, tags } = Astro.props as Props;
+---
+
+<div class="post">
+  <div class="post-title">{title}</div>
+  <span class="post-date">
+    <time>{date}</time>
+  </span>
+  <div class="post-tag">
+    <ul>
+      {
+        tags.map(tag => (
+          <li>
+            <a>
+              <span>
+                <i class="fa fa-paperclip" aria-hidden="true"></i>
+                {tag}
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+
+  <slot />
+</div>

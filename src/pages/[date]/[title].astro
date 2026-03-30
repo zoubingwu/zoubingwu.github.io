@@ -1,0 +1,51 @@
+---
+import { render, type CollectionEntry } from 'astro:content';
+
+import PostView from '../../components/PostView.astro';
+import { site } from '../../config/site';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import {
+  formatPostDate,
+  getAbsoluteUrl,
+  getPostDate,
+  getPostPath,
+  getPostTitleSlug,
+  getSortedPosts,
+} from '../../utils/posts';
+
+export async function getStaticPaths() {
+  const posts = await getSortedPosts();
+
+  return posts.map(post => ({
+    params: {
+      date: getPostDate(post),
+      title: getPostTitleSlug(post),
+    },
+    props: {
+      post,
+    },
+  }));
+}
+
+const { post } = Astro.props as { post: CollectionEntry<'posts'> };
+const { Content } = await render(post);
+const postPath = getPostPath(post);
+---
+
+<BaseLayout
+  seo={{
+    title: `${post.data.title} | ${site.domain}`,
+    description: post.data.description,
+    url: getAbsoluteUrl(postPath),
+    isArticle: true,
+    publishTime: post.data.date.toISOString(),
+  }}
+>
+  <PostView
+    title={post.data.title}
+    date={formatPostDate(post.data.date)}
+    tags={post.data.tags}
+  >
+    <Content />
+  </PostView>
+</BaseLayout>
