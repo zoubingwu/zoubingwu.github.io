@@ -1,6 +1,8 @@
 node_modules
+.astro
 .sass-cache/
 _site/
 .DS_Store
 dist/
 scripts/
+docs/
