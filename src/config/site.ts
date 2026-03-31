@@ -2,7 +2,7 @@ export const site = {
   name: "zoubingwu's blog",
   domain: 'https://zoubingwu.com',
   author: {
-    twitter: 'chow_won',
+    twitter: 'zoubingwu',
     github: 'zoubingwu',
     email: 'zoubingwu@gmail.com',
   },
