@@ -15,9 +15,6 @@ interface SeoProps {
 const { seo } = Astro.props as { seo: SeoProps };
 const canonicalUrl = new URL(seo.url, site.domain).toString();
 const nextUrl = seo.next ? new URL(seo.next, site.domain).toString() : undefined;
-const analyticsData = JSON.stringify({
-  token: site.analytics.cloudflareToken,
-});
 ---
 
 <!DOCTYPE html>
@@ -71,12 +68,6 @@ const analyticsData = JSON.stringify({
       <meta property="article:published_time" content={seo.publishTime} />
     )}
 
-    <script
-      is:inline
-      defer
-      src="https://static.cloudflareinsights.com/beacon.min.js"
-      data-cf-beacon={analyticsData}
-    ></script>
   </head>
   <body>
     <main class="content-container">

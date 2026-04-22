@@ -9,9 +9,6 @@ export const site = {
   copyright: {
     name: 'zoubingwu',
   },
-  analytics: {
-    cloudflareToken: '76b8468271b24f3180af2110f74841c3',
-  },
   paginate: 10,
   keywords: 'blog,html,css,javascript,react,vue,nodejs',
   description: "zoubingwu 个人博客, zoubingwu's blog",
