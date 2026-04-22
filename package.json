@@ -15,7 +15,7 @@
   "license": "MIT",
   "dependencies": {
     "@astrojs/rss": "^4.0.18",
-    "astro": "^6.1.2",
+    "astro": "^6.1.8",
     "dayjs": "^1.11.20",
     "sass": "^1.98.0"
   },
@@ -26,7 +26,12 @@
     "zod": "^4.3.6"
   },
   "engines": {
-    "node": ">=24 <25"
+    "node": ">=24"
   },
-  "packageManager": "pnpm@10.33.0"
+  "packageManager": "pnpm@10.33.0",
+  "pnpm": {
+    "overrides": {
+      "yaml-language-server>yaml": "2.8.3"
+    }
+  }
 }
